@@ -1,34 +1,19 @@
 package day01
 
 import (
-	"adventofcode/helpers"
-	"fmt"
 	"sort"
 	"strconv"
 )
 
-func Part1(path string) {
-	calories := MostCaloriesPerElf(path)
-
-	fmt.Println(calories)
+func Part1(input []string) int {
+	calories := GroupCaloriesByElf(input)
+	sort.Ints(calories)
+	last := calories[len(calories)-1:]
+	return last[0]
 }
 
-func Part2(path string) {
-	calories := TopThreeCalories(path)
-	fmt.Println(calories)
-}
-func MostCaloriesPerElf(path string) int {
-	lines := helpers.ReadInput(path)
-
-	calories := GroupCaloriesByElf(lines)
-
-	_, max := MinMax(calories)
-	return max
-}
-
-func TopThreeCalories(path string) int {
-	lines := helpers.ReadInput(path)
-	calories := GroupCaloriesByElf(lines)
+func Part2(input []string) int {
+	calories := GroupCaloriesByElf(input)
 
 	last := calories[len(calories)-3:]
 	sum := 0
@@ -55,18 +40,4 @@ func GroupCaloriesByElf(lines []string) []int {
 	sort.Ints(calories)
 
 	return calories
-}
-
-func MinMax(array []int) (int, int) {
-	var max int = array[0]
-	var min int = array[0]
-	for _, value := range array {
-		if max < value {
-			max = value
-		}
-		if min > value {
-			min = value
-		}
-	}
-	return min, max
 }

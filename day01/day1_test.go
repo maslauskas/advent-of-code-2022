@@ -1,23 +1,28 @@
 package day01
 
 import (
+	"adventofcode/helpers"
 	"testing"
 )
 
-func TestPart1(t *testing.T) {
-	want := 24000
-	got := MostCaloriesPerElf("./example.txt")
+func TestCalorieCounting(t *testing.T) {
+	input := helpers.ReadInput("./example.txt")
 
-	if want != got {
-		t.Errorf("expected %v, got %v", want, got)
-	}
-}
+	t.Run("part 1 example case", func(t *testing.T) {
+		want := 24000
+		got := Part1(input)
 
-func TestPart2(t *testing.T) {
-	want := 45000
-	got := TopThreeCalories("./example.txt")
+		if want != got {
+			t.Errorf("expected %v, got %v", want, got)
+		}
+	})
 
-	if want != got {
-		t.Errorf("expected %v, got %v", want, got)
-	}
+	t.Run("part 2 example case", func(t *testing.T) {
+		want := 45000
+		got := Part2(input)
+
+		if want != got {
+			t.Errorf("expected %v, got %v", want, got)
+		}
+	})
 }
