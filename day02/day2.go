@@ -15,7 +15,13 @@ func Part1(input []string) int {
 }
 
 func Part2(input []string) int {
-	return PredictEndings(input)
+	score := 0
+	for _, s := range input {
+		game := CreateRiggedGame(s)
+		score += game.Score()
+	}
+
+	return score
 }
 
 func PredictEndings(lines []string) int {
