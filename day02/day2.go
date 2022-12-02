@@ -71,21 +71,24 @@ const (
 type ChoiceMap map[string]Choice
 
 func CreateGame(s string) Game {
-	mapPlayer1 := ChoiceMap{
+	parts := strings.Split(s, " ")
+	p1 := GetMappedChoice(parts[0])
+	p2 := GetMappedChoice(parts[1])
+
+	return Game{p1, p2}
+}
+
+func GetMappedChoice(s string) Choice {
+	mapped := ChoiceMap{
 		"A": ROCK,
 		"B": PAPER,
 		"C": SCISSORS,
-	}
-
-	mapPlayer2 := ChoiceMap{
 		"X": ROCK,
 		"Y": PAPER,
 		"Z": SCISSORS,
 	}
 
-	parts := strings.Split(s, " ")
-
-	return Game{mapPlayer1[parts[0]], mapPlayer2[parts[1]]}
+	return mapped[s]
 }
 
 func CreateRiggedGame(s string) Game {
