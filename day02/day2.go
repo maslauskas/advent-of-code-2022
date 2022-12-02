@@ -106,24 +106,24 @@ func CreateRiggedGame(s string) Game {
 
 	var p2 Choice
 
-	winMap := map[Choice]Choice{
-		ROCK:     PAPER,
-		PAPER:    SCISSORS,
-		SCISSORS: ROCK,
-	}
-
-	lossMap := map[Choice]Choice{
-		ROCK:     SCISSORS,
-		PAPER:    ROCK,
-		SCISSORS: PAPER,
-	}
-
 	switch outcome {
 	case DRAW:
 		p2 = p1
 	case WIN:
+		winMap := map[Choice]Choice{
+			ROCK:     PAPER,
+			PAPER:    SCISSORS,
+			SCISSORS: ROCK,
+		}
+
 		p2 = winMap[p1]
 	case LOSS:
+		lossMap := map[Choice]Choice{
+			ROCK:     SCISSORS,
+			PAPER:    ROCK,
+			SCISSORS: PAPER,
+		}
+
 		p2 = lossMap[p1]
 	}
 
