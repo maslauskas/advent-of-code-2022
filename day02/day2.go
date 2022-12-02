@@ -1,18 +1,19 @@
-package main
+package day02
 
 import (
+	"adventofcode/helpers"
 	"fmt"
 	"strings"
 )
 
-func day2part1() {
-	total := CalculateTotalScore("./input/day2.txt")
+func Part1(path string) {
+	total := CalculateTotalScore(path)
 
 	fmt.Println(total)
 }
 
-func day2part2() {
-	total := PredictEndings("./input/day2.txt")
+func Part2(path string) {
+	total := PredictEndings(path)
 
 	fmt.Println(total)
 }
@@ -30,7 +31,7 @@ func CalculateTotalScore(path string) int {
 }
 
 func CalculateRowsScore(path string) []int {
-	lines := ReadInput(path)
+	lines := helpers.ReadInput(path)
 
 	var scores []int
 	for _, line := range lines {
@@ -44,7 +45,7 @@ func CalculateRowsScore(path string) []int {
 }
 
 func PredictEndings(path string) int {
-	lines := ReadInput(path)
+	lines := helpers.ReadInput(path)
 
 	score := 0
 	for _, line := range lines {
