@@ -1,52 +1,24 @@
 package day02
 
 import (
-	"adventofcode/helpers"
-	"fmt"
 	"strings"
 )
 
-func Part1(path string) {
-	total := CalculateTotalScore(path)
-
-	fmt.Println(total)
-}
-
-func Part2(path string) {
-	total := PredictEndings(path)
-
-	fmt.Println(total)
-}
-
-func CalculateTotalScore(path string) int {
-	scores := CalculateRowsScore(path)
-
-	total := 0
-
-	for _, score := range scores {
-		total += score
+func Part1(input []string) int {
+	score := 0
+	for _, s := range input {
+		game := CreateGame(s)
+		score += game.Score()
 	}
 
-	return total
+	return score
 }
 
-func CalculateRowsScore(path string) []int {
-	lines := helpers.ReadInput(path)
-
-	var scores []int
-	for _, line := range lines {
-		res := strings.Split(line, " ")
-		score := GetScoreFromLine(res)
-
-		scores = append(scores, score)
-	}
-
-	return scores
+func Part2(input []string) int {
+	return PredictEndings(input)
 }
 
-func PredictEndings(path string) int {
-	lines := helpers.ReadInput(path)
-
+func PredictEndings(lines []string) int {
 	score := 0
 	for _, line := range lines {
 		res := strings.Split(line, " ")
@@ -58,15 +30,6 @@ func PredictEndings(path string) int {
 	}
 
 	return score
-}
-
-func GetScoreFromLine(res []string) int {
-	player1 := Sign{res[0]}
-	player2 := Sign{res[1]}
-
-	game := Game{Player1: player1, Player2: player2}
-
-	return game.score() + player2.score()
 }
 
 type Sign struct {
@@ -189,3 +152,123 @@ func (game Game) score() int {
 	// loss
 	return 0
 }
+
+type NewGame struct {
+	Player1 Choice
+	Player2 Choice
+}
+
+func (g NewGame) IsDraw() bool {
+	return g.Player1 == g.Player2
+}
+
+func (g NewGame) IsWon() bool {
+	if g.Player1 == ROCK {
+		return g.Player2 == PAPER
+	}
+
+	if g.Player1 == PAPER {
+		return g.Player2 == SCISSORS
+	}
+
+	if g.Player1 == SCISSORS {
+		return g.Player2 == ROCK
+	}
+
+	return false
+}
+
+func (g NewGame) Score() int {
+	score := int(g.Player2)
+
+	if g.IsDraw() {
+		score += 3
+	}
+
+	if g.IsWon() {
+		score += 6
+	}
+
+	return score
+}
+
+type Choice int
+
+const (
+	ROCK     Choice = 1
+	PAPER           = 2
+	SCISSORS        = 3
+)
+
+func CreateGame(s string) NewGame {
+	mapPlayer1 := map[string]Choice{
+		"A": ROCK,
+		"B": PAPER,
+		"C": SCISSORS,
+	}
+
+	mapPlayer2 := map[string]Choice{
+		"X": ROCK,
+		"Y": PAPER,
+		"Z": SCISSORS,
+	}
+
+	parts := strings.Split(s, " ")
+
+	return NewGame{mapPlayer1[parts[0]], mapPlayer2[parts[1]]}
+}
+
+func CreateRiggedGame(s string) NewGame {
+	parts := strings.Split(s, " ")
+
+	mapPlayer1 := map[string]Choice{
+		"A": ROCK,
+		"B": PAPER,
+		"C": SCISSORS,
+	}
+
+	p1 := mapPlayer1[parts[0]]
+
+	outcomes := map[string]Choice{
+		"X": LOSS,
+		"Y": DRAW,
+		"Z": WIN,
+	}
+
+	outcome := outcomes[parts[1]]
+
+	var p2 Choice
+
+	switch outcome {
+	case DRAW:
+		p2 = p1
+	case WIN:
+		switch p1 {
+		case ROCK:
+			p2 = PAPER
+		case PAPER:
+			p2 = SCISSORS
+		case SCISSORS:
+			p2 = ROCK
+		}
+	case LOSS:
+		switch p1 {
+		case ROCK:
+			p2 = SCISSORS
+		case PAPER:
+			p2 = ROCK
+		case SCISSORS:
+			p2 = PAPER
+		}
+	}
+
+	return NewGame{p1, p2}
+}
+
+type Outcome int
+
+const (
+	LOSS = -1
+	DRAW = 0
+	WIN  = 1
+)
