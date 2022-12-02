@@ -1,16 +1,11 @@
 package main
 
 import (
-    "bufio"
     "fmt"
-    "os"
     "sort"
     "strconv"
 )
 
-func main() {
-    day1part2()
-}
 func day1part1() {
     calories := MostCaloriesPerElf("./input/day1.txt")
 
@@ -74,22 +69,4 @@ func MinMax(array []int) (int, int) {
         }
     }
     return min, max
-}
-
-func ReadInput(path string) []string {
-    readFile, err := os.Open(path)
-
-    if err != nil {
-        fmt.Println(err)
-    }
-    fileScanner := bufio.NewScanner(readFile)
-
-    fileScanner.Split(bufio.ScanLines)
-
-    var lines []string
-    for fileScanner.Scan() {
-        lines = append(lines, fileScanner.Text())
-    }
-
-    return lines
 }
