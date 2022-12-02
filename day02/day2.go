@@ -94,13 +94,7 @@ func GetMappedChoice(s string) Choice {
 func CreateRiggedGame(s string) Game {
 	parts := strings.Split(s, " ")
 
-	mapPlayer1 := ChoiceMap{
-		"A": ROCK,
-		"B": PAPER,
-		"C": SCISSORS,
-	}
-
-	p1 := mapPlayer1[parts[0]]
+	p1 := GetMappedChoice(parts[0])
 
 	outcomes := map[string]Outcome{
 		"X": LOSS,
@@ -112,27 +106,25 @@ func CreateRiggedGame(s string) Game {
 
 	var p2 Choice
 
+	winMap := map[Choice]Choice{
+		ROCK:     PAPER,
+		PAPER:    SCISSORS,
+		SCISSORS: ROCK,
+	}
+
+	lossMap := map[Choice]Choice{
+		ROCK:     SCISSORS,
+		PAPER:    ROCK,
+		SCISSORS: PAPER,
+	}
+
 	switch outcome {
 	case DRAW:
 		p2 = p1
 	case WIN:
-		switch p1 {
-		case ROCK:
-			p2 = PAPER
-		case PAPER:
-			p2 = SCISSORS
-		case SCISSORS:
-			p2 = ROCK
-		}
+		p2 = winMap[p1]
 	case LOSS:
-		switch p1 {
-		case ROCK:
-			p2 = SCISSORS
-		case PAPER:
-			p2 = ROCK
-		case SCISSORS:
-			p2 = PAPER
-		}
+		p2 = lossMap[p1]
 	}
 
 	return Game{p1, p2}
