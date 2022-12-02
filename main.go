@@ -1,12 +1,13 @@
 package main
 
 import (
-	"adventofcode/day02"
+	"adventofcode/day01"
+	"adventofcode/helpers"
+	"fmt"
 )
 
 func main() {
-	input := "./day02/input.txt"
-
-	day02.Part1(input)
-	day02.Part2(input)
+	input := helpers.ReadInput("./day01/input.txt")
+	fmt.Println(day01.Part1(input))
+	fmt.Println(day01.Part2(input))
 }
