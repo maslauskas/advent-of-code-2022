@@ -68,14 +68,16 @@ const (
 	SCISSORS        = 3
 )
 
+type ChoiceMap map[string]Choice
+
 func CreateGame(s string) Game {
-	mapPlayer1 := map[string]Choice{
+	mapPlayer1 := ChoiceMap{
 		"A": ROCK,
 		"B": PAPER,
 		"C": SCISSORS,
 	}
 
-	mapPlayer2 := map[string]Choice{
+	mapPlayer2 := ChoiceMap{
 		"X": ROCK,
 		"Y": PAPER,
 		"Z": SCISSORS,
@@ -89,7 +91,7 @@ func CreateGame(s string) Game {
 func CreateRiggedGame(s string) Game {
 	parts := strings.Split(s, " ")
 
-	mapPlayer1 := map[string]Choice{
+	mapPlayer1 := ChoiceMap{
 		"A": ROCK,
 		"B": PAPER,
 		"C": SCISSORS,
