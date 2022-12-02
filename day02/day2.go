@@ -24,32 +24,29 @@ func Part2(input []string) int {
 	return score
 }
 
-type NewGame struct {
+type Game struct {
 	Player1 Choice
 	Player2 Choice
 }
 
-func (g NewGame) IsDraw() bool {
+func (g Game) IsDraw() bool {
 	return g.Player1 == g.Player2
 }
 
-func (g NewGame) IsWon() bool {
-	if g.Player1 == ROCK {
+func (g Game) IsWon() bool {
+	switch g.Player1 {
+	case ROCK:
 		return g.Player2 == PAPER
-	}
-
-	if g.Player1 == PAPER {
+	case PAPER:
 		return g.Player2 == SCISSORS
-	}
-
-	if g.Player1 == SCISSORS {
+	case SCISSORS:
 		return g.Player2 == ROCK
 	}
 
 	return false
 }
 
-func (g NewGame) Score() int {
+func (g Game) Score() int {
 	score := int(g.Player2)
 
 	if g.IsDraw() {
@@ -71,7 +68,7 @@ const (
 	SCISSORS        = 3
 )
 
-func CreateGame(s string) NewGame {
+func CreateGame(s string) Game {
 	mapPlayer1 := map[string]Choice{
 		"A": ROCK,
 		"B": PAPER,
@@ -86,10 +83,10 @@ func CreateGame(s string) NewGame {
 
 	parts := strings.Split(s, " ")
 
-	return NewGame{mapPlayer1[parts[0]], mapPlayer2[parts[1]]}
+	return Game{mapPlayer1[parts[0]], mapPlayer2[parts[1]]}
 }
 
-func CreateRiggedGame(s string) NewGame {
+func CreateRiggedGame(s string) Game {
 	parts := strings.Split(s, " ")
 
 	mapPlayer1 := map[string]Choice{
@@ -133,7 +130,7 @@ func CreateRiggedGame(s string) NewGame {
 		}
 	}
 
-	return NewGame{p1, p2}
+	return Game{p1, p2}
 }
 
 type Outcome int

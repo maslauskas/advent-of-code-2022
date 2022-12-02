@@ -27,7 +27,7 @@ func TestRockPaperScissors(t *testing.T) {
 	})
 
 	t.Run("game is draw", func(t *testing.T) {
-		game := NewGame{ROCK, ROCK}
+		game := Game{ROCK, ROCK}
 
 		if !game.IsDraw() {
 			t.Error("expected game to be draw")
@@ -42,15 +42,15 @@ func TestRockPaperScissors(t *testing.T) {
 		}
 
 		for name, tt := range tests {
-			game := NewGame{tt[0], tt[1]}
+			game := Game{tt[0], tt[1]}
 			if !game.IsWon() {
 				t.Errorf("%s: expected game to be won", name)
 			}
 		}
 	})
 
-	t.Run("converts to NewGame", func(t *testing.T) {
-		tests := map[string]NewGame{
+	t.Run("converts to Game", func(t *testing.T) {
+		tests := map[string]Game{
 			"A Y": {ROCK, PAPER},
 			"B X": {PAPER, ROCK},
 			"C Z": {SCISSORS, SCISSORS},
@@ -65,7 +65,7 @@ func TestRockPaperScissors(t *testing.T) {
 	})
 
 	t.Run("converts to RiggedGame", func(t *testing.T) {
-		tests := map[string]NewGame{
+		tests := map[string]Game{
 			"A Y": {ROCK, ROCK},
 			"B X": {PAPER, ROCK},
 			"C Z": {SCISSORS, ROCK},
