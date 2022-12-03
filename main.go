@@ -9,4 +9,5 @@ import (
 func main() {
 	input := helpers.ReadInput("./day03/input.txt")
 	fmt.Println(day03.Part1(input))
+	fmt.Println(day03.Part2(input))
 }
