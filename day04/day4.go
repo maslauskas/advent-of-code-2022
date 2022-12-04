@@ -42,29 +42,14 @@ func (s1 Section) Overlaps(s2 Section) bool {
 
 func (s1 Section) Contains(s2 Section) bool {
 	// will not contain if s1 starts after s2
-	if s1.Start > s2.Start {
-		return false
-	}
-
 	// will not contain if s1 ends before s2
-	if s1.End < s2.End {
-		return false
-	}
-
-	return true
+	return s1.Start <= s2.Start && s1.End >= s2.End
 }
 
 func (s1 Section) Intersects(s2 Section) bool {
 	// will not intersect if s1 starts after s2 ends
-	if s1.Start > s2.End {
-		return false
-	}
-
 	// will not intersect if s2 starts after s1 ends
-	if s2.Start > s1.End {
-		return false
-	}
-	return true
+	return s1.Start <= s2.End && s2.Start <= s1.End
 }
 
 func MakeSection(input string) Section {
