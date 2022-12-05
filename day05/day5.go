@@ -20,6 +20,20 @@ func Part1(input []string) string {
 	return res
 }
 
+func Part2(input []string) string {
+	c := CreateStackCollection(input)
+	c.MoveAllStacks()
+
+	res := ""
+	for i := 1; i <= len(c.Stacks); i++ {
+		stack := c.Stacks[i]
+		lastIndex := len(stack) - 1
+		res = res + stack[lastIndex]
+	}
+
+	return res
+}
+
 type StackCollection struct {
 	Stacks       map[int][]string
 	Instructions []string
@@ -41,6 +55,14 @@ func (c StackCollection) MoveAll() {
 	}
 }
 
+func (c StackCollection) MoveAllStacks() {
+	for _, instr := range c.Instructions {
+		count, from, to := ParseInstructions(instr)
+
+		c.ExecuteInstructionRetainingOrder(count, from, to)
+	}
+}
+
 func (c StackCollection) ExecuteInstruction(count int, from int, to int) {
 	for j := count; j > 0; j-- {
 		index := len(c.Stacks[from]) - 1
@@ -49,6 +71,14 @@ func (c StackCollection) ExecuteInstruction(count int, from int, to int) {
 		c.Stacks[to] = append(c.Stacks[to], box)
 		c.Stacks[from] = c.Stacks[from][:index]
 	}
+}
+
+func (c StackCollection) ExecuteInstructionRetainingOrder(count int, from int, to int) {
+	index := len(c.Stacks[from])
+	boxes := c.Stacks[from][index-count:]
+
+	c.Stacks[to] = append(c.Stacks[to], boxes...)
+	c.Stacks[from] = c.Stacks[from][:index-count]
 }
 
 func CreateStackCollection(input []string) StackCollection {

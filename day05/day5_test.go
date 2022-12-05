@@ -18,6 +18,17 @@ func TestSupplyStacks(t *testing.T) {
 
 	})
 
+	t.Run("part 2 example case", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		got := Part2(input)
+		want := "MCD"
+
+		if want != got {
+			t.Errorf("expected result %q, got %q", want, got)
+		}
+
+	})
+
 	t.Run("builds stack collection", func(t *testing.T) {
 		input := helpers.ReadInput("./example.txt")
 		stacks := map[int][]string{
@@ -71,6 +82,23 @@ func TestSupplyStacks(t *testing.T) {
 			1: {"Z", "N", "D"},
 			2: {"M", "C"},
 			3: {"P"},
+		}
+
+		if !reflect.DeepEqual(stacks.Stacks, want) {
+			t.Errorf("wanted stacks to be %v, got %v", want, stacks.Stacks)
+		}
+	})
+
+	t.Run("will move retaining the order", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		stacks := CreateStackCollection(input)
+
+		stacks.MoveAllStacks()
+
+		want := map[int][]string{
+			1: {"M"},
+			2: {"C"},
+			3: {"P", "Z", "N", "D"},
 		}
 
 		if !reflect.DeepEqual(stacks.Stacks, want) {
