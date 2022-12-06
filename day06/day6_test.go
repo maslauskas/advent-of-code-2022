@@ -20,4 +20,22 @@ func TestExample(t *testing.T) {
 			}
 		}
 	})
+
+	t.Run("will detect messages", func(t *testing.T) {
+		dataset := map[string]int{
+			"mjqjpqmgbljsphdztnvjfqwrcgsmlb":    19,
+			"bvwbjplbgvbhsrlpgdmjqwftvncz":      23,
+			"nppdvjthqldpwncqszvftbrmjlhg":      23,
+			"nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg": 29,
+			"zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw":  26,
+		}
+
+		for packet, want := range dataset {
+			got := FindMessage(packet)
+
+			if got != want {
+				t.Errorf("expected packet message to be %d, got %d with packet %q", want, got, packet)
+			}
+		}
+	})
 }
