@@ -2,11 +2,14 @@ package day07
 
 type Item interface {
 	GetSize() int
+	GetName() string
 }
+
+type Children map[string]Item
 
 type Dir struct {
 	Name     string
-	Children []Item
+	Children Children
 }
 
 func (f Dir) GetSize() int {
@@ -19,6 +22,10 @@ func (f Dir) GetSize() int {
 	return size
 }
 
+func (f Dir) GetName() string {
+	return f.Name
+}
+
 type File struct {
 	Name string
 	Size int
@@ -27,6 +34,11 @@ type File struct {
 func (f File) GetSize() int {
 	return f.Size
 }
+
+func (f File) GetName() string {
+	return f.Name
+}
+
 func (r *Dir) Add(child Item) {
-	r.Children = append(r.Children, child)
+	r.Children[child.GetName()] = child
 }

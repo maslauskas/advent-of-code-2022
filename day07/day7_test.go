@@ -11,8 +11,8 @@ import "testing"
 
 func TestExample(t *testing.T) {
 	t.Run("will create folder within root", func(t *testing.T) {
-		root := NewDir("/")
-		root.Add(NewDir("x"))
+		root := Dir{"/", Children{}}
+		root.Add(Dir{"x", Children{}})
 
 		want := 1
 		got := len(root.Children)
@@ -23,7 +23,7 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("will create file within root", func(t *testing.T) {
-		root := NewDir("/")
+		root := Dir{"/", Children{}}
 		root.Add(File{"a", 123})
 
 		want := 1
@@ -35,9 +35,9 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("will add multiple files and folders to dir", func(t *testing.T) {
-		root := NewDir("/")
-		root.Add(NewDir("x"))
-		root.Add(NewDir("y"))
+		root := Dir{"/", Children{}}
+		root.Add(Dir{"x", Children{}})
+		root.Add(Dir{"y", Children{}})
 
 		root.Add(File{"a", 100})
 		root.Add(File{"b", 200})
@@ -62,7 +62,7 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("folder size is 0 when folder is empty", func(t *testing.T) {
-		dir := Dir{"x", []Item{}}
+		dir := Dir{"x", map[string]Item{}}
 		want := 0
 
 		got := dir.GetSize()
@@ -73,7 +73,7 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("folder size is sum of file sizes when folder is not empty", func(t *testing.T) {
-		dir := Dir{"x", []Item{}}
+		dir := Dir{"x", map[string]Item{}}
 		dir.Add(File{"y", 150})
 		want := 150
 
@@ -87,10 +87,10 @@ func TestExample(t *testing.T) {
 	t.Run("will get size of folder with 2 levels of subfolders", func(t *testing.T) {
 		root := Dir{
 			"/",
-			[]Item{
-				Dir{"x", []Item{
-					Dir{"y", []Item{
-						File{"a", 250},
+			Children{
+				"x": Dir{"x", Children{
+					"y": Dir{"y", Children{
+						"a": File{"a", 250},
 					}},
 				}},
 			},
@@ -103,8 +103,4 @@ func TestExample(t *testing.T) {
 			t.Errorf("expected dir size to be %d, got %d", want, got)
 		}
 	})
-}
-
-func NewDir(name string) Dir {
-	return Dir{name, []Item{}}
 }
