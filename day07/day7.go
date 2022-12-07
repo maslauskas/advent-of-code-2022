@@ -1,7 +1,22 @@
 package day07
 
 type Folder struct {
-	Name string
+	Name  string
+	Files []File
+}
+
+func (f Folder) GetSize() int {
+	size := 0
+
+	for _, file := range f.Files {
+		size += file.GetSize()
+	}
+
+	return size
+}
+
+func (f *Folder) AddFile(name string, size int) {
+	f.Files = append(f.Files, File{name, size})
 }
 
 type File struct {
@@ -19,7 +34,7 @@ type RootDir struct {
 }
 
 func (r *RootDir) addFolder(name string) {
-	r.Folders = append(r.Folders, Folder{name})
+	r.Folders = append(r.Folders, Folder{name, []File{}})
 }
 
 func (r *RootDir) addFile(name string, size int) {

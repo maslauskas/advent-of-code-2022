@@ -43,4 +43,27 @@ func TestExample(t *testing.T) {
 			t.Errorf("expected file size to be %d, got %d", want, got)
 		}
 	})
+
+	t.Run("folder size is 0 when folder is empty", func(t *testing.T) {
+		dir := Folder{"x", []File{}}
+		want := 0
+
+		got := dir.GetSize()
+
+		if want != got {
+			t.Errorf("expected dir size to be %d, got %d", want, got)
+		}
+	})
+
+	t.Run("folder size is sum of file sizes when folder is not empty", func(t *testing.T) {
+		dir := Folder{"x", []File{}}
+		dir.AddFile("y", 150)
+		want := 150
+
+		got := dir.GetSize()
+
+		if want != got {
+			t.Errorf("expected dir size to be %d, got %d", want, got)
+		}
+	})
 }
