@@ -1,5 +1,10 @@
 package day07
 
+import (
+	"strconv"
+	"strings"
+)
+
 type Item interface {
 	GetSize() int
 	GetName() string
@@ -41,4 +46,35 @@ func (f File) GetName() string {
 
 func (r *Dir) Add(child Item) {
 	r.Children[child.GetName()] = child
+}
+
+func BuildDirTree(input []string) Dir {
+	root := Dir{"/", Children{}}
+
+	for _, command := range input {
+		if command == "$ cd /" {
+			continue
+		}
+
+		if command == "$ ls" {
+			continue
+		}
+
+		if strings.HasPrefix(command, "$ cd") {
+			break // read only top level for now
+		}
+
+		parts := strings.Split(command, " ")
+		size := parts[0]
+		name := parts[1]
+
+		if size == "dir" {
+			root.Children[name] = Dir{name, Children{}}
+		} else {
+			s, _ := strconv.Atoi(size)
+			root.Children[name] = File{name, s}
+		}
+	}
+
+	return root
 }

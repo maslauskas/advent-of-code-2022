@@ -1,6 +1,10 @@
 package day07
 
-import "testing"
+import (
+	"adventofcode/helpers"
+	"reflect"
+	"testing"
+)
 
 // + create folder
 // + create file
@@ -101,6 +105,25 @@ func TestExample(t *testing.T) {
 
 		if want != got {
 			t.Errorf("expected dir size to be %d, got %d", want, got)
+		}
+	})
+
+	t.Run("will build directory tree", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		got := BuildDirTree(input)
+		want := Dir{"/", Children{
+			"a":     Dir{"a", Children{}},
+			"b.txt": File{"b.txt", 14848514},
+			"c.dat": File{"c.dat", 8504156},
+			"d":     Dir{"d", Children{}},
+		}}
+
+		if len(got.Children) != 4 {
+			t.Errorf("expected root to have 4 children, got %d", len(got.Children))
+		}
+
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("expected different tree, got %v", got)
 		}
 	})
 }
