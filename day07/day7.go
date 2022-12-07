@@ -1,7 +1,7 @@
 package day07
 
 type Node struct {
-	Name     string
+	Path     string
 	FileSize int
 	Children []*Node
 }

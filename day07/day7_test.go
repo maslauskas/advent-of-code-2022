@@ -6,7 +6,7 @@ import (
 
 func TestExample(t *testing.T) {
 	t.Run("directory can have a size", func(t *testing.T) {
-		dir := Node{Name: "x"}
+		dir := Node{Path: "x"}
 		size := dir.Size()
 
 		if size != 0 {
@@ -16,11 +16,11 @@ func TestExample(t *testing.T) {
 
 	t.Run("directory size includes files size within it", func(t *testing.T) {
 		file := Node{
-			Name:     "x.txt",
+			Path:     "x.txt",
 			FileSize: 100,
 		}
 		dir := Node{
-			Name: "x",
+			Path: "x",
 			Children: []*Node{
 				&file,
 			},
@@ -36,17 +36,17 @@ func TestExample(t *testing.T) {
 
 	t.Run("directory size includes files and subdirs size within it", func(t *testing.T) {
 		dir := Node{
-			Name: "x",
+			Path: "x",
 			Children: []*Node{
 				{
-					Name:     "x.txt",
+					Path:     "x.txt",
 					FileSize: 100,
 				},
 				{
-					Name: "x.txt",
+					Path: "x.txt",
 					Children: []*Node{
 						{
-							Name:     "b.txt",
+							Path:     "b.txt",
 							FileSize: 200,
 						},
 					},
@@ -62,4 +62,7 @@ func TestExample(t *testing.T) {
 		}
 	})
 
+	t.Run("will find node by path", func(t *testing.T) {
+		t.Errorf("did not implement yet")
+	})
 }
