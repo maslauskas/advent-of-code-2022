@@ -7,7 +7,6 @@ import (
 
 type Item interface {
 	GetSize() int
-	GetName() string
 }
 
 type Children map[string]Item
@@ -32,20 +31,11 @@ func (f Dir) GetName() string {
 }
 
 type File struct {
-	Name string
 	Size int
 }
 
 func (f File) GetSize() int {
 	return f.Size
-}
-
-func (f File) GetName() string {
-	return f.Name
-}
-
-func (r *Dir) Add(child Item) {
-	r.Children[child.GetName()] = child
 }
 
 func BuildDirTree(input []string) Dir {
@@ -72,7 +62,7 @@ func BuildDirTree(input []string) Dir {
 			root.Children[name] = Dir{name, Children{}}
 		} else {
 			s, _ := strconv.Atoi(size)
-			root.Children[name] = File{name, s}
+			root.Children[name] = File{s}
 		}
 	}
 

@@ -15,8 +15,9 @@ import (
 
 func TestExample(t *testing.T) {
 	t.Run("will create folder within root", func(t *testing.T) {
-		root := Dir{"/", Children{}}
-		root.Add(Dir{"x", Children{}})
+		root := Dir{"/", Children{
+			"x": Dir{"x", Children{}},
+		}}
 
 		want := 1
 		got := len(root.Children)
@@ -27,8 +28,9 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("will create file within root", func(t *testing.T) {
-		root := Dir{"/", Children{}}
-		root.Add(File{"a", 123})
+		root := Dir{"/", Children{
+			"a": File{123},
+		}}
 
 		want := 1
 		got := len(root.Children)
@@ -39,13 +41,13 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("will add multiple files and folders to dir", func(t *testing.T) {
-		root := Dir{"/", Children{}}
-		root.Add(Dir{"x", Children{}})
-		root.Add(Dir{"y", Children{}})
-
-		root.Add(File{"a", 100})
-		root.Add(File{"b", 200})
-		root.Add(File{"c", 300})
+		root := Dir{"/", Children{
+			"x": Dir{"x", Children{}},
+			"y": Dir{"y", Children{}},
+			"a": File{100},
+			"b": File{200},
+			"c": File{300},
+		}}
 
 		wantCount := 5
 		gotCount := len(root.Children)
@@ -56,7 +58,7 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("will get file size", func(t *testing.T) {
-		file := File{"x", 123}
+		file := File{123}
 		want := 123
 		got := file.GetSize()
 
@@ -66,9 +68,9 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("folder size is 0 when folder is empty", func(t *testing.T) {
-		dir := Dir{"x", map[string]Item{}}
-		want := 0
+		dir := Dir{"x", Children{}}
 
+		want := 0
 		got := dir.GetSize()
 
 		if want != got {
@@ -77,10 +79,11 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("folder size is sum of file sizes when folder is not empty", func(t *testing.T) {
-		dir := Dir{"x", map[string]Item{}}
-		dir.Add(File{"y", 150})
-		want := 150
+		dir := Dir{"x", Children{
+			"y": File{150},
+		}}
 
+		want := 150
 		got := dir.GetSize()
 
 		if want != got {
@@ -94,7 +97,7 @@ func TestExample(t *testing.T) {
 			Children{
 				"x": Dir{"x", Children{
 					"y": Dir{"y", Children{
-						"a": File{"a", 250},
+						"a": File{250},
 					}},
 				}},
 			},
@@ -113,8 +116,8 @@ func TestExample(t *testing.T) {
 		got := BuildDirTree(input)
 		want := Dir{"/", Children{
 			"a":     Dir{"a", Children{}},
-			"b.txt": File{"b.txt", 14848514},
-			"c.dat": File{"c.dat", 8504156},
+			"b.txt": File{14848514},
+			"c.dat": File{8504156},
 			"d":     Dir{"d", Children{}},
 		}}
 
