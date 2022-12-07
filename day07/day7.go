@@ -1,6 +1,7 @@
 package day07
 
 import (
+	"strconv"
 	"strings"
 )
 
@@ -39,7 +40,7 @@ func BuildDirTree(input []string) Directory {
 			continue
 		}
 
-		//parts := strings.Split(line, " ")
+		parts := strings.Split(line, " ")
 
 		if strings.HasPrefix(line, "$ cd") {
 			//target := parts[2]
@@ -48,15 +49,15 @@ func BuildDirTree(input []string) Directory {
 			break // only go 1 level deep for now
 		}
 
-		//size := parts[0]
-		//name := parts[1]
+		size := parts[0]
+		name := parts[1]
 
-		//if size == "dir" {
-		//	dir[name] = Directory{}
-		//} else {
-		//	s, _ := strconv.Atoi(size)
-		//	dir[name] =
-		//}
+		if size == "dir" {
+			root[name] = Directory{}
+		} else {
+			s, _ := strconv.Atoi(size)
+			root[name] = File(s)
+		}
 	}
 
 	return root

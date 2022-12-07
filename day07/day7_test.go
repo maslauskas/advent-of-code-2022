@@ -1,6 +1,8 @@
 package day07
 
 import (
+	"adventofcode/helpers"
+	"reflect"
 	"testing"
 )
 
@@ -106,27 +108,27 @@ func TestExample(t *testing.T) {
 		}
 	})
 
-	//t.Run("will build directory tree", func(t *testing.T) {
-	//	input := helpers.ReadInput("./example.txt")
-	//	got := BuildDirTree(input)
-	//	want := Directory{
-	//		"a": Directory{
-	//			//"e":     Directory{},
-	//			//"f":     29116,
-	//			//"g":     2557,
-	//			//"h.lst": 62596,
-	//		},
-	//		"b.txt": 14848514,
-	//		"c.dat": 8504156,
-	//		"d":     Directory{},
-	//	}
-	//
-	//	if len(got) != 4 {
-	//		t.Errorf("expected root to have 4 children, got %d", len(got))
-	//	}
-	//
-	//	if !reflect.DeepEqual(want, got) {
-	//		t.Errorf("expected different tree, got %v, wanted %v", got, want)
-	//	}
-	//})
+	t.Run("will build directory tree", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		got := BuildDirTree(input)
+		want := Directory{
+			"a": Directory{
+				//"e":     Directory{},
+				//"f":     29116,
+				//"g":     2557,
+				//"h.lst": 62596,
+			},
+			"b.txt": File(14848514),
+			"c.dat": File(8504156),
+			"d":     Directory{},
+		}
+
+		if len(got) != 4 {
+			t.Errorf("expected root to have 4 children, got %d", len(got))
+		}
+
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("expected different tree, got %v, wanted %v", got, want)
+		}
+	})
 }
