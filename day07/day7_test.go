@@ -6,7 +6,7 @@ import (
 
 func TestExample(t *testing.T) {
 	t.Run("directory can have a size", func(t *testing.T) {
-		dir := MakeDir("x")
+		dir := Node{Name: "x"}
 		size := dir.Size()
 
 		if size != 0 {
@@ -15,25 +15,44 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("directory size includes files size within it", func(t *testing.T) {
-		dir := MakeDir("x")
-		dir.AddFile("a.txt", 100)
+		file := Node{
+			Name:     "x.txt",
+			FileSize: 100,
+		}
+		dir := Node{
+			Name: "x",
+			Children: []*Node{
+				&file,
+			},
+		}
 
-		size := dir.Size()
+		got := dir.Size()
 		want := 100
 
-		if size != want {
-			t.Errorf("expected size to be %d, got %d", want, size)
+		if got != want {
+			t.Errorf("expected got to be %d, got %d", want, got)
 		}
 	})
 
 	t.Run("directory size includes files and subdirs size within it", func(t *testing.T) {
-		dir := MakeDir("x")
-		dir.AddFile("a.txt", 100)
-
-		subdir := MakeDir("b")
-		subdir.AddFile("b.txt", 200)
-
-		dir.AddDir(subdir)
+		dir := Node{
+			Name: "x",
+			Children: []*Node{
+				{
+					Name:     "x.txt",
+					FileSize: 100,
+				},
+				{
+					Name: "x.txt",
+					Children: []*Node{
+						{
+							Name:     "b.txt",
+							FileSize: 200,
+						},
+					},
+				},
+			},
+		}
 
 		size := dir.Size()
 		want := 300
@@ -42,4 +61,5 @@ func TestExample(t *testing.T) {
 			t.Errorf("expected size to be %d, got %d", want, size)
 		}
 	})
+
 }
