@@ -147,3 +147,16 @@ func FindChildren(tree FileOrDirectory, simpleTree Directory, path string) (Dire
 	}
 	return simpleTree, tree
 }
+
+func Part1(input []string) int {
+	tree := BuildBetterDirTree(input)
+	sum := 0
+
+	for _, file := range tree {
+		if file.GetSize() <= 100000 {
+			sum += file.GetSize()
+		}
+	}
+
+	return sum
+}
