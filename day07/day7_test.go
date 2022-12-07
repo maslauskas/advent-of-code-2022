@@ -5,9 +5,9 @@ import "testing"
 // + create folder
 // + create file
 // + get file size
-// create file inside folder and get its size
-// create folder with subfolders and get its size
-// select folder
+// + create file inside folder and get its size
+// + create folder with subfolders and get its size
+// build dir tree
 
 func TestExample(t *testing.T) {
 	t.Run("will create folder within root", func(t *testing.T) {
@@ -78,6 +78,26 @@ func TestExample(t *testing.T) {
 		want := 150
 
 		got := dir.GetSize()
+
+		if want != got {
+			t.Errorf("expected dir size to be %d, got %d", want, got)
+		}
+	})
+
+	t.Run("will get size of folder with 2 levels of subfolders", func(t *testing.T) {
+		root := Dir{
+			"/",
+			[]Item{
+				Dir{"x", []Item{
+					Dir{"y", []Item{
+						File{"a", 250},
+					}},
+				}},
+			},
+		}
+
+		want := 250
+		got := root.GetSize()
 
 		if want != got {
 			t.Errorf("expected dir size to be %d, got %d", want, got)
