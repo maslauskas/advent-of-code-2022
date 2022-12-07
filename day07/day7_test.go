@@ -62,7 +62,7 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("folder size is 0 when folder is empty", func(t *testing.T) {
-		dir := Dir{"x", []File{}}
+		dir := Dir{"x", []Item{}}
 		want := 0
 
 		got := dir.GetSize()
@@ -73,7 +73,7 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("folder size is sum of file sizes when folder is not empty", func(t *testing.T) {
-		dir := Dir{"x", []File{}}
+		dir := Dir{"x", []Item{}}
 		dir.AddFile("y", 150)
 		want := 150
 
@@ -86,5 +86,5 @@ func TestExample(t *testing.T) {
 }
 
 func NewDir(name string) Dir {
-	return Dir{name, []File{}}
+	return Dir{name, []Item{}}
 }

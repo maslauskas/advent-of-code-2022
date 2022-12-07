@@ -5,14 +5,14 @@ type Item interface {
 }
 
 type Dir struct {
-	Name  string
-	Files []File
+	Name     string
+	Children []Item
 }
 
 func (f Dir) GetSize() int {
 	size := 0
 
-	for _, file := range f.Files {
+	for _, file := range f.Children {
 		size += file.GetSize()
 	}
 
@@ -20,7 +20,7 @@ func (f Dir) GetSize() int {
 }
 
 func (f *Dir) AddFile(name string, size int) {
-	f.Files = append(f.Files, File{name, size})
+	f.Children = append(f.Children, File{name, size})
 }
 
 type File struct {
