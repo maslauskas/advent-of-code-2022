@@ -1,8 +1,6 @@
 package day07
 
 import (
-	"adventofcode/helpers"
-	"reflect"
 	"testing"
 )
 
@@ -15,12 +13,12 @@ import (
 
 func TestExample(t *testing.T) {
 	t.Run("will create folder within root", func(t *testing.T) {
-		root := Dir{Children{
-			"x": Dir{Children{}},
-		}}
+		root := Directory{
+			"x": Directory{},
+		}
 
 		want := 1
-		got := len(root.Children)
+		got := len(root)
 
 		if want != got {
 			t.Errorf("expected dir count to be %d, got %d", want, got)
@@ -28,12 +26,12 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("will create file within root", func(t *testing.T) {
-		root := Dir{Children{
-			"a": File{123},
-		}}
+		root := Directory{
+			"a": File(123),
+		}
 
 		want := 1
-		got := len(root.Children)
+		got := len(root)
 
 		if want != got {
 			t.Errorf("expected file count to be %d, got %d", want, got)
@@ -41,16 +39,16 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("will add multiple files and folders to dir", func(t *testing.T) {
-		root := Dir{Children{
-			"x": Dir{Children{}},
-			"y": Dir{Children{}},
-			"a": File{100},
-			"b": File{200},
-			"c": File{300},
-		}}
+		root := Directory{
+			"x": Directory{},
+			"y": Directory{},
+			"a": File(100),
+			"b": File(200),
+			"c": File(100),
+		}
 
 		wantCount := 5
-		gotCount := len(root.Children)
+		gotCount := len(root)
 
 		if wantCount != gotCount {
 			t.Errorf("expected dir count to be %d, gotCount %d", wantCount, gotCount)
@@ -58,7 +56,7 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("will get file size", func(t *testing.T) {
-		file := File{123}
+		file := File(123)
 		want := 123
 		got := file.GetSize()
 
@@ -68,7 +66,7 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("folder size is 0 when folder is empty", func(t *testing.T) {
-		dir := Dir{Children{}}
+		dir := Directory{}
 
 		want := 0
 		got := dir.GetSize()
@@ -79,9 +77,9 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("folder size is sum of file sizes when folder is not empty", func(t *testing.T) {
-		dir := Dir{Children{
-			"y": File{150},
-		}}
+		dir := Directory{
+			"y": File(150),
+		}
 
 		want := 150
 		got := dir.GetSize()
@@ -92,13 +90,11 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("will get size of folder with 2 levels of subfolders", func(t *testing.T) {
-		root := Dir{
-			Children{
-				"x": Dir{Children{
-					"y": Dir{Children{
-						"a": File{250},
-					}},
-				}},
+		root := Directory{
+			"x": Directory{
+				"y": Directory{
+					"a": File(250),
+				},
 			},
 		}
 
@@ -110,27 +106,27 @@ func TestExample(t *testing.T) {
 		}
 	})
 
-	t.Run("will build directory tree", func(t *testing.T) {
-		input := helpers.ReadInput("./example.txt")
-		got := BuildDirTree(input)
-		want := Directory{
-			"a": Directory{
-				//"e":     Directory{},
-				//"f":     29116,
-				//"g":     2557,
-				//"h.lst": 62596,
-			},
-			"b.txt": 14848514,
-			"c.dat": 8504156,
-			"d":     Directory{},
-		}
-
-		if len(got) != 4 {
-			t.Errorf("expected root to have 4 children, got %d", len(got))
-		}
-
-		if !reflect.DeepEqual(want, got) {
-			t.Errorf("expected different tree, got %v, wanted %v", got, want)
-		}
-	})
+	//t.Run("will build directory tree", func(t *testing.T) {
+	//	input := helpers.ReadInput("./example.txt")
+	//	got := BuildDirTree(input)
+	//	want := Directory{
+	//		"a": Directory{
+	//			//"e":     Directory{},
+	//			//"f":     29116,
+	//			//"g":     2557,
+	//			//"h.lst": 62596,
+	//		},
+	//		"b.txt": 14848514,
+	//		"c.dat": 8504156,
+	//		"d":     Directory{},
+	//	}
+	//
+	//	if len(got) != 4 {
+	//		t.Errorf("expected root to have 4 children, got %d", len(got))
+	//	}
+	//
+	//	if !reflect.DeepEqual(want, got) {
+	//		t.Errorf("expected different tree, got %v, wanted %v", got, want)
+	//	}
+	//})
 }

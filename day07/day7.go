@@ -1,47 +1,37 @@
 package day07
 
 import (
-	"strconv"
 	"strings"
 )
 
-type Item interface {
+type File int
+type FileOrDirectory interface {
 	GetSize() int
 }
 
-type Children map[string]Item
+type Directory map[string]FileOrDirectory
 
-type Dir struct {
-	Children Children
-}
-
-type Directory map[string]any
-
-func (f Dir) GetSize() int {
+func (d Directory) GetSize() int {
 	size := 0
 
-	for _, file := range f.Children {
+	for _, file := range d {
 		size += file.GetSize()
 	}
 
 	return size
 }
 
-type File struct {
-	Size int
-}
-
 func (f File) GetSize() int {
-	return f.Size
+	return int(f)
 }
 
 func BuildDirTree(input []string) Directory {
 	root := Directory{}
-	dir := root
+	//dir := root
 
 	for _, line := range input {
 		if line == "$ cd /" {
-			dir = root
+			//dir = root
 			continue
 		}
 
@@ -49,7 +39,7 @@ func BuildDirTree(input []string) Directory {
 			continue
 		}
 
-		parts := strings.Split(line, " ")
+		//parts := strings.Split(line, " ")
 
 		if strings.HasPrefix(line, "$ cd") {
 			//target := parts[2]
@@ -58,15 +48,15 @@ func BuildDirTree(input []string) Directory {
 			break // only go 1 level deep for now
 		}
 
-		size := parts[0]
-		name := parts[1]
+		//size := parts[0]
+		//name := parts[1]
 
-		if size == "dir" {
-			dir[name] = Directory{}
-		} else {
-			s, _ := strconv.Atoi(size)
-			dir[name] = s
-		}
+		//if size == "dir" {
+		//	dir[name] = Directory{}
+		//} else {
+		//	s, _ := strconv.Atoi(size)
+		//	dir[name] =
+		//}
 	}
 
 	return root
