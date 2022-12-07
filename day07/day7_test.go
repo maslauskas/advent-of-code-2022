@@ -166,4 +166,21 @@ func TestExample(t *testing.T) {
 			t.Errorf("expected different tree, got %v, wanted %v", got, want)
 		}
 	})
+
+	t.Run("will get directory size from tree", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		tree := BuildBetterDirTree(input)
+
+		dataset := map[string]int{
+			"/a": 94853,
+			"/d": 24933642,
+		}
+
+		for dir, size := range dataset {
+			got := tree[dir].GetSize()
+			if size != got {
+				t.Errorf("expected dir size to be %d, got %d", size, got)
+			}
+		}
+	})
 }
