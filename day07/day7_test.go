@@ -24,10 +24,10 @@ func TestExample(t *testing.T) {
 
 	t.Run("will create file within root", func(t *testing.T) {
 		root := RootDir{}
-		root.addFile("a", 123)
+		root.Add(File{"a", 123})
 
 		want := 1
-		got := len(root.Files)
+		got := len(root.Children)
 
 		if want != got {
 			t.Errorf("expected file count to be %d, got %d", want, got)

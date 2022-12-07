@@ -33,12 +33,7 @@ func (f File) GetSize() int {
 }
 
 type RootDir struct {
-	Files    []File
 	Children []Item
-}
-
-func (r *RootDir) addFile(name string, size int) {
-	r.Files = append(r.Files, File{name, size})
 }
 
 func (r *RootDir) Add(child Item) {
