@@ -9,6 +9,10 @@ type File struct {
 	Size int
 }
 
+func (f File) GetSize() int {
+	return f.Size
+}
+
 type RootDir struct {
 	Folders []Folder
 	Files   []File

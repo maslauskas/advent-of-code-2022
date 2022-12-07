@@ -3,8 +3,8 @@ package day07
 import "testing"
 
 // + create folder
-// create file
-// get file size
+// + create file
+// + get file size
 // create file inside folder and get its size
 // create folder with subfolders and get its size
 // select folder
@@ -31,6 +31,16 @@ func TestExample(t *testing.T) {
 
 		if want != got {
 			t.Errorf("expected file count to be %d, got %d", want, got)
+		}
+	})
+
+	t.Run("will get file size", func(t *testing.T) {
+		file := File{"x", 123}
+		want := 123
+		got := file.GetSize()
+
+		if want != got {
+			t.Errorf("expected file size to be %d, got %d", want, got)
 		}
 	})
 }
