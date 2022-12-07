@@ -11,7 +11,7 @@ import "testing"
 
 func TestExample(t *testing.T) {
 	t.Run("will create folder within root", func(t *testing.T) {
-		root := RootDir{}
+		root := NewDir("/")
 		root.Add(NewDir("x"))
 
 		want := 1
@@ -23,7 +23,7 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("will create file within root", func(t *testing.T) {
-		root := RootDir{}
+		root := NewDir("/")
 		root.Add(File{"a", 123})
 
 		want := 1
@@ -35,7 +35,7 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("will add multiple files and folders to dir", func(t *testing.T) {
-		root := RootDir{}
+		root := NewDir("/")
 		root.Add(NewDir("x"))
 		root.Add(NewDir("y"))
 

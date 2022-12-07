@@ -31,11 +31,6 @@ type File struct {
 func (f File) GetSize() int {
 	return f.Size
 }
-
-type RootDir struct {
-	Children []Item
-}
-
-func (r *RootDir) Add(child Item) {
+func (r *Dir) Add(child Item) {
 	r.Children = append(r.Children, child)
 }
