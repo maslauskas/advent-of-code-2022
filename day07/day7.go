@@ -15,6 +15,8 @@ type Dir struct {
 	Children Children
 }
 
+type Directory map[string]any
+
 func (f Dir) GetSize() int {
 	size := 0
 
@@ -33,31 +35,33 @@ func (f File) GetSize() int {
 	return f.Size
 }
 
-func BuildDirTree(input []string) Dir {
-	root := Dir{Children{}}
+func BuildDirTree(input []string) Directory {
+	root := Directory{}
+	dir := root
 
-	for _, command := range input {
-		if command == "$ cd /" {
+	for _, line := range input {
+		if line == "$ cd /" {
+			dir = root
 			continue
 		}
 
-		if command == "$ ls" {
+		if line == "$ ls" {
 			continue
 		}
 
-		if strings.HasPrefix(command, "$ cd") {
-			break // read only top level for now
+		if strings.HasPrefix(line, "$ cd") {
+			break // only go 1 level deep for now
 		}
 
-		parts := strings.Split(command, " ")
+		parts := strings.Split(line, " ")
 		size := parts[0]
 		name := parts[1]
 
 		if size == "dir" {
-			root.Children[name] = Dir{Children{}}
+			dir[name] = Directory{}
 		} else {
 			s, _ := strconv.Atoi(size)
-			root.Children[name] = File{s}
+			dir[name] = s
 		}
 	}
 

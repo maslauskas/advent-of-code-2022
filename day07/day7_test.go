@@ -113,19 +113,19 @@ func TestExample(t *testing.T) {
 	t.Run("will build directory tree", func(t *testing.T) {
 		input := helpers.ReadInput("./example.txt")
 		got := BuildDirTree(input)
-		want := Dir{Children{
-			"a":     Dir{Children{}},
-			"b.txt": File{14848514},
-			"c.dat": File{8504156},
-			"d":     Dir{Children{}},
-		}}
+		want := Directory{
+			"a":     Directory{},
+			"b.txt": 14848514,
+			"c.dat": 8504156,
+			"d":     Directory{},
+		}
 
-		if len(got.Children) != 4 {
-			t.Errorf("expected root to have 4 children, got %d", len(got.Children))
+		if len(got) != 4 {
+			t.Errorf("expected root to have 4 children, got %d", len(got))
 		}
 
 		if !reflect.DeepEqual(want, got) {
-			t.Errorf("expected different tree, got %v", got)
+			t.Errorf("expected different tree, got %v, wanted %v", got, want)
 		}
 	})
 }
