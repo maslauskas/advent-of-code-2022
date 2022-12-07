@@ -1,6 +1,7 @@
 package day07
 
 import (
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -8,6 +9,8 @@ import (
 type File int
 type FileOrDirectory interface {
 	GetSize() int
+	IsDir() bool
+	AddChild(name string, child FileOrDirectory)
 }
 
 type Directory map[string]FileOrDirectory
@@ -20,6 +23,22 @@ func (d Directory) GetSize() int {
 	}
 
 	return size
+}
+
+func (d Directory) IsDir() bool {
+	return true
+}
+
+func (f File) IsDir() bool {
+	return false
+}
+
+func (d Directory) AddChild(path string, child FileOrDirectory) {
+	d[path] = child
+}
+
+func (f File) AddChild(_ string, _ FileOrDirectory) {
+	panic("cannot add child to file")
 }
 
 func (f File) GetSize() int {
@@ -68,4 +87,63 @@ func BuildDirTree(input []string) Directory {
 	}
 
 	return root
+}
+
+func BuildBetterDirTree(input []string) Directory {
+	simpleTree := BuildDirTree(input)
+	tree := Directory{}
+
+	// sort map keys
+	keys := make([]string, 0)
+	for k := range simpleTree {
+		keys = append(keys, k)
+	}
+
+	sort.Strings(keys)
+
+	for _, key := range keys {
+		// take key from simple map
+		file, ok := simpleTree[key]
+		if !ok {
+			// item gone, move on
+			continue
+		}
+
+		delete(simpleTree, key)
+		simpleTree, file = FindChildren(file, simpleTree, key)
+		tree.AddChild(key, file)
+	}
+
+	return tree
+}
+
+func FindChildren(tree FileOrDirectory, simpleTree Directory, path string) (Directory, FileOrDirectory) {
+	if !tree.IsDir() {
+		return simpleTree, tree
+	}
+
+	// sort map keys
+	keys := make([]string, 0)
+	for k := range simpleTree {
+		keys = append(keys, k)
+	}
+
+	sort.Strings(keys)
+	for _, key := range keys {
+		if path == key || !strings.HasPrefix(key, path) {
+			// item not child, move on
+			continue
+		}
+
+		file, ok := simpleTree[key]
+		if !ok {
+			// item gone, move on
+			continue
+		}
+
+		delete(simpleTree, key)
+		simpleTree, file = FindChildren(file, simpleTree, key)
+		tree.AddChild(key, file)
+	}
+	return simpleTree, tree
 }

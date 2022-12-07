@@ -135,4 +135,35 @@ func TestExample(t *testing.T) {
 			t.Errorf("expected different tree, got %v, wanted %v", got, want)
 		}
 	})
+
+	t.Run("will build better directory tree", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		got := BuildBetterDirTree(input)
+		want := Directory{
+			"/a": Directory{
+				"/a/e": Directory{
+					"/a/e/i": File(584),
+				},
+				"/a/f":     File(29116),
+				"/a/g":     File(2557),
+				"/a/h.lst": File(62596),
+			},
+			"/b.txt": File(14848514),
+			"/c.dat": File(8504156),
+			"/d": Directory{
+				"/d/j":     File(4060174),
+				"/d/d.log": File(8033020),
+				"/d/d.ext": File(5626152),
+				"/d/k":     File(7214296),
+			},
+		}
+
+		if len(got) != len(want) {
+			t.Errorf("expected root to have %d children, got %d", len(want), len(got))
+		}
+
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("expected different tree, got %v, wanted %v", got, want)
+		}
+	})
 }
