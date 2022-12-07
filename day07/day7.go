@@ -19,10 +19,6 @@ func (f Dir) GetSize() int {
 	return size
 }
 
-func (f *Dir) AddFile(name string, size int) {
-	f.Children = append(f.Children, File{name, size})
-}
-
 type File struct {
 	Name string
 	Size int

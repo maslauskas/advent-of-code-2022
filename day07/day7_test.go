@@ -74,7 +74,7 @@ func TestExample(t *testing.T) {
 
 	t.Run("folder size is sum of file sizes when folder is not empty", func(t *testing.T) {
 		dir := Dir{"x", []Item{}}
-		dir.AddFile("y", 150)
+		dir.Add(File{"y", 150})
 		want := 150
 
 		got := dir.GetSize()
