@@ -4,12 +4,12 @@ type Item interface {
 	GetSize() int
 }
 
-type Folder struct {
+type Dir struct {
 	Name  string
 	Files []File
 }
 
-func (f Folder) GetSize() int {
+func (f Dir) GetSize() int {
 	size := 0
 
 	for _, file := range f.Files {
@@ -19,7 +19,7 @@ func (f Folder) GetSize() int {
 	return size
 }
 
-func (f *Folder) AddFile(name string, size int) {
+func (f *Dir) AddFile(name string, size int) {
 	f.Files = append(f.Files, File{name, size})
 }
 

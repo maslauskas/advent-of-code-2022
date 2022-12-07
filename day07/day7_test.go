@@ -12,7 +12,7 @@ import "testing"
 func TestExample(t *testing.T) {
 	t.Run("will create folder within root", func(t *testing.T) {
 		root := RootDir{}
-		root.Add(Folder{"a", []File{}})
+		root.Add(NewDir("x"))
 
 		want := 1
 		got := len(root.Children)
@@ -34,6 +34,23 @@ func TestExample(t *testing.T) {
 		}
 	})
 
+	t.Run("will add multiple files and folders to dir", func(t *testing.T) {
+		root := RootDir{}
+		root.Add(NewDir("x"))
+		root.Add(NewDir("y"))
+
+		root.Add(File{"a", 100})
+		root.Add(File{"b", 200})
+		root.Add(File{"c", 300})
+
+		wantCount := 5
+		gotCount := len(root.Children)
+
+		if wantCount != gotCount {
+			t.Errorf("expected dir count to be %d, gotCount %d", wantCount, gotCount)
+		}
+	})
+
 	t.Run("will get file size", func(t *testing.T) {
 		file := File{"x", 123}
 		want := 123
@@ -45,7 +62,7 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("folder size is 0 when folder is empty", func(t *testing.T) {
-		dir := Folder{"x", []File{}}
+		dir := Dir{"x", []File{}}
 		want := 0
 
 		got := dir.GetSize()
@@ -56,7 +73,7 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("folder size is sum of file sizes when folder is not empty", func(t *testing.T) {
-		dir := Folder{"x", []File{}}
+		dir := Dir{"x", []File{}}
 		dir.AddFile("y", 150)
 		want := 150
 
@@ -66,4 +83,8 @@ func TestExample(t *testing.T) {
 			t.Errorf("expected dir size to be %d, got %d", want, got)
 		}
 	})
+}
+
+func NewDir(name string) Dir {
+	return Dir{name, []File{}}
 }
