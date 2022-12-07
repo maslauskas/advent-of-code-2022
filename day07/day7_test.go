@@ -12,10 +12,10 @@ import "testing"
 func TestExample(t *testing.T) {
 	t.Run("will create folder within root", func(t *testing.T) {
 		root := RootDir{}
-		root.addFolder("a")
+		root.Add(Folder{"a", []File{}})
 
 		want := 1
-		got := len(root.Folders)
+		got := len(root.Children)
 
 		if want != got {
 			t.Errorf("expected dir count to be %d, got %d", want, got)
