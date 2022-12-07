@@ -28,9 +28,11 @@ func (f File) GetSize() int {
 
 func BuildDirTree(input []string) Directory {
 	root := Directory{}
+	path := "/"
 
 	for _, line := range input {
 		if line == "$ cd /" {
+			path = "/"
 			continue
 		}
 
@@ -41,13 +43,21 @@ func BuildDirTree(input []string) Directory {
 		parts := strings.Split(line, " ")
 
 		if strings.HasPrefix(line, "$ cd") {
-			//target := parts[2]
-			//continue
-			break // only go 1 level deep for now
+			target := parts[2]
+
+			if target == ".." {
+				segments := strings.Split(path, "/")
+				segments = segments[:len(segments)-2]
+				path = strings.Join(segments, "/") + "/"
+			} else {
+				path = path + target + "/"
+			}
+
+			continue
 		}
 
 		size := parts[0]
-		name := parts[1]
+		name := path + parts[1]
 
 		if size == "dir" {
 			root[name] = Directory{}

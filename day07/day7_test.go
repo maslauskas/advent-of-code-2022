@@ -112,19 +112,23 @@ func TestExample(t *testing.T) {
 		input := helpers.ReadInput("./example.txt")
 		got := BuildDirTree(input)
 		want := Directory{
-			"a": Directory{
-				//"e":     Directory{},
-				//"f":     File(29116),
-				//"g":     File(2557),
-				//"h.lst": File(62596),
-			},
-			"b.txt": File(14848514),
-			"c.dat": File(8504156),
-			"d":     Directory{},
+			"/a":       Directory{},
+			"/b.txt":   File(14848514),
+			"/c.dat":   File(8504156),
+			"/d":       Directory{},
+			"/a/e":     Directory{},
+			"/a/f":     File(29116),
+			"/a/g":     File(2557),
+			"/a/h.lst": File(62596),
+			"/a/e/i":   File(584),
+			"/d/j":     File(4060174),
+			"/d/d.log": File(8033020),
+			"/d/d.ext": File(5626152),
+			"/d/k":     File(7214296),
 		}
 
-		if len(got) != 4 {
-			t.Errorf("expected root to have 4 children, got %d", len(got))
+		if len(got) != len(want) {
+			t.Errorf("expected root to have %d children, got %d", len(want), len(got))
 		}
 
 		if !reflect.DeepEqual(want, got) {
