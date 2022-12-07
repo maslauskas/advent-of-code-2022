@@ -49,11 +49,15 @@ func BuildDirTree(input []string) Directory {
 			continue
 		}
 
+		parts := strings.Split(line, " ")
+
 		if strings.HasPrefix(line, "$ cd") {
+			//target := parts[2]
+			//dir = dir[target]
+			//continue
 			break // only go 1 level deep for now
 		}
 
-		parts := strings.Split(line, " ")
 		size := parts[0]
 		name := parts[1]
 

@@ -114,7 +114,12 @@ func TestExample(t *testing.T) {
 		input := helpers.ReadInput("./example.txt")
 		got := BuildDirTree(input)
 		want := Directory{
-			"a":     Directory{},
+			"a": Directory{
+				//"e":     Directory{},
+				//"f":     29116,
+				//"g":     2557,
+				//"h.lst": 62596,
+			},
 			"b.txt": 14848514,
 			"c.dat": 8504156,
 			"d":     Directory{},
