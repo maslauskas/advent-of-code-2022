@@ -28,11 +28,9 @@ func (f File) GetSize() int {
 
 func BuildDirTree(input []string) Directory {
 	root := Directory{}
-	//dir := root
 
 	for _, line := range input {
 		if line == "$ cd /" {
-			//dir = root
 			continue
 		}
 
@@ -44,7 +42,6 @@ func BuildDirTree(input []string) Directory {
 
 		if strings.HasPrefix(line, "$ cd") {
 			//target := parts[2]
-			//dir = dir[target]
 			//continue
 			break // only go 1 level deep for now
 		}
