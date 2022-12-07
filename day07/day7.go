@@ -12,7 +12,6 @@ type Item interface {
 type Children map[string]Item
 
 type Dir struct {
-	Name     string
 	Children Children
 }
 
@@ -26,10 +25,6 @@ func (f Dir) GetSize() int {
 	return size
 }
 
-func (f Dir) GetName() string {
-	return f.Name
-}
-
 type File struct {
 	Size int
 }
@@ -39,7 +34,7 @@ func (f File) GetSize() int {
 }
 
 func BuildDirTree(input []string) Dir {
-	root := Dir{"/", Children{}}
+	root := Dir{Children{}}
 
 	for _, command := range input {
 		if command == "$ cd /" {
@@ -59,7 +54,7 @@ func BuildDirTree(input []string) Dir {
 		name := parts[1]
 
 		if size == "dir" {
-			root.Children[name] = Dir{name, Children{}}
+			root.Children[name] = Dir{Children{}}
 		} else {
 			s, _ := strconv.Atoi(size)
 			root.Children[name] = File{s}

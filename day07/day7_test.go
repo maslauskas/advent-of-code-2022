@@ -15,8 +15,8 @@ import (
 
 func TestExample(t *testing.T) {
 	t.Run("will create folder within root", func(t *testing.T) {
-		root := Dir{"/", Children{
-			"x": Dir{"x", Children{}},
+		root := Dir{Children{
+			"x": Dir{Children{}},
 		}}
 
 		want := 1
@@ -28,7 +28,7 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("will create file within root", func(t *testing.T) {
-		root := Dir{"/", Children{
+		root := Dir{Children{
 			"a": File{123},
 		}}
 
@@ -41,9 +41,9 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("will add multiple files and folders to dir", func(t *testing.T) {
-		root := Dir{"/", Children{
-			"x": Dir{"x", Children{}},
-			"y": Dir{"y", Children{}},
+		root := Dir{Children{
+			"x": Dir{Children{}},
+			"y": Dir{Children{}},
 			"a": File{100},
 			"b": File{200},
 			"c": File{300},
@@ -68,7 +68,7 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("folder size is 0 when folder is empty", func(t *testing.T) {
-		dir := Dir{"x", Children{}}
+		dir := Dir{Children{}}
 
 		want := 0
 		got := dir.GetSize()
@@ -79,7 +79,7 @@ func TestExample(t *testing.T) {
 	})
 
 	t.Run("folder size is sum of file sizes when folder is not empty", func(t *testing.T) {
-		dir := Dir{"x", Children{
+		dir := Dir{Children{
 			"y": File{150},
 		}}
 
@@ -93,10 +93,9 @@ func TestExample(t *testing.T) {
 
 	t.Run("will get size of folder with 2 levels of subfolders", func(t *testing.T) {
 		root := Dir{
-			"/",
 			Children{
-				"x": Dir{"x", Children{
-					"y": Dir{"y", Children{
+				"x": Dir{Children{
+					"y": Dir{Children{
 						"a": File{250},
 					}},
 				}},
@@ -114,11 +113,11 @@ func TestExample(t *testing.T) {
 	t.Run("will build directory tree", func(t *testing.T) {
 		input := helpers.ReadInput("./example.txt")
 		got := BuildDirTree(input)
-		want := Dir{"/", Children{
-			"a":     Dir{"a", Children{}},
+		want := Dir{Children{
+			"a":     Dir{Children{}},
 			"b.txt": File{14848514},
 			"c.dat": File{8504156},
-			"d":     Dir{"d", Children{}},
+			"d":     Dir{Children{}},
 		}}
 
 		if len(got.Children) != 4 {
