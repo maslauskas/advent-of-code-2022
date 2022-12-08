@@ -27,10 +27,9 @@ func TestCheckBlockingTrees(t *testing.T) {
 		}
 
 		got := board.CheckBlocked(0, 0)
-		want := false
 
-		if want != got {
-			t.Errorf("expected result to be %v, got %v", want, got)
+		if got == true {
+			t.Errorf("expected result to be %v, got %v", false, got)
 		}
 	})
 
@@ -42,10 +41,9 @@ func TestCheckBlockingTrees(t *testing.T) {
 		}
 
 		got := board.CheckBlocked(1, 1)
-		want := true
 
-		if want != got {
-			t.Errorf("expected result to be %v, got %v", want, got)
+		if got == false {
+			t.Errorf("expected result to be %v, got %v", true, got)
 		}
 	})
 
@@ -57,10 +55,9 @@ func TestCheckBlockingTrees(t *testing.T) {
 		}
 
 		got := board.CheckBlocked(1, 1)
-		want := false
 
-		if want != got {
-			t.Errorf("expected result to be %v, got %v", want, got)
+		if got == true {
+			t.Errorf("expected result to be %v, got %v", true, got)
 		}
 	})
 
@@ -72,10 +69,9 @@ func TestCheckBlockingTrees(t *testing.T) {
 		}
 
 		got := board.CheckBlocked(1, 1)
-		want := false
 
-		if want != got {
-			t.Errorf("expected result to be %v, got %v", want, got)
+		if got == true {
+			t.Errorf("expected result to be %v, got %v", true, got)
 		}
 	})
 
@@ -87,10 +83,9 @@ func TestCheckBlockingTrees(t *testing.T) {
 		}
 
 		got := board.CheckBlocked(1, 1)
-		want := false
 
-		if want != got {
-			t.Errorf("expected result to be %v, got %v", want, got)
+		if got == true {
+			t.Errorf("expected result to be %v, got %v", true, got)
 		}
 	})
 
@@ -102,10 +97,9 @@ func TestCheckBlockingTrees(t *testing.T) {
 		}
 
 		got := board.CheckBlocked(1, 1)
-		want := false
 
-		if want != got {
-			t.Errorf("expected result to be %v, got %v", want, got)
+		if false != got {
+			t.Errorf("expected result to be %v, got %v", false, got)
 		}
 	})
 }
@@ -114,6 +108,42 @@ func TestPart1(t *testing.T) {
 	input := helpers.ReadInput("./example.txt")
 	got := Part1(input)
 	want := 21
+
+	if want != got {
+		t.Errorf("expected %d, got %d", want, got)
+	}
+}
+
+func TestScenicScore(t *testing.T) {
+	t.Run("example case 1", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		board := BuildBoard(input)
+
+		got := board.ScenicScore(1, 2)
+		want := 4
+
+		if want != got {
+			t.Errorf("expected %d, got %d", want, got)
+		}
+	})
+
+	t.Run("example case 2", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		board := BuildBoard(input)
+
+		got := board.ScenicScore(3, 2)
+		want := 8
+
+		if want != got {
+			t.Errorf("expected %d, got %d", want, got)
+		}
+	})
+}
+
+func TestPart2(t *testing.T) {
+	input := helpers.ReadInput("./example.txt")
+	got := Part2(input)
+	want := 8
 
 	if want != got {
 		t.Errorf("expected %d, got %d", want, got)
