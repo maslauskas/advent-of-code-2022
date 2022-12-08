@@ -33,6 +33,34 @@ func Part1(input []string) int {
 	return total
 }
 
+func Part2(input []string) int {
+	root := BuildTree(input)
+	queue := []*Node{
+		&root,
+	}
+
+	unusedSpace := 70000000 - root.Size()
+	min := 70000000 // start with max value
+
+	for len(queue) > 0 {
+		next := queue[0]
+		queue = queue[1:]
+
+		size := next.Size()
+		if unusedSpace+size >= 30000000 && size < min {
+			min = size
+		}
+
+		for _, child := range next.Children {
+			if child.FileSize == 0 { // only add dirs
+				queue = append(queue, child)
+			}
+		}
+	}
+
+	return min
+}
+
 type Node struct {
 	Path     string
 	FileSize int

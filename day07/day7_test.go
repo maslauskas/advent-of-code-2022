@@ -96,4 +96,14 @@ func TestExample(t *testing.T) {
 			t.Errorf("expected %d, got %d", want, got)
 		}
 	})
+
+	t.Run("part 2 example case", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		got := Part2(input)
+
+		want := 24933642
+		if want != got {
+			t.Errorf("expected %d, got %d", want, got)
+		}
+	})
 }
