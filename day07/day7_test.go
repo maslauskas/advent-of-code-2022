@@ -86,4 +86,14 @@ func TestExample(t *testing.T) {
 			t.Errorf("expected tree size to be %d, got %d", want, got)
 		}
 	})
+
+	t.Run("part 1 example case", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		got := Part1(input)
+
+		want := 95437
+		if want != got {
+			t.Errorf("expected %d, got %d", want, got)
+		}
+	})
 }

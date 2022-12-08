@@ -6,6 +6,33 @@ import (
 	"strings"
 )
 
+func Part1(input []string) int {
+	root := BuildTree(input)
+	queue := []*Node{
+		&root,
+	}
+
+	total := 0
+
+	for len(queue) > 0 {
+		next := queue[0]
+		queue = queue[1:]
+
+		size := next.Size()
+		if size <= 100000 {
+			total += size
+		}
+
+		for _, child := range next.Children {
+			if child.FileSize == 0 { // only add dirs
+				queue = append(queue, child)
+			}
+		}
+	}
+
+	return total
+}
+
 type Node struct {
 	Path     string
 	FileSize int
