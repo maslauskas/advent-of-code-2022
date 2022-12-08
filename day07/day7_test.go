@@ -1,6 +1,7 @@
 package day07
 
 import (
+	"adventofcode/helpers"
 	"testing"
 )
 
@@ -62,7 +63,15 @@ func TestExample(t *testing.T) {
 		}
 	})
 
-	t.Run("will find node by path", func(t *testing.T) {
-		t.Errorf("did not implement yet")
+	t.Run("it will build a simple tree", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		tree := BuildTree(input)
+
+		want := 4
+		got := len(tree.Children)
+
+		if want != got {
+			t.Errorf("expected children count to be %d, got %d", want, got)
+		}
 	})
 }
