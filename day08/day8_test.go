@@ -1,6 +1,7 @@
 package day08
 
 import (
+	"adventofcode/helpers"
 	"reflect"
 	"testing"
 )
@@ -107,4 +108,14 @@ func TestCheckBlockingTrees(t *testing.T) {
 			t.Errorf("expected result to be %v, got %v", want, got)
 		}
 	})
+}
+
+func TestPart1(t *testing.T) {
+	input := helpers.ReadInput("./example.txt")
+	got := Part1(input)
+	want := 21
+
+	if want != got {
+		t.Errorf("expected %d, got %d", want, got)
+	}
 }

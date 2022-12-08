@@ -4,10 +4,25 @@ import (
 	"strconv"
 )
 
+func Part1(input []string) int {
+	board := BuildBoard(input)
+	total := 0
+
+	for y, row := range board {
+		for x, _ := range row {
+			if !board.CheckBlocked(x, y) {
+				total++
+			}
+		}
+	}
+
+	return total
+}
+
 func BuildBoard(input []string) Board {
 	board := make(Board, len(input))
 	for y, row := range input {
-		board[y] = make([]int, 2)
+		board[y] = make([]int, len(row))
 		for i := 0; i < len(row); i++ {
 			val, _ := strconv.Atoi(string(row[i]))
 			board[y][i] = val
@@ -34,7 +49,7 @@ func CheckRight(b Board, x int, y int) bool {
 
 	for i := x + 1; i < len(b[y]); i++ {
 		neighbor := b[y][i]
-		if neighbor > val {
+		if neighbor >= val {
 			return true
 		}
 	}
@@ -47,7 +62,7 @@ func CheckLeft(b Board, x int, y int) bool {
 
 	for i := x - 1; i >= 0; i-- {
 		neighbor := b[y][i]
-		if neighbor > val {
+		if neighbor >= val {
 			return true
 		}
 	}
@@ -60,7 +75,7 @@ func CheckTop(b Board, x int, y int) bool {
 
 	for i := y - 1; i >= 0; i-- {
 		neighbor := b[i][x]
-		if neighbor > val {
+		if neighbor >= val {
 			return true
 		}
 	}
@@ -73,7 +88,7 @@ func CheckBottom(b Board, x int, y int) bool {
 
 	for i := y + 1; i < len(b); i++ {
 		neighbor := b[i][x]
-		if neighbor > val {
+		if neighbor >= val {
 			return true
 		}
 	}
