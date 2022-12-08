@@ -74,4 +74,16 @@ func TestExample(t *testing.T) {
 			t.Errorf("expected children count to be %d, got %d", want, got)
 		}
 	})
+
+	t.Run("get size of full tree", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		tree := BuildTree(input)
+
+		want := 48381165
+		got := tree.Size()
+
+		if want != got {
+			t.Errorf("expected tree size to be %d, got %d", want, got)
+		}
+	})
 }
