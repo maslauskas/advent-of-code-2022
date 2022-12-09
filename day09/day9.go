@@ -13,7 +13,6 @@ type Point struct {
 }
 type Rope struct {
 	Head     Point
-	Tail     Point
 	Segments []Point
 	Visits   map[string]int
 }
@@ -24,7 +23,6 @@ func MakeRope(head Point, tailSegments int) Rope {
 	return Rope{
 		// support old calculation
 		Head: head,
-		Tail: segments[len(segments)-1],
 		// new property
 		Segments: segments,
 	}
@@ -47,28 +45,24 @@ func (r *Rope) MoveOnce(direction string) {
 		moveX := -1
 		moveY := 0
 
-		r.MoveSegment(moveY, moveX, &r.Tail, r.Head)
 		r.MoveSegment(moveY, moveX, &r.Segments[len(r.Segments)-1], r.Head)
 	case "L":
 		r.Head.PosX -= 1
 		moveX := 1
 		moveY := 0
 
-		r.MoveSegment(moveY, moveX, &r.Tail, r.Head)
 		r.MoveSegment(moveY, moveX, &r.Segments[len(r.Segments)-1], r.Head)
 	case "U":
 		r.Head.PosY += 1
 		moveX := 0
 		moveY := -1
 
-		r.MoveSegment(moveY, moveX, &r.Tail, r.Head)
 		r.MoveSegment(moveY, moveX, &r.Segments[len(r.Segments)-1], r.Head)
 	case "D":
 		r.Head.PosY -= 1
 		moveX := 0
 		moveY := 1
 
-		r.MoveSegment(moveY, moveX, &r.Tail, r.Head)
 		r.MoveSegment(moveY, moveX, &r.Segments[len(r.Segments)-1], r.Head)
 	}
 }
