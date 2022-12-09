@@ -39,32 +39,29 @@ func (r *Rope) Move(row string) {
 }
 
 func (r *Rope) MoveOnce(direction string) {
+	var moveX, moveY int
+	var head *Point
+	head = &r.Head
 	switch direction {
 	case "R":
-		r.Head.PosX += 1
-		moveX := -1
-		moveY := 0
-
-		r.MoveSegment(moveY, moveX, &r.Segments[len(r.Segments)-1], r.Head)
+		head.PosX += 1
+		moveX = -1
+		moveY = 0
 	case "L":
-		r.Head.PosX -= 1
-		moveX := 1
-		moveY := 0
-
-		r.MoveSegment(moveY, moveX, &r.Segments[len(r.Segments)-1], r.Head)
+		head.PosX -= 1
+		moveX = 1
+		moveY = 0
 	case "U":
-		r.Head.PosY += 1
-		moveX := 0
-		moveY := -1
-
-		r.MoveSegment(moveY, moveX, &r.Segments[len(r.Segments)-1], r.Head)
+		head.PosY += 1
+		moveX = 0
+		moveY = -1
 	case "D":
-		r.Head.PosY -= 1
-		moveX := 0
-		moveY := 1
-
-		r.MoveSegment(moveY, moveX, &r.Segments[len(r.Segments)-1], r.Head)
+		head.PosY -= 1
+		moveX = 0
+		moveY = 1
 	}
+
+	r.MoveSegment(moveY, moveX, &r.Segments[len(r.Segments)-1], r.Head)
 }
 
 func (r *Rope) MoveSegment(moveY int, moveX int, tail *Point, head Point) {
