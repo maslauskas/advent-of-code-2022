@@ -12,33 +12,33 @@ func TestExample(t *testing.T) {
 
 	t.Run("will move head up", func(t *testing.T) {
 		game := Rope{Point{0, 0}, Point{0, 0}}
-		game.Up(2)
+		game.Up(1)
 
-		AssertPosition(t, game.Head, 0, 2)
+		AssertPosition(t, game.Head, 0, 1)
 		AssertPosition(t, game.Tail, 0, 0)
 	})
 
 	t.Run("will move head down", func(t *testing.T) {
 		game := Rope{Point{0, 0}, Point{0, 0}}
-		game.Down(3)
+		game.Down(1)
 
-		AssertPosition(t, game.Head, 0, -3)
+		AssertPosition(t, game.Head, 0, -1)
 		AssertPosition(t, game.Tail, 0, 0)
 	})
 
 	t.Run("will move head right", func(t *testing.T) {
 		game := Rope{Point{0, 0}, Point{0, 0}}
-		game.Right(4)
+		game.Right(1)
 
-		AssertPosition(t, game.Head, 4, 0)
+		AssertPosition(t, game.Head, 1, 0)
 		AssertPosition(t, game.Tail, 0, 0)
 	})
 
 	t.Run("will move head left", func(t *testing.T) {
 		game := Rope{Point{0, 0}, Point{0, 0}}
-		game.Left(5)
+		game.Left(1)
 
-		AssertPosition(t, game.Head, -5, 0)
+		AssertPosition(t, game.Head, -1, 0)
 		AssertPosition(t, game.Tail, 0, 0)
 	})
 }
