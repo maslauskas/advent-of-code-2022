@@ -61,42 +61,27 @@ func (r *Rope) Move(row string) {
 }
 
 func (r *Rope) MoveOnce(direction string) {
-	var moveX, moveY int
 	var head *Point
 	head = &r.Segments[0]
 
 	switch direction {
 	case "R":
 		head.PosX += 1
-		moveX = -1
-		moveY = 0
 	case "L":
 		head.PosX -= 1
-		moveX = 1
-		moveY = 0
 	case "U":
 		head.PosY += 1
-		moveX = 0
-		moveY = -1
 	case "D":
 		head.PosY -= 1
-		moveX = 0
-		moveY = 1
 	}
 
-	r.MoveSegment(moveY, moveX, &r.Segments[len(r.Segments)-1], head)
-}
-
-func (r *Rope) MoveSegment(moveY int, moveX int, tail *Point, head *Point) {
-	diffX := math.Abs(float64(tail.PosX - head.PosX))
-	diffY := math.Abs(float64(tail.PosY - head.PosY))
-
-	if diffY > 1 || diffX > 1 {
-		tail.PosY = head.PosY + moveY
-		tail.PosX = head.PosX + moveX
-
-		r.LogTailVisit()
+	for i := 1; i < len(r.Segments); i++ {
+		tail := &r.Segments[i]
+		tail.CatchUp(r.Segments[i-1])
 	}
+
+	r.LogTailVisit()
+
 }
 
 func (r *Rope) LogTailVisit() {
