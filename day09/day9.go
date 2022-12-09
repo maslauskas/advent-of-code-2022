@@ -30,10 +30,6 @@ func MakeRope(head Point, tailSegments int) Rope {
 	}
 }
 
-func (r *Rope) Down(dist int) {
-	r.Move(fmt.Sprintf("D %d", dist))
-}
-
 func (r *Rope) Right(dist int) {
 	r.Move(fmt.Sprintf("R %d", dist))
 }
