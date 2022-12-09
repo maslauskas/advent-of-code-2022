@@ -6,108 +6,63 @@ import (
 )
 
 func TestRopeBridge(t *testing.T) {
-	t.Run("will not move tail if head is on top and head moved by 1", func(t *testing.T) {
-		game := MakeRope(Point{0, 0}, 2)
-		game.MoveOnce("U")
+	t.Run("will move the head", func(t *testing.T) {
 
-		AssertPosition(t, game.GetTail(), 0, 0)
+		dataset := map[string]Point{
+			"U 1": {0, 1},
+			"D 1": {0, -1},
+			"R 1": {1, 0},
+			"L 1": {-1, 0},
+		}
+
+		for set, point := range dataset {
+			game := MakeRope(Point{0, 0}, 2)
+			game.Move(set)
+
+			tail := game.GetHead()
+			if tail != point {
+				t.Errorf("set %q: expected possition to be %v, got %v", set, point, tail)
+			}
+		}
 	})
 
-	t.Run("will move head up", func(t *testing.T) {
-		game := MakeRope(Point{0, 0}, 2)
-		game.MoveOnce("U")
+	t.Run("will move the tail when moving straight", func(t *testing.T) {
+		dataset := map[string]Point{
+			"U 1": {0, 0},
+			"U 5": {0, 4},
+			"D 5": {0, -4},
+			"R 5": {4, 0},
+			"L 5": {-4, 0},
+		}
 
-		AssertPosition(t, game.GetHead(), 0, 1)
-		AssertPosition(t, game.GetTail(), 0, 0)
+		for set, point := range dataset {
+			game := MakeRope(Point{0, 0}, 2)
+			game.Move(set)
+
+			tail := game.GetTail()
+			if tail != point {
+				t.Errorf("set %q: expected possition to be %v, got %v", set, point, tail)
+			}
+		}
 	})
 
-	t.Run("will move head down", func(t *testing.T) {
-		game := MakeRope(Point{0, 0}, 2)
-		game.MoveOnce("D")
+	t.Run("will move the tail when moving diagonally", func(t *testing.T) {
+		dataset := map[string]Point{
+			"U 3": {1, 2},
+			"D 3": {1, -2},
+			"R 3": {2, 1},
+			"L 3": {-2, 1},
+		}
 
-		AssertPosition(t, game.GetHead(), 0, -1)
-		AssertPosition(t, game.GetTail(), 0, 0)
-	})
+		for set, point := range dataset {
+			game := MakeRope(Point{1, 0}, 2)
+			game.Move(set)
 
-	t.Run("will move head right", func(t *testing.T) {
-		game := MakeRope(Point{0, 0}, 2)
-		game.MoveOnce("R")
-
-		AssertPosition(t, game.GetHead(), 1, 0)
-		AssertPosition(t, game.GetTail(), 0, 0)
-	})
-
-	t.Run("will move head left", func(t *testing.T) {
-		game := MakeRope(Point{0, 0}, 2)
-		game.MoveOnce("L")
-
-		AssertPosition(t, game.GetHead(), -1, 0)
-		AssertPosition(t, game.GetTail(), 0, 0)
-	})
-
-	t.Run("tail will catch up when moved straight up", func(t *testing.T) {
-		game := MakeRope(Point{0, 0}, 2)
-		game.Move("U 5")
-
-		AssertPosition(t, game.GetHead(), 0, 5)
-		AssertPosition(t, game.GetTail(), 0, 4)
-	})
-
-	t.Run("tail will catch up when moved straight down", func(t *testing.T) {
-		game := MakeRope(Point{0, 0}, 2)
-		game.Move("D 5")
-
-		AssertPosition(t, game.GetHead(), 0, -5)
-		AssertPosition(t, game.GetTail(), 0, -4)
-	})
-
-	t.Run("tail will catch up when moved straight right", func(t *testing.T) {
-		game := MakeRope(Point{0, 0}, 2)
-		game.Move("R 5")
-
-		AssertPosition(t, game.GetHead(), 5, 0)
-		AssertPosition(t, game.GetTail(), 4, 0)
-	})
-
-	t.Run("tail will catch up when moved straight left", func(t *testing.T) {
-		game := MakeRope(Point{0, 0}, 2)
-		game.Move("L 5")
-
-		AssertPosition(t, game.GetHead(), -5, 0)
-		AssertPosition(t, game.GetTail(), -4, 0)
-	})
-
-	// tail moves diagonally in all directions
-	t.Run("tail will catch up when head is positioned diagonally and moved up", func(t *testing.T) {
-		game := MakeRope(Point{1, 0}, 2)
-		game.Move("U 3")
-
-		AssertPosition(t, game.GetHead(), 1, 3)
-		AssertPosition(t, game.GetTail(), 1, 2)
-	})
-
-	t.Run("tail will catch up when head is positioned diagonally and moved down", func(t *testing.T) {
-		game := MakeRope(Point{1, 0}, 2)
-		game.Move("D 3")
-
-		AssertPosition(t, game.GetHead(), 1, -3)
-		AssertPosition(t, game.GetTail(), 1, -2)
-	})
-
-	t.Run("tail will catch up when head is positioned diagonally and moved right", func(t *testing.T) {
-		game := MakeRope(Point{0, 1}, 2)
-		game.Move("R 3")
-
-		AssertPosition(t, game.GetHead(), 3, 1)
-		AssertPosition(t, game.GetTail(), 2, 1)
-	})
-
-	t.Run("tail will catch up when head is positioned diagonally and moved left", func(t *testing.T) {
-		game := MakeRope(Point{0, 1}, 2)
-		game.Move("L 3")
-
-		AssertPosition(t, game.GetHead(), -3, 1)
-		AssertPosition(t, game.GetTail(), -2, 1)
+			tail := game.GetTail()
+			if tail != point {
+				t.Errorf("set %q: expected possition to be %v, got %v", set, point, tail)
+			}
+		}
 	})
 
 	// tail does not move when head moves on top of tail;
