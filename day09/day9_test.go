@@ -197,6 +197,22 @@ func TestRopeBridge(t *testing.T) {
 			t.Errorf("expected result to be %d, got %d", want, got)
 		}
 	})
+
+	t.Run("part 2 example case step by step", func(t *testing.T) {
+		game := MakeRope(Point{0, 0}, 10)
+
+		game.Move("R 5")
+		AssertPosition(t, game.GetHead(), 5, 0)
+		AssertPosition(t, game.GetTail(), 0, 0)
+
+		game.Move("U 8")
+		AssertPosition(t, game.GetHead(), 5, 8)
+		AssertPosition(t, game.GetTail(), 0, 0)
+
+		game.Move("L 8")
+		AssertPosition(t, game.GetHead(), -3, 8)
+		AssertPosition(t, game.GetTail(), 1, 3)
+	})
 }
 
 func AssertPosition(t *testing.T, p Point, x int, y int) {
