@@ -7,14 +7,14 @@ import (
 
 func TestRopeBridge(t *testing.T) {
 	t.Run("will not move tail if head is on top and head moved by 1", func(t *testing.T) {
-		game := Rope{}
+		game := MakeRope(Point{0, 0}, 2)
 		game.Up(1)
 
 		AssertPosition(t, game.Tail, 0, 0)
 	})
 
 	t.Run("will move head up", func(t *testing.T) {
-		game := Rope{}
+		game := MakeRope(Point{0, 0}, 2)
 		game.Up(1)
 
 		AssertPosition(t, game.Head, 0, 1)
@@ -22,7 +22,7 @@ func TestRopeBridge(t *testing.T) {
 	})
 
 	t.Run("will move head down", func(t *testing.T) {
-		game := Rope{}
+		game := MakeRope(Point{0, 0}, 2)
 		game.Down(1)
 
 		AssertPosition(t, game.Head, 0, -1)
@@ -30,7 +30,7 @@ func TestRopeBridge(t *testing.T) {
 	})
 
 	t.Run("will move head right", func(t *testing.T) {
-		game := Rope{}
+		game := MakeRope(Point{0, 0}, 2)
 		game.Right(1)
 
 		AssertPosition(t, game.Head, 1, 0)
@@ -38,7 +38,7 @@ func TestRopeBridge(t *testing.T) {
 	})
 
 	t.Run("will move head left", func(t *testing.T) {
-		game := Rope{}
+		game := MakeRope(Point{0, 0}, 2)
 		game.Left(1)
 
 		AssertPosition(t, game.Head, -1, 0)
@@ -46,7 +46,7 @@ func TestRopeBridge(t *testing.T) {
 	})
 
 	t.Run("tail will catch up when moved straight up", func(t *testing.T) {
-		game := Rope{}
+		game := MakeRope(Point{0, 0}, 2)
 		game.Up(5)
 
 		AssertPosition(t, game.Head, 0, 5)
@@ -54,7 +54,7 @@ func TestRopeBridge(t *testing.T) {
 	})
 
 	t.Run("tail will catch up when moved straight down", func(t *testing.T) {
-		game := Rope{}
+		game := MakeRope(Point{0, 0}, 2)
 		game.Down(5)
 
 		AssertPosition(t, game.Head, 0, -5)
@@ -62,7 +62,7 @@ func TestRopeBridge(t *testing.T) {
 	})
 
 	t.Run("tail will catch up when moved straight right", func(t *testing.T) {
-		game := Rope{}
+		game := MakeRope(Point{0, 0}, 2)
 		game.Right(5)
 
 		AssertPosition(t, game.Head, 5, 0)
@@ -70,7 +70,7 @@ func TestRopeBridge(t *testing.T) {
 	})
 
 	t.Run("tail will catch up when moved straight left", func(t *testing.T) {
-		game := Rope{}
+		game := MakeRope(Point{0, 0}, 2)
 		game.Left(5)
 
 		AssertPosition(t, game.Head, -5, 0)
@@ -79,7 +79,7 @@ func TestRopeBridge(t *testing.T) {
 
 	// tail moves diagonally in all directions
 	t.Run("tail will catch up when head is positioned diagonally and moved up", func(t *testing.T) {
-		game := Rope{Head: Point{1, 0}}
+		game := MakeRope(Point{1, 0}, 2)
 		game.Up(3)
 
 		AssertPosition(t, game.Head, 1, 3)
@@ -87,7 +87,7 @@ func TestRopeBridge(t *testing.T) {
 	})
 
 	t.Run("tail will catch up when head is positioned diagonally and moved down", func(t *testing.T) {
-		game := Rope{Head: Point{1, 0}}
+		game := MakeRope(Point{1, 0}, 2)
 		game.Down(3)
 
 		AssertPosition(t, game.Head, 1, -3)
@@ -95,7 +95,7 @@ func TestRopeBridge(t *testing.T) {
 	})
 
 	t.Run("tail will catch up when head is positioned diagonally and moved right", func(t *testing.T) {
-		game := Rope{Head: Point{0, 1}}
+		game := MakeRope(Point{0, 1}, 2)
 		game.Right(3)
 
 		AssertPosition(t, game.Head, 3, 1)
@@ -103,7 +103,7 @@ func TestRopeBridge(t *testing.T) {
 	})
 
 	t.Run("tail will catch up when head is positioned diagonally and moved left", func(t *testing.T) {
-		game := Rope{Head: Point{0, 1}}
+		game := MakeRope(Point{0, 1}, 2)
 		game.Left(3)
 
 		AssertPosition(t, game.Head, -3, 1)
@@ -112,7 +112,7 @@ func TestRopeBridge(t *testing.T) {
 
 	// tail does not move when head moves on top of tail;
 	t.Run("tail does not move if head moves on top of tail", func(t *testing.T) {
-		game := Rope{Head: Point{0, -1}}
+		game := MakeRope(Point{0, -1}, 2)
 		game.Up(1)
 
 		AssertPosition(t, game.Head, 0, 0)
@@ -120,7 +120,7 @@ func TestRopeBridge(t *testing.T) {
 	})
 
 	t.Run("tail does not move if head moves on top of tail", func(t *testing.T) {
-		game := Rope{Head: Point{0, 1}}
+		game := MakeRope(Point{0, 1}, 2)
 		game.Down(1)
 
 		AssertPosition(t, game.Head, 0, 0)
@@ -128,7 +128,7 @@ func TestRopeBridge(t *testing.T) {
 	})
 
 	t.Run("tail does not move if head moves on top of tail", func(t *testing.T) {
-		game := Rope{Head: Point{-1, 0}}
+		game := MakeRope(Point{-1, 0}, 2)
 		game.Right(1)
 
 		AssertPosition(t, game.Head, 0, 0)
@@ -136,7 +136,7 @@ func TestRopeBridge(t *testing.T) {
 	})
 
 	t.Run("tail does not move if head moves on top of tail", func(t *testing.T) {
-		game := Rope{Head: Point{1, 0}}
+		game := MakeRope(Point{1, 0}, 2)
 		game.Left(1)
 
 		AssertPosition(t, game.Head, 0, 0)
@@ -145,7 +145,7 @@ func TestRopeBridge(t *testing.T) {
 
 	// tail does not move when head moves diagonally one step;
 	t.Run("tail does not move if head moves one step diagonally", func(t *testing.T) {
-		game := Rope{Head: Point{1, 0}}
+		game := MakeRope(Point{1, 0}, 2)
 		game.Up(1)
 
 		AssertPosition(t, game.Head, 1, 1)
@@ -153,7 +153,7 @@ func TestRopeBridge(t *testing.T) {
 	})
 
 	t.Run("tail does not move if head moves one step diagonally", func(t *testing.T) {
-		game := Rope{Head: Point{1, 0}}
+		game := MakeRope(Point{1, 0}, 2)
 		game.Down(1)
 
 		AssertPosition(t, game.Head, 1, -1)
@@ -161,7 +161,7 @@ func TestRopeBridge(t *testing.T) {
 	})
 
 	t.Run("tail does not move if head moves one step diagonally", func(t *testing.T) {
-		game := Rope{Head: Point{0, 1}}
+		game := MakeRope(Point{0, 1}, 2)
 		game.Right(1)
 
 		AssertPosition(t, game.Head, 1, 1)
@@ -169,7 +169,7 @@ func TestRopeBridge(t *testing.T) {
 	})
 
 	t.Run("tail does not move if head moves one step diagonally", func(t *testing.T) {
-		game := Rope{Head: Point{0, 1}}
+		game := MakeRope(Point{0, 1}, 2)
 		game.Left(1)
 
 		AssertPosition(t, game.Head, -1, 1)
@@ -178,7 +178,7 @@ func TestRopeBridge(t *testing.T) {
 
 	t.Run("will run example instructions", func(t *testing.T) {
 		input := helpers.ReadInput("./example.txt")
-		game := Rope{}
+		game := MakeRope(Point{0, 0}, 2)
 
 		for _, row := range input {
 			game.Move(row)

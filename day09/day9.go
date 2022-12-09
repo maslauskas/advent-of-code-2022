@@ -12,9 +12,22 @@ type Point struct {
 	PosY int
 }
 type Rope struct {
-	Head   Point
-	Tail   Point
-	Visits map[string]int
+	Head     Point
+	Tail     Point
+	Segments []Point
+	Visits   map[string]int
+}
+
+func MakeRope(head Point, tailSegments int) Rope {
+	segments := make([]Point, tailSegments)
+	segments[0] = head
+	return Rope{
+		// support old calculation
+		Head: head,
+		Tail: segments[len(segments)-1],
+		// new property
+		Segments: segments,
+	}
 }
 
 func (r *Rope) Up(dist int) {
@@ -107,10 +120,9 @@ func (r *Rope) Move(row string) {
 }
 
 func Part1(input []string) int {
-	game := Rope{
-		Visits: map[string]int{
-			"0:0": 1,
-		},
+	game := MakeRope(Point{0, 0}, 2)
+	game.Visits = map[string]int{
+		"0:0": 1,
 	}
 
 	for _, row := range input {
