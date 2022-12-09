@@ -7,8 +7,14 @@ func TestExample(t *testing.T) {
 		game := Rope{Point{0, 0}, Point{0, 0}}
 		game.Up()
 
-		if game.Tail.PosX != 0 || game.Tail.PosY != 0 {
-			t.Errorf("expected possition to be 0,0, got %d,%d", game.Tail.PosX, game.Tail.PosY)
-		}
+		AssertPosition(t, game.Tail, 0, 0)
 	})
+}
+
+func AssertPosition(t *testing.T, p Point, x int, y int) {
+	t.Helper()
+
+	if p.PosX != x || p.PosY != y {
+		t.Errorf("expected possition to be %v, got {%d %d}", p, x, y)
+	}
 }
