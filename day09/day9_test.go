@@ -3,42 +3,42 @@ package day09
 import "testing"
 
 func TestExample(t *testing.T) {
-	t.Run("will not move tail if head is on top", func(t *testing.T) {
+	t.Run("will not move tail if head is on top and head moved by 1", func(t *testing.T) {
 		game := Rope{Point{0, 0}, Point{0, 0}}
-		game.Up()
+		game.Up(1)
 
 		AssertPosition(t, game.Tail, 0, 0)
 	})
 
 	t.Run("will move head up", func(t *testing.T) {
 		game := Rope{Point{0, 0}, Point{0, 0}}
-		game.Up()
+		game.Up(2)
 
-		AssertPosition(t, game.Head, 0, 1)
+		AssertPosition(t, game.Head, 0, 2)
 		AssertPosition(t, game.Tail, 0, 0)
 	})
 
 	t.Run("will move head down", func(t *testing.T) {
 		game := Rope{Point{0, 0}, Point{0, 0}}
-		game.Down()
+		game.Down(3)
 
-		AssertPosition(t, game.Head, 0, -1)
+		AssertPosition(t, game.Head, 0, -3)
 		AssertPosition(t, game.Tail, 0, 0)
 	})
 
 	t.Run("will move head right", func(t *testing.T) {
 		game := Rope{Point{0, 0}, Point{0, 0}}
-		game.Right()
+		game.Right(4)
 
-		AssertPosition(t, game.Head, 1, 0)
+		AssertPosition(t, game.Head, 4, 0)
 		AssertPosition(t, game.Tail, 0, 0)
 	})
 
 	t.Run("will move head left", func(t *testing.T) {
 		game := Rope{Point{0, 0}, Point{0, 0}}
-		game.Left()
+		game.Left(5)
 
-		AssertPosition(t, game.Head, -1, 0)
+		AssertPosition(t, game.Head, -5, 0)
 		AssertPosition(t, game.Tail, 0, 0)
 	})
 }

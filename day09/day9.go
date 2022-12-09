@@ -9,18 +9,18 @@ type Rope struct {
 	Tail Point
 }
 
-func (r *Rope) Up() {
-	r.Head.PosY += 1
+func (r *Rope) Up(dist int) {
+	r.Head.PosY += dist
 }
 
-func (r *Rope) Down() {
-	r.Head.PosY -= 1
+func (r *Rope) Down(dist int) {
+	r.Head.PosY -= dist
 }
 
-func (r *Rope) Right() {
-	r.Head.PosX += 1
+func (r *Rope) Right(dist int) {
+	r.Head.PosX += dist
 }
 
-func (r *Rope) Left() {
-	r.Head.PosX -= 1
+func (r *Rope) Left(dist int) {
+	r.Head.PosX -= dist
 }
