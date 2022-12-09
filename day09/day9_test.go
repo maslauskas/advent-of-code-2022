@@ -17,7 +17,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{0, 0}, 2)
 		game.MoveOnce("U")
 
-		AssertPosition(t, game.Head, 0, 1)
+		AssertPosition(t, game.GetHead(), 0, 1)
 		AssertPosition(t, game.GetTail(), 0, 0)
 	})
 
@@ -25,7 +25,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{0, 0}, 2)
 		game.MoveOnce("D")
 
-		AssertPosition(t, game.Head, 0, -1)
+		AssertPosition(t, game.GetHead(), 0, -1)
 		AssertPosition(t, game.GetTail(), 0, 0)
 	})
 
@@ -33,7 +33,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{0, 0}, 2)
 		game.MoveOnce("R")
 
-		AssertPosition(t, game.Head, 1, 0)
+		AssertPosition(t, game.GetHead(), 1, 0)
 		AssertPosition(t, game.GetTail(), 0, 0)
 	})
 
@@ -41,7 +41,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{0, 0}, 2)
 		game.MoveOnce("L")
 
-		AssertPosition(t, game.Head, -1, 0)
+		AssertPosition(t, game.GetHead(), -1, 0)
 		AssertPosition(t, game.GetTail(), 0, 0)
 	})
 
@@ -49,7 +49,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{0, 0}, 2)
 		game.Move("U 5")
 
-		AssertPosition(t, game.Head, 0, 5)
+		AssertPosition(t, game.GetHead(), 0, 5)
 		AssertPosition(t, game.GetTail(), 0, 4)
 	})
 
@@ -57,7 +57,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{0, 0}, 2)
 		game.Move("D 5")
 
-		AssertPosition(t, game.Head, 0, -5)
+		AssertPosition(t, game.GetHead(), 0, -5)
 		AssertPosition(t, game.GetTail(), 0, -4)
 	})
 
@@ -65,7 +65,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{0, 0}, 2)
 		game.Move("R 5")
 
-		AssertPosition(t, game.Head, 5, 0)
+		AssertPosition(t, game.GetHead(), 5, 0)
 		AssertPosition(t, game.GetTail(), 4, 0)
 	})
 
@@ -73,7 +73,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{0, 0}, 2)
 		game.Move("L 5")
 
-		AssertPosition(t, game.Head, -5, 0)
+		AssertPosition(t, game.GetHead(), -5, 0)
 		AssertPosition(t, game.GetTail(), -4, 0)
 	})
 
@@ -82,7 +82,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{1, 0}, 2)
 		game.Move("U 3")
 
-		AssertPosition(t, game.Head, 1, 3)
+		AssertPosition(t, game.GetHead(), 1, 3)
 		AssertPosition(t, game.GetTail(), 1, 2)
 	})
 
@@ -90,7 +90,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{1, 0}, 2)
 		game.Move("D 3")
 
-		AssertPosition(t, game.Head, 1, -3)
+		AssertPosition(t, game.GetHead(), 1, -3)
 		AssertPosition(t, game.GetTail(), 1, -2)
 	})
 
@@ -98,7 +98,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{0, 1}, 2)
 		game.Move("R 3")
 
-		AssertPosition(t, game.Head, 3, 1)
+		AssertPosition(t, game.GetHead(), 3, 1)
 		AssertPosition(t, game.GetTail(), 2, 1)
 	})
 
@@ -106,7 +106,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{0, 1}, 2)
 		game.Move("L 3")
 
-		AssertPosition(t, game.Head, -3, 1)
+		AssertPosition(t, game.GetHead(), -3, 1)
 		AssertPosition(t, game.GetTail(), -2, 1)
 	})
 
@@ -115,7 +115,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{0, -1}, 2)
 		game.MoveOnce("U")
 
-		AssertPosition(t, game.Head, 0, 0)
+		AssertPosition(t, game.GetHead(), 0, 0)
 		AssertPosition(t, game.GetTail(), 0, 0)
 	})
 
@@ -123,7 +123,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{0, 1}, 2)
 		game.MoveOnce("D")
 
-		AssertPosition(t, game.Head, 0, 0)
+		AssertPosition(t, game.GetHead(), 0, 0)
 		AssertPosition(t, game.GetTail(), 0, 0)
 	})
 
@@ -131,7 +131,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{-1, 0}, 2)
 		game.MoveOnce("R")
 
-		AssertPosition(t, game.Head, 0, 0)
+		AssertPosition(t, game.GetHead(), 0, 0)
 		AssertPosition(t, game.GetTail(), 0, 0)
 	})
 
@@ -139,7 +139,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{1, 0}, 2)
 		game.MoveOnce("L")
 
-		AssertPosition(t, game.Head, 0, 0)
+		AssertPosition(t, game.GetHead(), 0, 0)
 		AssertPosition(t, game.GetTail(), 0, 0)
 	})
 
@@ -148,7 +148,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{1, 0}, 2)
 		game.MoveOnce("U")
 
-		AssertPosition(t, game.Head, 1, 1)
+		AssertPosition(t, game.GetHead(), 1, 1)
 		AssertPosition(t, game.GetTail(), 0, 0)
 	})
 
@@ -156,7 +156,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{1, 0}, 2)
 		game.MoveOnce("D")
 
-		AssertPosition(t, game.Head, 1, -1)
+		AssertPosition(t, game.GetHead(), 1, -1)
 		AssertPosition(t, game.GetTail(), 0, 0)
 	})
 
@@ -164,7 +164,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{0, 1}, 2)
 		game.MoveOnce("R")
 
-		AssertPosition(t, game.Head, 1, 1)
+		AssertPosition(t, game.GetHead(), 1, 1)
 		AssertPosition(t, game.GetTail(), 0, 0)
 	})
 
@@ -172,7 +172,7 @@ func TestRopeBridge(t *testing.T) {
 		game := MakeRope(Point{0, 1}, 2)
 		game.MoveOnce("L")
 
-		AssertPosition(t, game.Head, -1, 1)
+		AssertPosition(t, game.GetHead(), -1, 1)
 		AssertPosition(t, game.GetTail(), 0, 0)
 	})
 
@@ -184,7 +184,7 @@ func TestRopeBridge(t *testing.T) {
 			game.Move(row)
 		}
 
-		AssertPosition(t, game.Head, 2, 2)
+		AssertPosition(t, game.GetHead(), 2, 2)
 		AssertPosition(t, game.GetTail(), 1, 2)
 	})
 

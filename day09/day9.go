@@ -12,7 +12,6 @@ type Point struct {
 	PosY int
 }
 type Rope struct {
-	Head     Point
 	Segments []Point
 	Visits   map[string]int
 }
@@ -21,9 +20,6 @@ func MakeRope(head Point, tailSegments int) Rope {
 	segments := make([]Point, tailSegments)
 	segments[0] = head
 	return Rope{
-		// support old calculation
-		Head: head,
-		// new property
 		Segments: segments,
 	}
 }
@@ -41,7 +37,8 @@ func (r *Rope) Move(row string) {
 func (r *Rope) MoveOnce(direction string) {
 	var moveX, moveY int
 	var head *Point
-	head = &r.Head
+	head = &r.Segments[0]
+
 	switch direction {
 	case "R":
 		head.PosX += 1
@@ -61,10 +58,10 @@ func (r *Rope) MoveOnce(direction string) {
 		moveY = 1
 	}
 
-	r.MoveSegment(moveY, moveX, &r.Segments[len(r.Segments)-1], r.Head)
+	r.MoveSegment(moveY, moveX, &r.Segments[len(r.Segments)-1], head)
 }
 
-func (r *Rope) MoveSegment(moveY int, moveX int, tail *Point, head Point) {
+func (r *Rope) MoveSegment(moveY int, moveX int, tail *Point, head *Point) {
 	diffX := math.Abs(float64(tail.PosX - head.PosX))
 	diffY := math.Abs(float64(tail.PosY - head.PosY))
 
@@ -82,6 +79,10 @@ func (r *Rope) LogTailVisit() {
 		r.Visits = map[string]int{}
 	}
 	r.Visits[key] = 1
+}
+
+func (r *Rope) GetHead() Point {
+	return r.Segments[0]
 }
 
 func (r *Rope) GetTail() Point {
