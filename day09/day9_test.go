@@ -2,7 +2,7 @@ package day09
 
 import "testing"
 
-func TestExample(t *testing.T) {
+func TestRopeBridge(t *testing.T) {
 	t.Run("will not move tail if head is on top and head moved by 1", func(t *testing.T) {
 		game := Rope{Point{0, 0}, Point{0, 0}}
 		game.Up(1)
@@ -66,19 +66,55 @@ func TestExample(t *testing.T) {
 		AssertPosition(t, game.Tail, 4, 0)
 	})
 
-	t.Run("tail will catch up when moved straight right", func(t *testing.T) {
+	t.Run("tail will catch up when moved straight left", func(t *testing.T) {
 		game := Rope{Point{0, 0}, Point{0, 0}}
 		game.Left(5)
 
 		AssertPosition(t, game.Head, -5, 0)
 		AssertPosition(t, game.Tail, -4, 0)
 	})
+
+	// tail moves diagonally in all directions
+	t.Run("tail will catch up when head is positioned diagonally and moved up", func(t *testing.T) {
+		game := Rope{Point{1, 0}, Point{0, 0}}
+		game.Up(3)
+
+		AssertPosition(t, game.Head, 1, 3)
+		AssertPosition(t, game.Tail, 1, 2)
+	})
+
+	t.Run("tail will catch up when head is positioned diagonally and moved down", func(t *testing.T) {
+		game := Rope{Point{1, 0}, Point{0, 0}}
+		game.Down(3)
+
+		AssertPosition(t, game.Head, 1, -3)
+		AssertPosition(t, game.Tail, 1, -2)
+	})
+
+	t.Run("tail will catch up when head is positioned diagonally and moved right", func(t *testing.T) {
+		game := Rope{Point{0, 1}, Point{0, 0}}
+		game.Right(3)
+
+		AssertPosition(t, game.Head, 3, 1)
+		AssertPosition(t, game.Tail, 2, 1)
+	})
+
+	t.Run("tail will catch up when head is positioned diagonally and moved left", func(t *testing.T) {
+		game := Rope{Point{0, 1}, Point{0, 0}}
+		game.Left(3)
+
+		AssertPosition(t, game.Head, -3, 1)
+		AssertPosition(t, game.Tail, -2, 1)
+	})
+
+	// tail does not move when head moves on top of tail;
+	// tail does not move when head moves diagonally one step;
 }
 
 func AssertPosition(t *testing.T, p Point, x int, y int) {
 	t.Helper()
 
 	if p.PosX != x || p.PosY != y {
-		t.Errorf("expected possition to be %v, got {%d %d}", p, x, y)
+		t.Errorf("expected possition to be {%d %d}, got %v", x, y, p)
 	}
 }
