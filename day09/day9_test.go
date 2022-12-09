@@ -241,6 +241,26 @@ func TestRopeBridge(t *testing.T) {
 		game.Move("L 8")
 		AssertPosition(t, game.GetHead(), -3, 8)
 		AssertPosition(t, game.GetTail(), 1, 3)
+
+		game.Move("D 3")
+		AssertPosition(t, game.GetHead(), -3, 5)
+		AssertPosition(t, game.GetTail(), 1, 3)
+
+		game.Move("R 17")
+		AssertPosition(t, game.GetHead(), 14, 5)
+		AssertPosition(t, game.GetTail(), 5, 5)
+
+		game.Move("D 10")
+		AssertPosition(t, game.GetHead(), 14, -5)
+		AssertPosition(t, game.GetTail(), 10, 0)
+
+		game.Move("L 25")
+		AssertPosition(t, game.GetHead(), -11, -5)
+		AssertPosition(t, game.GetTail(), -2, -5)
+
+		game.Move("U 20")
+		AssertPosition(t, game.GetHead(), -11, 15)
+		AssertPosition(t, game.GetTail(), -11, 6)
 	})
 }
 

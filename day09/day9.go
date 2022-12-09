@@ -25,7 +25,9 @@ func (tail *Point) CatchUp(head Point) {
 		} else {
 			tail.PosY--
 		}
-	} else if deltaX == 2 {
+	}
+
+	if deltaX == 2 {
 		if deltaY == 1 {
 			tail.PosY = head.PosY
 		}
