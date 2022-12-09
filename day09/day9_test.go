@@ -1,6 +1,9 @@
 package day09
 
-import "testing"
+import (
+	"adventofcode/helpers"
+	"testing"
+)
 
 func TestRopeBridge(t *testing.T) {
 	t.Run("will not move tail if head is on top and head moved by 1", func(t *testing.T) {
@@ -171,6 +174,18 @@ func TestRopeBridge(t *testing.T) {
 
 		AssertPosition(t, game.Head, -1, 1)
 		AssertPosition(t, game.Tail, 0, 0)
+	})
+
+	t.Run("will run example instructions", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		game := Rope{}
+
+		for _, row := range input {
+			game.Move(row)
+		}
+
+		AssertPosition(t, game.Head, 2, 2)
+		AssertPosition(t, game.Tail, 1, 2)
 	})
 }
 

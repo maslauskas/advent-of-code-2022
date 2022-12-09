@@ -1,6 +1,10 @@
 package day09
 
-import "math"
+import (
+	"math"
+	"strconv"
+	"strings"
+)
 
 type Point struct {
 	PosX int
@@ -55,5 +59,22 @@ func (r *Rope) Left(dist int) {
 	if diffY+diffX > 2 {
 		r.Tail.PosY = r.Head.PosY
 		r.Tail.PosX = r.Head.PosX + 1
+	}
+}
+
+func (r *Rope) Move(row string) {
+	parts := strings.Split(row, " ")
+	direction := parts[0]
+	dist, _ := strconv.Atoi(parts[1])
+
+	switch direction {
+	case "R":
+		r.Right(dist)
+	case "L":
+		r.Left(dist)
+	case "U":
+		r.Up(dist)
+	case "D":
+		r.Down(dist)
 	}
 }
