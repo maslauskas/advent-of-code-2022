@@ -46,23 +46,37 @@ func TestRopeBridge(t *testing.T) {
 		}
 	})
 
-	t.Run("will move the tail when moving diagonally", func(t *testing.T) {
-		dataset := map[string]Point{
-			"U 3": {1, 2},
-			"D 3": {1, -2},
-			"R 3": {2, 1},
-			"L 3": {-2, 1},
-		}
+	// tail moves diagonally in all directions
+	t.Run("tail will catch up when head is positioned diagonally and moved up", func(t *testing.T) {
+		game := MakeRope(Point{1, 0}, 2)
+		game.Move("U 3")
 
-		for set, point := range dataset {
-			game := MakeRope(Point{1, 0}, 2)
-			game.Move(set)
+		AssertPosition(t, game.GetHead(), 1, 3)
+		AssertPosition(t, game.GetTail(), 1, 2)
+	})
 
-			tail := game.GetTail()
-			if tail != point {
-				t.Errorf("set %q: expected possition to be %v, got %v", set, point, tail)
-			}
-		}
+	t.Run("tail will catch up when head is positioned diagonally and moved down", func(t *testing.T) {
+		game := MakeRope(Point{1, 0}, 2)
+		game.Move("D 3")
+
+		AssertPosition(t, game.GetHead(), 1, -3)
+		AssertPosition(t, game.GetTail(), 1, -2)
+	})
+
+	t.Run("tail will catch up when head is positioned diagonally and moved right", func(t *testing.T) {
+		game := MakeRope(Point{0, 1}, 2)
+		game.Move("R 3")
+
+		AssertPosition(t, game.GetHead(), 3, 1)
+		AssertPosition(t, game.GetTail(), 2, 1)
+	})
+
+	t.Run("tail will catch up when head is positioned diagonally and moved left", func(t *testing.T) {
+		game := MakeRope(Point{0, 1}, 2)
+		game.Move("L 3")
+
+		AssertPosition(t, game.GetHead(), -3, 1)
+		AssertPosition(t, game.GetTail(), -2, 1)
 	})
 
 	// tail does not move when head moves on top of tail;
