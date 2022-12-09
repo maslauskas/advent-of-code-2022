@@ -31,73 +31,19 @@ func MakeRope(head Point, tailSegments int) Rope {
 }
 
 func (r *Rope) Up(dist int) {
-	r.Head.PosY += dist
-	diffX := math.Abs(float64(r.Tail.PosX - r.Head.PosX))
-	diffY := math.Abs(float64(r.Tail.PosY - r.Head.PosY))
-
-	if diffY > 1 || diffX > 1 {
-		r.Tail.PosX = r.Head.PosX
-		r.Tail.PosY = r.Head.PosY - 1
-
-		key := fmt.Sprintf("%d:%d", r.Tail.PosY, r.Tail.PosX)
-		if nil == r.Visits {
-			r.Visits = map[string]int{}
-		}
-		r.Visits[key] = 1
-	}
-
+	r.Move(fmt.Sprintf("U %d", dist))
 }
 
 func (r *Rope) Down(dist int) {
-	r.Head.PosY -= dist
-	diffX := math.Abs(float64(r.Tail.PosX - r.Head.PosX))
-	diffY := math.Abs(float64(r.Tail.PosY - r.Head.PosY))
-
-	if diffY > 1 || diffX > 1 {
-		r.Tail.PosX = r.Head.PosX
-		r.Tail.PosY = r.Head.PosY + 1
-
-		key := fmt.Sprintf("%d:%d", r.Tail.PosY, r.Tail.PosX)
-		if nil == r.Visits {
-			r.Visits = map[string]int{}
-		}
-		r.Visits[key] = 1
-	}
+	r.Move(fmt.Sprintf("D %d", dist))
 }
 
 func (r *Rope) Right(dist int) {
-	r.Head.PosX += dist
-
-	diffX := math.Abs(float64(r.Tail.PosX - r.Head.PosX))
-	diffY := math.Abs(float64(r.Tail.PosY - r.Head.PosY))
-
-	if diffY > 1 || diffX > 1 {
-		r.Tail.PosY = r.Head.PosY
-		r.Tail.PosX = r.Head.PosX - 1
-
-		key := fmt.Sprintf("%d:%d", r.Tail.PosY, r.Tail.PosX)
-		if nil == r.Visits {
-			r.Visits = map[string]int{}
-		}
-		r.Visits[key] = 1
-	}
+	r.Move(fmt.Sprintf("R %d", dist))
 }
 
 func (r *Rope) Left(dist int) {
-	r.Head.PosX -= dist
-
-	diffX := math.Abs(float64(r.Tail.PosX - r.Head.PosX))
-	diffY := math.Abs(float64(r.Tail.PosY - r.Head.PosY))
-
-	if diffY > 1 || diffX > 1 {
-		r.Tail.PosY = r.Head.PosY
-		r.Tail.PosX = r.Head.PosX + 1
-		key := fmt.Sprintf("%d:%d", r.Tail.PosY, r.Tail.PosX)
-		if nil == r.Visits {
-			r.Visits = map[string]int{}
-		}
-		r.Visits[key] = 1
-	}
+	r.Move(fmt.Sprintf("L %d", dist))
 }
 
 func (r *Rope) Move(row string) {
@@ -106,17 +52,67 @@ func (r *Rope) Move(row string) {
 	dist, _ := strconv.Atoi(parts[1])
 
 	for i := dist; i > 0; i-- {
-		switch direction {
-		case "R":
-			r.Right(1)
-		case "L":
-			r.Left(1)
-		case "U":
-			r.Up(1)
-		case "D":
-			r.Down(1)
+		r.MoveOnce(direction)
+	}
+}
+
+func (r *Rope) MoveOnce(direction string) {
+	switch direction {
+	case "R":
+		r.Head.PosX += 1
+
+		diffX := math.Abs(float64(r.Tail.PosX - r.Head.PosX))
+		diffY := math.Abs(float64(r.Tail.PosY - r.Head.PosY))
+
+		if diffY > 1 || diffX > 1 {
+			r.Tail.PosY = r.Head.PosY
+			r.Tail.PosX = r.Head.PosX - 1
+
+			r.LogTailVisit()
+		}
+	case "L":
+		r.Head.PosX -= 1
+
+		diffX := math.Abs(float64(r.Tail.PosX - r.Head.PosX))
+		diffY := math.Abs(float64(r.Tail.PosY - r.Head.PosY))
+
+		if diffY > 1 || diffX > 1 {
+			r.Tail.PosY = r.Head.PosY
+			r.Tail.PosX = r.Head.PosX + 1
+
+			r.LogTailVisit()
+		}
+	case "U":
+		r.Head.PosY += 1
+		diffX := math.Abs(float64(r.Tail.PosX - r.Head.PosX))
+		diffY := math.Abs(float64(r.Tail.PosY - r.Head.PosY))
+
+		if diffY > 1 || diffX > 1 {
+			r.Tail.PosX = r.Head.PosX
+			r.Tail.PosY = r.Head.PosY - 1
+
+			r.LogTailVisit()
+		}
+	case "D":
+		r.Head.PosY -= 1
+		diffX := math.Abs(float64(r.Tail.PosX - r.Head.PosX))
+		diffY := math.Abs(float64(r.Tail.PosY - r.Head.PosY))
+
+		if diffY > 1 || diffX > 1 {
+			r.Tail.PosX = r.Head.PosX
+			r.Tail.PosY = r.Head.PosY + 1
+
+			r.LogTailVisit()
 		}
 	}
+}
+
+func (r *Rope) LogTailVisit() {
+	key := fmt.Sprintf("%d:%d", r.Tail.PosY, r.Tail.PosX)
+	if nil == r.Visits {
+		r.Visits = map[string]int{}
+	}
+	r.Visits[key] = 1
 }
 
 func Part1(input []string) int {
