@@ -60,47 +60,57 @@ func (r *Rope) MoveOnce(direction string) {
 	switch direction {
 	case "R":
 		r.Head.PosX += 1
+		moveX := -1
+		moveY := 0
 
 		diffX := math.Abs(float64(r.Tail.PosX - r.Head.PosX))
 		diffY := math.Abs(float64(r.Tail.PosY - r.Head.PosY))
 
 		if diffY > 1 || diffX > 1 {
-			r.Tail.PosY = r.Head.PosY
-			r.Tail.PosX = r.Head.PosX - 1
+			r.Tail.PosY = r.Head.PosY + moveY
+			r.Tail.PosX = r.Head.PosX + moveX
 
 			r.LogTailVisit()
 		}
 	case "L":
 		r.Head.PosX -= 1
+		moveX := 1
+		moveY := 0
 
 		diffX := math.Abs(float64(r.Tail.PosX - r.Head.PosX))
 		diffY := math.Abs(float64(r.Tail.PosY - r.Head.PosY))
 
 		if diffY > 1 || diffX > 1 {
-			r.Tail.PosY = r.Head.PosY
-			r.Tail.PosX = r.Head.PosX + 1
+			r.Tail.PosY = r.Head.PosY + moveY
+			r.Tail.PosX = r.Head.PosX + moveX
 
 			r.LogTailVisit()
 		}
 	case "U":
 		r.Head.PosY += 1
+		moveX := 0
+		moveY := -1
+
 		diffX := math.Abs(float64(r.Tail.PosX - r.Head.PosX))
 		diffY := math.Abs(float64(r.Tail.PosY - r.Head.PosY))
 
 		if diffY > 1 || diffX > 1 {
-			r.Tail.PosX = r.Head.PosX
-			r.Tail.PosY = r.Head.PosY - 1
+			r.Tail.PosX = r.Head.PosX + moveX
+			r.Tail.PosY = r.Head.PosY + moveY
 
 			r.LogTailVisit()
 		}
 	case "D":
 		r.Head.PosY -= 1
+		moveX := 0
+		moveY := 1
+
 		diffX := math.Abs(float64(r.Tail.PosX - r.Head.PosX))
 		diffY := math.Abs(float64(r.Tail.PosY - r.Head.PosY))
 
 		if diffY > 1 || diffX > 1 {
-			r.Tail.PosX = r.Head.PosX
-			r.Tail.PosY = r.Head.PosY + 1
+			r.Tail.PosX = r.Head.PosX + moveX
+			r.Tail.PosY = r.Head.PosY + moveY
 
 			r.LogTailVisit()
 		}
