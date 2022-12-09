@@ -11,6 +11,32 @@ type Point struct {
 	PosX int
 	PosY int
 }
+
+func (tail *Point) CatchUp(head Point) {
+	deltaY := math.Abs(float64(tail.PosY - head.PosY))
+	deltaX := math.Abs(float64(tail.PosX - head.PosX))
+
+	if deltaY == 2 {
+		if deltaX == 1 {
+			tail.PosX = head.PosX
+		}
+		if head.PosY > tail.PosY {
+			tail.PosY++
+		} else {
+			tail.PosY--
+		}
+	} else if deltaX == 2 {
+		if deltaY == 1 {
+			tail.PosY = head.PosY
+		}
+		if head.PosX > tail.PosX {
+			tail.PosX++
+		} else {
+			tail.PosX--
+		}
+	}
+}
+
 type Rope struct {
 	Segments []Point
 	Visits   map[string]int

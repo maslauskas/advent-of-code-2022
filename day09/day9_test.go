@@ -198,6 +198,35 @@ func TestRopeBridge(t *testing.T) {
 		}
 	})
 
+	t.Run("segment will catch up to its head", func(t *testing.T) {
+		dataset := map[string][2]Point{
+			"move up by 1":               {Point{0, 1}, Point{0, 0}},
+			"move down by 1":             {Point{0, -1}, Point{0, 0}},
+			"move right by 1":            {Point{1, 0}, Point{0, 0}},
+			"move left by 1":             {Point{-1, 0}, Point{0, 0}},
+			"move up by 2":               {Point{0, 2}, Point{0, 1}},
+			"move right by 2":            {Point{2, 0}, Point{1, 0}},
+			"move down by 2":             {Point{0, -2}, Point{0, -1}},
+			"move left by 2":             {Point{-2, 0}, Point{-1, 0}},
+			"move diagonally up by 1":    {Point{1, 2}, Point{1, 1}},
+			"move diagonally right by 1": {Point{2, -1}, Point{1, -1}},
+			"move diagonally down by 1":  {Point{-1, -2}, Point{-1, -1}},
+			"move diagonally left by 1":  {Point{-2, 1}, Point{-1, 1}},
+		}
+
+		for set, points := range dataset {
+			head := points[0]
+			want := points[1]
+			tail := Point{0, 0}
+
+			tail.CatchUp(head)
+
+			if tail != want {
+				t.Errorf("set %q: expected possition to be %v, got %v", set, want, tail)
+			}
+		}
+	})
+
 	t.Run("part 2 example case step by step", func(t *testing.T) {
 		game := MakeRope(Point{0, 0}, 10)
 
