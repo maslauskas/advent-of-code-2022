@@ -41,6 +41,38 @@ func TestExample(t *testing.T) {
 		AssertPosition(t, game.Head, -1, 0)
 		AssertPosition(t, game.Tail, 0, 0)
 	})
+
+	t.Run("tail will catch up when moved straight up", func(t *testing.T) {
+		game := Rope{Point{0, 0}, Point{0, 0}}
+		game.Up(5)
+
+		AssertPosition(t, game.Head, 0, 5)
+		AssertPosition(t, game.Tail, 0, 4)
+	})
+
+	t.Run("tail will catch up when moved straight down", func(t *testing.T) {
+		game := Rope{Point{0, 0}, Point{0, 0}}
+		game.Down(5)
+
+		AssertPosition(t, game.Head, 0, -5)
+		AssertPosition(t, game.Tail, 0, -4)
+	})
+
+	t.Run("tail will catch up when moved straight right", func(t *testing.T) {
+		game := Rope{Point{0, 0}, Point{0, 0}}
+		game.Right(5)
+
+		AssertPosition(t, game.Head, 5, 0)
+		AssertPosition(t, game.Tail, 4, 0)
+	})
+
+	t.Run("tail will catch up when moved straight right", func(t *testing.T) {
+		game := Rope{Point{0, 0}, Point{0, 0}}
+		game.Left(5)
+
+		AssertPosition(t, game.Head, -5, 0)
+		AssertPosition(t, game.Tail, -4, 0)
+	})
 }
 
 func AssertPosition(t *testing.T, p Point, x int, y int) {
