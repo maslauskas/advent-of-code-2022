@@ -30,10 +30,6 @@ func MakeRope(head Point, tailSegments int) Rope {
 	}
 }
 
-func (r *Rope) Left(dist int) {
-	r.Move(fmt.Sprintf("L %d", dist))
-}
-
 func (r *Rope) Move(row string) {
 	parts := strings.Split(row, " ")
 	direction := parts[0]
