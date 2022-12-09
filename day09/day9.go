@@ -114,3 +114,16 @@ func Part1(input []string) int {
 
 	return len(game.Visits)
 }
+
+func Part2(input []string) int {
+	game := MakeRope(Point{0, 0}, 10)
+	game.Visits = map[string]int{
+		"0:0": 1,
+	}
+
+	for _, row := range input {
+		game.Move(row)
+	}
+
+	return len(game.Visits)
+}

@@ -261,6 +261,17 @@ func TestRopeBridge(t *testing.T) {
 		game.Move("U 20")
 		AssertPosition(t, game.GetHead(), -11, 15)
 		AssertPosition(t, game.GetTail(), -11, 6)
+
+	})
+
+	t.Run("part 2 example case", func(t *testing.T) {
+		input := helpers.ReadInput("./example2.txt")
+		got := Part2(input)
+
+		want := 36
+		if got != want {
+			t.Errorf("expected result to be %d, got %d", want, got)
+		}
 	})
 }
 
