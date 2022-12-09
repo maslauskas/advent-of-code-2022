@@ -47,66 +47,54 @@ func (r *Rope) MoveOnce(direction string) {
 		moveX := -1
 		moveY := 0
 
-		diffX := math.Abs(float64(r.Tail.PosX - r.Head.PosX))
-		diffY := math.Abs(float64(r.Tail.PosY - r.Head.PosY))
-
-		if diffY > 1 || diffX > 1 {
-			r.Tail.PosY = r.Head.PosY + moveY
-			r.Tail.PosX = r.Head.PosX + moveX
-
-			r.LogTailVisit()
-		}
+		r.MoveSegment(moveY, moveX, &r.Tail, r.Head)
+		r.MoveSegment(moveY, moveX, &r.Segments[len(r.Segments)-1], r.Head)
 	case "L":
 		r.Head.PosX -= 1
 		moveX := 1
 		moveY := 0
 
-		diffX := math.Abs(float64(r.Tail.PosX - r.Head.PosX))
-		diffY := math.Abs(float64(r.Tail.PosY - r.Head.PosY))
-
-		if diffY > 1 || diffX > 1 {
-			r.Tail.PosY = r.Head.PosY + moveY
-			r.Tail.PosX = r.Head.PosX + moveX
-
-			r.LogTailVisit()
-		}
+		r.MoveSegment(moveY, moveX, &r.Tail, r.Head)
+		r.MoveSegment(moveY, moveX, &r.Segments[len(r.Segments)-1], r.Head)
 	case "U":
 		r.Head.PosY += 1
 		moveX := 0
 		moveY := -1
 
-		diffX := math.Abs(float64(r.Tail.PosX - r.Head.PosX))
-		diffY := math.Abs(float64(r.Tail.PosY - r.Head.PosY))
-
-		if diffY > 1 || diffX > 1 {
-			r.Tail.PosX = r.Head.PosX + moveX
-			r.Tail.PosY = r.Head.PosY + moveY
-
-			r.LogTailVisit()
-		}
+		r.MoveSegment(moveY, moveX, &r.Tail, r.Head)
+		r.MoveSegment(moveY, moveX, &r.Segments[len(r.Segments)-1], r.Head)
 	case "D":
 		r.Head.PosY -= 1
 		moveX := 0
 		moveY := 1
 
-		diffX := math.Abs(float64(r.Tail.PosX - r.Head.PosX))
-		diffY := math.Abs(float64(r.Tail.PosY - r.Head.PosY))
+		r.MoveSegment(moveY, moveX, &r.Tail, r.Head)
+		r.MoveSegment(moveY, moveX, &r.Segments[len(r.Segments)-1], r.Head)
+	}
+}
 
-		if diffY > 1 || diffX > 1 {
-			r.Tail.PosX = r.Head.PosX + moveX
-			r.Tail.PosY = r.Head.PosY + moveY
+func (r *Rope) MoveSegment(moveY int, moveX int, tail *Point, head Point) {
+	diffX := math.Abs(float64(tail.PosX - head.PosX))
+	diffY := math.Abs(float64(tail.PosY - head.PosY))
 
-			r.LogTailVisit()
-		}
+	if diffY > 1 || diffX > 1 {
+		tail.PosY = head.PosY + moveY
+		tail.PosX = head.PosX + moveX
+
+		r.LogTailVisit()
 	}
 }
 
 func (r *Rope) LogTailVisit() {
-	key := fmt.Sprintf("%d:%d", r.Tail.PosY, r.Tail.PosX)
+	key := fmt.Sprintf("%d:%d", r.GetTail().PosY, r.GetTail().PosX)
 	if nil == r.Visits {
 		r.Visits = map[string]int{}
 	}
 	r.Visits[key] = 1
+}
+
+func (r *Rope) GetTail() Point {
+	return r.Segments[len(r.Segments)-1]
 }
 
 func Part1(input []string) int {
