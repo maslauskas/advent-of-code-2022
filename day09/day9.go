@@ -103,8 +103,6 @@ func (r *Rope) Move(row string) {
 		case "D":
 			r.Down(1)
 		}
-
-		fmt.Println(row, r.Tail)
 	}
 }
 
