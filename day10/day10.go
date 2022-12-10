@@ -19,9 +19,9 @@ func (t *Tube) RunInstruction(instr string) {
 	case "noop":
 		break // do nothing
 	case "addx":
+		t.IncrementCycle()
 		val, _ := strconv.Atoi(split[1])
 		t.RegisterValue += val
-		t.IncrementCycle()
 	default:
 		panic("unrecognised instructions")
 	}
@@ -39,4 +39,14 @@ func MakeTube() Tube {
 	return Tube{
 		RegisterValue: 1,
 	}
+}
+
+func Part1(input []string) int {
+	tube := MakeTube()
+
+	for _, instr := range input {
+		tube.RunInstruction(instr)
+	}
+
+	return tube.SignalStrength
 }
