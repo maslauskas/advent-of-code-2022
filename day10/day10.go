@@ -1,6 +1,9 @@
 package day10
 
-import "strings"
+import (
+	"strconv"
+	"strings"
+)
 
 type Tube struct {
 	Cycle         int
@@ -16,6 +19,8 @@ func (t *Tube) RunInstruction(instr string) {
 		break // do nothing
 	case "addx":
 		t.Cycle++
+		val, _ := strconv.Atoi(split[1])
+		t.RegisterValue += val
 	default:
 		panic("unrecognised instructions")
 	}

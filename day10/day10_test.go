@@ -5,8 +5,9 @@ import "testing"
 func TestProgram(t *testing.T) {
 	t.Run("will run instructions", func(t *testing.T) {
 		dataset := map[string][2]int{
-			"noop":   {1, 1},
-			"addx 1": {2, 1},
+			"noop":    {1, 1},
+			"addx 1":  {2, 2},
+			"addx -5": {2, -4},
 		}
 
 		for instr, wants := range dataset {
@@ -26,7 +27,7 @@ func AssertRegisterValue(t *testing.T, tube Tube, want int, set string) {
 	got := tube.RegisterValue
 
 	if want != got {
-		t.Errorf("%q: expected cycle to be %d, got %d", set, want, got)
+		t.Errorf("%q: expected register value to be %d, got %d", set, want, got)
 	}
 }
 
