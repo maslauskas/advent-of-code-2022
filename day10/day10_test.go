@@ -73,6 +73,23 @@ func TestSignalStrength(t *testing.T) {
 	})
 }
 
+func TestCrt(t *testing.T) {
+	t.Run("will draw pixel at the start of first cycle", func(t *testing.T) {
+		tube := MakeTube()
+		tube.IncrementCycle()
+
+		AssertPixelVisible(t, tube, 0, 0)
+	})
+}
+
+func AssertPixelVisible(t *testing.T, tube Tube, x int, y int) {
+	pixel := tube.GetPixel(x, y)
+
+	if pixel != "#" {
+		t.Errorf("expected pixel to be visible at {%d %d}", x, y)
+	}
+}
+
 func AssertSignalStrength(t *testing.T, tube Tube, want int) {
 	t.Helper()
 	got := tube.SignalStrength

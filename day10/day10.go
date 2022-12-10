@@ -35,6 +35,10 @@ func (t *Tube) IncrementCycle() {
 	}
 }
 
+func (t *Tube) GetPixel(x int, y int) string {
+	return "#"
+}
+
 func MakeTube() Tube {
 	return Tube{
 		RegisterValue: 1,
