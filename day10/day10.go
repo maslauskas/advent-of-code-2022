@@ -6,8 +6,9 @@ import (
 )
 
 type Tube struct {
-	Cycle         int
-	RegisterValue int
+	Cycle          int
+	RegisterValue  int
+	SignalStrength int
 }
 
 func (t *Tube) RunInstruction(instr string) {
@@ -26,7 +27,7 @@ func (t *Tube) RunInstruction(instr string) {
 	}
 }
 
-func CreateTube() Tube {
+func MakeTube() Tube {
 	return Tube{
 		RegisterValue: 1,
 	}
