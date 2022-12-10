@@ -80,6 +80,25 @@ func TestCrt(t *testing.T) {
 
 		AssertPixelVisible(t, tube, 0, 0)
 	})
+
+	t.Run("will draw pixels after first instruction", func(t *testing.T) {
+		tube := MakeTube()
+		tube.RunInstruction("addx 15")
+
+		AssertPixelVisible(t, tube, 0, 0)
+		AssertPixelVisible(t, tube, 1, 0)
+	})
+
+	t.Run("will draw pixels after first two instructions", func(t *testing.T) {
+		tube := MakeTube()
+		tube.RunInstruction("addx 15")
+		tube.RunInstruction("addx -11")
+
+		AssertPixelVisible(t, tube, 0, 0)
+		AssertPixelVisible(t, tube, 1, 0)
+		AssertPixelNotVisible(t, tube, 2, 0)
+		AssertPixelNotVisible(t, tube, 3, 0)
+	})
 }
 
 func AssertPixelVisible(t *testing.T, tube Tube, x int, y int) {
@@ -87,6 +106,14 @@ func AssertPixelVisible(t *testing.T, tube Tube, x int, y int) {
 
 	if pixel != "#" {
 		t.Errorf("expected pixel to be visible at {%d %d}", x, y)
+	}
+}
+
+func AssertPixelNotVisible(t *testing.T, tube Tube, x int, y int) {
+	pixel := tube.GetPixel(x, y)
+
+	if pixel != "." {
+		t.Errorf("expected pixel to be not visible at {%d %d}", x, y)
 	}
 }
 

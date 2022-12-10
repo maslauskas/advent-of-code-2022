@@ -9,6 +9,7 @@ type Tube struct {
 	Cycle          int
 	RegisterValue  int
 	SignalStrength int
+	Crt            [6][40]string
 }
 
 func (t *Tube) RunInstruction(instr string) {
@@ -30,13 +31,22 @@ func (t *Tube) RunInstruction(instr string) {
 func (t *Tube) IncrementCycle() {
 	t.Cycle++
 
+	x := t.Cycle - 1
+	y := 0
+
+	if x-1 == t.RegisterValue || x == t.RegisterValue || x+1 == t.RegisterValue {
+		t.Crt[x][y] = "#"
+	} else {
+		t.Crt[x][y] = "."
+	}
+
 	if t.Cycle%40 == 20 {
 		t.SignalStrength += t.RegisterValue * t.Cycle
 	}
 }
 
 func (t *Tube) GetPixel(x int, y int) string {
-	return "#"
+	return t.Crt[x][y]
 }
 
 func MakeTube() Tube {
