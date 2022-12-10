@@ -12,18 +12,26 @@ type Tube struct {
 }
 
 func (t *Tube) RunInstruction(instr string) {
-	t.Cycle++
+	t.IncrementCycle()
 
 	split := strings.Split(instr, " ")
 	switch split[0] {
 	case "noop":
 		break // do nothing
 	case "addx":
-		t.Cycle++
 		val, _ := strconv.Atoi(split[1])
 		t.RegisterValue += val
+		t.IncrementCycle()
 	default:
 		panic("unrecognised instructions")
+	}
+}
+
+func (t *Tube) IncrementCycle() {
+	t.Cycle++
+
+	if t.Cycle%40 == 20 {
+		t.SignalStrength += t.RegisterValue * t.Cycle
 	}
 }
 

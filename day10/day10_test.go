@@ -25,6 +25,36 @@ func TestSignalStrength(t *testing.T) {
 		tube := MakeTube()
 		AssertSignalStrength(t, tube, 0)
 	})
+
+	t.Run("will not increase when executing instructions", func(t *testing.T) {
+		tube := MakeTube()
+		tube.RunInstruction("addx 5")
+		AssertSignalStrength(t, tube, 0)
+	})
+
+	t.Run("will increase when cycle reaches 20", func(t *testing.T) {
+		tube := MakeTube()
+		tube.Cycle = 18
+
+		tube.RunInstruction("addx 4")
+		AssertSignalStrength(t, tube, 100)
+	})
+
+	t.Run("will increase when cycle reaches 20 in the middle of instruction", func(t *testing.T) {
+		tube := MakeTube()
+		tube.Cycle = 19
+
+		tube.RunInstruction("addx 4")
+		AssertSignalStrength(t, tube, 20)
+	})
+
+	t.Run("will increase when cycle reaches 60", func(t *testing.T) {
+		tube := MakeTube()
+		tube.Cycle = 58
+
+		tube.RunInstruction("addx 4")
+		AssertSignalStrength(t, tube, 300)
+	})
 }
 
 func AssertSignalStrength(t *testing.T, tube Tube, want int) {
