@@ -23,13 +23,17 @@ func TestTubeInstructions(t *testing.T) {
 func TestSignalStrength(t *testing.T) {
 	t.Run("initial strength will be 0", func(t *testing.T) {
 		tube := MakeTube()
-		want := 0
-		got := tube.SignalStrength
-
-		if want != got {
-			t.Errorf("expected signal strength of %d, got %d", want, got)
-		}
+		AssertSignalStrength(t, tube, 0)
 	})
+}
+
+func AssertSignalStrength(t *testing.T, tube Tube, want int) {
+	t.Helper()
+	got := tube.SignalStrength
+
+	if want != got {
+		t.Errorf("expected signal strength of %d, got %d", want, got)
+	}
 }
 
 func AssertRegisterValue(t *testing.T, tube Tube, want int, set string) {
