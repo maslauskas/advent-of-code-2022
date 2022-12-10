@@ -9,5 +9,5 @@ import (
 func main() {
 	input := helpers.ReadInput("./day10/input.txt")
 	fmt.Println(day10.Part1(input))
-	//fmt.Println(day09.Part2(input))
+	fmt.Println(day10.Part2(input))
 }

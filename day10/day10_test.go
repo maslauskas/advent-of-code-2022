@@ -2,6 +2,7 @@ package day10
 
 import (
 	"adventofcode/helpers"
+	"fmt"
 	"testing"
 )
 
@@ -98,6 +99,36 @@ func TestCrt(t *testing.T) {
 		AssertPixelVisible(t, tube, 1, 0)
 		AssertPixelNotVisible(t, tube, 2, 0)
 		AssertPixelNotVisible(t, tube, 3, 0)
+	})
+
+	t.Run("will draw pixels after first two instructions on the second row", func(t *testing.T) {
+		tube := MakeTube()
+		tube.Cycle = 40
+		tube.RunInstruction("addx 15")
+		tube.RunInstruction("addx -11")
+
+		AssertPixelVisible(t, tube, 0, 1)
+		AssertPixelVisible(t, tube, 1, 1)
+		AssertPixelNotVisible(t, tube, 2, 1)
+		AssertPixelNotVisible(t, tube, 3, 1)
+	})
+
+	t.Run("part 2 example case", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		got := Part2(input)
+		want := `##..##..##..##..##..##..##..##..##..##..
+###...###...###...###...###...###...###.
+####....####....####....####....####....
+#####.....#####.....#####.....#####.....
+######......######......######......####
+#######.......#######.......#######.....`
+
+		if want != got {
+			t.Errorf("expected output not matched")
+			fmt.Println(got)
+			fmt.Println("===")
+			fmt.Println(want)
+		}
 	})
 }
 
