@@ -93,12 +93,18 @@ func CreateMonkeySquad(input []string) []Monkey {
 
 	for _, m := range monkeyInput {
 		monkey := Monkey{}
-		r, _ := regexp.Compile(`\d+`)
+		// set monkey items
+		r := regexp.MustCompile(`\d+`)
 		items := r.FindAllString(m[1], -1)
 		for _, item := range items {
 			val, _ := strconv.Atoi(item)
 			monkey.Items = append(monkey.Items, val)
 		}
+
+		r = regexp.MustCompile(`[*+]\s.+$`)
+		operation := r.FindString(m[2])
+		monkey.Operation = operation
+		// add monkey to squad
 		squad = append(squad, monkey)
 	}
 
