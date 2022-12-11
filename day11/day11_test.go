@@ -163,6 +163,20 @@ func TestMonkeyBusiness(t *testing.T) {
 		AssertItems(t, squad[2], []int{})
 		AssertItems(t, squad[3], []int{})
 	})
+
+	t.Run("will increment inspection count after each inspected item", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		squad := CreateMonkeySquad(input)
+
+		PlayManyRounds(squad, 20)
+
+		want := 101
+		got := squad[0].InspectedCount
+
+		if want != got {
+			t.Errorf("expected inspected count to be %d, got %d", want, got)
+		}
+	})
 }
 
 func AssertItems(t *testing.T, m *Monkey, items []int) {

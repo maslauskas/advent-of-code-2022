@@ -7,14 +7,16 @@ import (
 )
 
 type Monkey struct {
-	Items     []int
-	Operation string
-	Test      int
-	Target1   int
-	Target2   int
+	Items          []int
+	Operation      string
+	Test           int
+	Target1        int
+	Target2        int
+	InspectedCount int
 }
 
 func (m *Monkey) Investigate(item int, operation string) int {
+	m.InspectedCount++
 	parts := strings.Split(operation, " ")
 	op := parts[0]
 	value := parts[1]
