@@ -1,6 +1,7 @@
 package day11
 
 import (
+	"reflect"
 	"testing"
 )
 
@@ -9,10 +10,12 @@ func TestMonkeyBusiness(t *testing.T) {
 		monkey := Monkey{}
 
 		dataset := map[string]int{
-			"+ 1": 2,
-			"+ 2": 3,
-			"* 1": 1,
-			"* 5": 5,
+			"+ 1":   2,
+			"+ 2":   3,
+			"* 1":   1,
+			"* 5":   5,
+			"* old": 1,
+			"+ old": 2,
 		}
 
 		for operation, want := range dataset {
@@ -87,4 +90,42 @@ func TestMonkeyBusiness(t *testing.T) {
 			t.Errorf("expected item value to be %d, got %d", want, got)
 		}
 	})
+
+	t.Run("will process all items", func(t *testing.T) {
+		monkey1 := Monkey{}
+		monkey2 := Monkey{}
+
+		monkey0 := Monkey{
+			Items:     []int{79, 60, 97},
+			Operation: "* old",
+			Test:      13,
+			Target1:   &monkey1,
+			Target2:   &monkey2,
+		}
+
+		monkey0.ProcessAllItems()
+
+		AssertItemCount(t, monkey0, 0)
+		AssertItemCount(t, monkey1, 1)
+		AssertItemCount(t, monkey2, 2)
+
+		AssertItems(t, monkey1, []int{2080})
+		AssertItems(t, monkey2, []int{1200, 3136})
+	})
+}
+
+func AssertItems(t *testing.T, m Monkey, items []int) {
+	t.Helper()
+
+	if !reflect.DeepEqual(m.Items, items) {
+		t.Fatalf("expected monkey to have %v items, got %v", items, m.Items)
+	}
+}
+
+func AssertItemCount(t *testing.T, m Monkey, count int) {
+	t.Helper()
+
+	if len(m.Items) != count {
+		t.Fatalf("expected monkey to have %d items, got %d", count, len(m.Items))
+	}
 }
