@@ -14,7 +14,7 @@ type Monkey struct {
 	Target2   int
 }
 
-func (m Monkey) Investigate(item int, operation string) int {
+func (m *Monkey) Investigate(item int, operation string) int {
 	parts := strings.Split(operation, " ")
 	op := parts[0]
 	value := parts[1]
@@ -38,12 +38,12 @@ func (m Monkey) Investigate(item int, operation string) int {
 
 }
 
-func (m Monkey) GetBored(value int) int {
+func (m *Monkey) GetBored(value int) int {
 	result := value / 3
 	return result
 }
 
-func (m Monkey) Throw(item int, target1 *Monkey, target2 *Monkey, test int) {
+func (m *Monkey) Throw(item int, target1 *Monkey, target2 *Monkey, test int) {
 	if item%test == 0 {
 		target1.Items = append(target1.Items, item)
 	} else {
@@ -51,7 +51,7 @@ func (m Monkey) Throw(item int, target1 *Monkey, target2 *Monkey, test int) {
 	}
 }
 
-func (m Monkey) ProcessItem(item int, t1 *Monkey, t2 *Monkey) {
+func (m *Monkey) ProcessItem(item int, t1 *Monkey, t2 *Monkey) {
 	item = m.Investigate(item, m.Operation)
 	item = m.GetBored(item)
 
