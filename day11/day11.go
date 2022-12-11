@@ -112,6 +112,11 @@ func CreateMonkeySquad(input []string) []Monkey {
 		val, _ := strconv.Atoi(test)
 		monkey.Test = val
 
+		// add target1
+		target1 := r.FindString(m[4])
+		target1index, _ := strconv.Atoi(target1)
+		monkey.Target1 = target1index
+
 		// add monkey to squad
 		squad = append(squad, monkey)
 	}
