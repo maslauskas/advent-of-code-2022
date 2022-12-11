@@ -101,9 +101,17 @@ func CreateMonkeySquad(input []string) []Monkey {
 			monkey.Items = append(monkey.Items, val)
 		}
 
+		// add operation
 		r = regexp.MustCompile(`[*+]\s.+$`)
 		operation := r.FindString(m[2])
 		monkey.Operation = operation
+
+		// add test
+		r = regexp.MustCompile(`\d+$`)
+		test := r.FindString(m[3])
+		val, _ := strconv.Atoi(test)
+		monkey.Test = val
+
 		// add monkey to squad
 		squad = append(squad, monkey)
 	}
