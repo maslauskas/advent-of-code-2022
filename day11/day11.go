@@ -2,6 +2,7 @@ package day11
 
 import (
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -142,4 +143,19 @@ func PlayManyRounds(squad []*Monkey, rounds int) {
 		PlayRound(squad)
 		rounds--
 	}
+}
+
+func Part1(input []string) int {
+	squad := CreateMonkeySquad(input)
+	PlayManyRounds(squad, 20)
+
+	length := len(squad)
+	counts := make([]int, len(squad))
+	for i, monkey := range squad {
+		counts[i] = monkey.InspectedCount
+	}
+
+	sort.Ints(counts)
+
+	return counts[length-2] * counts[length-1]
 }

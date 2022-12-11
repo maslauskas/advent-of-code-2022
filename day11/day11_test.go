@@ -177,6 +177,16 @@ func TestMonkeyBusiness(t *testing.T) {
 			t.Errorf("expected inspected count to be %d, got %d", want, got)
 		}
 	})
+
+	t.Run("part 1 example case", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		got := Part1(input)
+		want := 10605
+
+		if want != got {
+			t.Errorf("expected result to be %d, got %d", want, got)
+		}
+	})
 }
 
 func AssertItems(t *testing.T, m *Monkey, items []int) {
