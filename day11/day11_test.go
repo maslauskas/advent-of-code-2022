@@ -139,6 +139,18 @@ func TestMonkeyBusiness(t *testing.T) {
 			fmt.Printf("wanted squad %v\n", want)
 		}
 	})
+
+	t.Run("will run round of monkey business", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		squad := CreateMonkeySquad(input)
+
+		Round(squad)
+
+		AssertItems(t, squad[0], []int{20, 23, 27, 26})
+		AssertItems(t, squad[1], []int{2080, 25, 167, 207, 401, 1046})
+		AssertItems(t, squad[2], []int{})
+		AssertItems(t, squad[3], []int{})
+	})
 }
 
 func AssertItems(t *testing.T, m *Monkey, items []int) {
