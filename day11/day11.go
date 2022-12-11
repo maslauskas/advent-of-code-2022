@@ -6,6 +6,7 @@ import (
 )
 
 type Monkey struct {
+	Items []int
 }
 
 func (m Monkey) Investigate(item int, operation string) int {
@@ -27,4 +28,16 @@ func (m Monkey) Investigate(item int, operation string) int {
 func (m Monkey) GetBored(value int) int {
 	result := value / 3
 	return result
+}
+
+func (m Monkey) Throw(item int, target *Monkey) {
+	target.Items = append(target.Items, item)
+}
+
+func (m Monkey) TestThrow(item int, target1 *Monkey, target2 *Monkey, test int) {
+	if item%test == 0 {
+		m.Throw(item, target1)
+	} else {
+		m.Throw(item, target2)
+	}
 }

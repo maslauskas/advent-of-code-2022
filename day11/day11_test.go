@@ -46,4 +46,33 @@ func TestMonkeyBusiness(t *testing.T) {
 			}
 		}
 	})
+
+	t.Run("will throw item to another monkey", func(t *testing.T) {
+		monkey0 := Monkey{}
+		monkey1 := Monkey{}
+
+		monkey0.Throw(1, &monkey1)
+
+		if len(monkey1.Items) == 0 {
+			t.Errorf("expected item to be thrown to target, got %v", monkey1.Items)
+		}
+	})
+
+	t.Run("will throw item to another monkey based on test result", func(t *testing.T) {
+		monkey0 := Monkey{}
+		monkey1 := Monkey{}
+		monkey2 := Monkey{}
+
+		monkey0.TestThrow(2, &monkey1, &monkey2, 2)
+
+		if len(monkey1.Items) == 0 {
+			t.Errorf("expected item to be thrown to target, got %v", monkey1.Items)
+		}
+
+		monkey0.TestThrow(1, &monkey1, &monkey2, 2)
+
+		if len(monkey2.Items) == 0 {
+			t.Errorf("expected item to be thrown to target, got %v", monkey1.Items)
+		}
+	})
 }
