@@ -1,6 +1,7 @@
 package day11
 
 import (
+	"adventofcode/helpers"
 	"reflect"
 	"testing"
 )
@@ -111,6 +112,25 @@ func TestMonkeyBusiness(t *testing.T) {
 
 		AssertItems(t, monkey1, []int{2080})
 		AssertItems(t, monkey2, []int{1200, 3136})
+	})
+
+	t.Run("will create monkey squad", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		monkeys := CreateMonkeySquad(input)
+
+		wantCount := 4
+		if len(monkeys) != wantCount {
+			t.Errorf("expected squad size of %d, got %d", wantCount, len(monkeys))
+		}
+		//want := []Monkey{
+		//	{Items: []int{79, 98}, Operation: "* 19", Test: 23},
+		//}
+		//
+		//if !reflect.DeepEqual(want, monkeys) {
+		//	t.Errorf("expected different squad")
+		//	fmt.Printf("got squad %v\n", monkeys)
+		//	fmt.Printf("wanted squad %v\n", want)
+		//}
 	})
 }
 

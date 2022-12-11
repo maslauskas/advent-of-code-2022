@@ -65,3 +65,19 @@ func (m *Monkey) ProcessAllItems() {
 		m.ProcessItem(item, m.Target1, m.Target2)
 	}
 }
+
+func CreateMonkeySquad(input []string) []Monkey {
+	count := 1
+
+	// count monkeys
+	for _, line := range input {
+		if line == "" {
+			count++
+		}
+	}
+
+	// create correct monkey squad size
+	squad := make([]Monkey, count)
+
+	return squad
+}
