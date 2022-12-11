@@ -10,8 +10,8 @@ type Monkey struct {
 	Items     []int
 	Operation string
 	Test      int
-	Target1   *Monkey
-	Target2   *Monkey
+	Target1   int
+	Target2   int
 }
 
 func (m Monkey) Investigate(item int, operation string) int {
@@ -58,12 +58,12 @@ func (m Monkey) ProcessItem(item int, t1 *Monkey, t2 *Monkey) {
 	m.Throw(item, t1, t2, m.Test)
 }
 
-func (m *Monkey) ProcessAllItems() {
+func (m *Monkey) ProcessAllItems(squad []*Monkey) {
 	for len(m.Items) > 0 {
 		item := m.Items[0]
 		m.Items = m.Items[1:]
 
-		m.ProcessItem(item, m.Target1, m.Target2)
+		m.ProcessItem(item, squad[m.Target1], squad[m.Target2])
 	}
 }
 

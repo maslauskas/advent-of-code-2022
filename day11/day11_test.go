@@ -94,25 +94,27 @@ func TestMonkeyBusiness(t *testing.T) {
 	})
 
 	t.Run("will process all items", func(t *testing.T) {
-		monkey1 := Monkey{}
-		monkey2 := Monkey{}
-
-		monkey0 := Monkey{
-			Items:     []int{79, 60, 97},
-			Operation: "* old",
-			Test:      13,
-			Target1:   &monkey1,
-			Target2:   &monkey2,
+		squad := []*Monkey{
+			{
+				Items:     []int{79, 60, 97},
+				Operation: "* old",
+				Test:      13,
+				Target1:   1,
+				Target2:   2,
+			},
+			{},
+			{},
 		}
 
-		monkey0.ProcessAllItems()
+		monkey0 := squad[0]
+		monkey0.ProcessAllItems(squad)
 
 		AssertItemCount(t, monkey0, 0)
-		AssertItemCount(t, monkey1, 1)
-		AssertItemCount(t, monkey2, 2)
+		AssertItemCount(t, squad[1], 1)
+		AssertItemCount(t, squad[2], 2)
 
-		AssertItems(t, monkey1, []int{2080})
-		AssertItems(t, monkey2, []int{1200, 3136})
+		AssertItems(t, squad[1], []int{2080})
+		AssertItems(t, squad[2], []int{1200, 3136})
 	})
 
 	t.Run("will create monkey squad", func(t *testing.T) {
@@ -139,7 +141,7 @@ func TestMonkeyBusiness(t *testing.T) {
 	})
 }
 
-func AssertItems(t *testing.T, m Monkey, items []int) {
+func AssertItems(t *testing.T, m *Monkey, items []int) {
 	t.Helper()
 
 	if !reflect.DeepEqual(m.Items, items) {
@@ -147,7 +149,7 @@ func AssertItems(t *testing.T, m Monkey, items []int) {
 	}
 }
 
-func AssertItemCount(t *testing.T, m Monkey, count int) {
+func AssertItemCount(t *testing.T, m *Monkey, count int) {
 	t.Helper()
 
 	if len(m.Items) != count {
