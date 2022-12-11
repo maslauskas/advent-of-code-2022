@@ -127,10 +127,10 @@ func TestMonkeyBusiness(t *testing.T) {
 		}
 
 		want := []Monkey{
-			{Items: []int{79, 98}, Operation: "* 19", Test: 23, Target1: 2},
-			{Items: []int{54, 65, 75, 74}, Operation: "+ 6", Test: 19, Target1: 2},
-			{Items: []int{79, 60, 97}, Operation: "* old", Test: 13, Target1: 1},
-			{Items: []int{74}, Operation: "+ 3", Test: 17, Target1: 0},
+			{Items: []int{79, 98}, Operation: "* 19", Test: 23, Target1: 2, Target2: 3},
+			{Items: []int{54, 65, 75, 74}, Operation: "+ 6", Test: 19, Target1: 2, Target2: 0},
+			{Items: []int{79, 60, 97}, Operation: "* old", Test: 13, Target1: 1, Target2: 3},
+			{Items: []int{74}, Operation: "+ 3", Test: 17, Target1: 0, Target2: 1},
 		}
 
 		if !reflect.DeepEqual(want, monkeys) {
