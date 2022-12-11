@@ -1,6 +1,7 @@
 package day11
 
 import (
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -76,8 +77,30 @@ func CreateMonkeySquad(input []string) []Monkey {
 		}
 	}
 
+	// create monkey instruction input
+	monkeyInput := make([][]string, count)
+	index := 0
+	for _, line := range input {
+		if line == "" {
+			index++
+			continue
+		}
+		monkeyInput[index] = append(monkeyInput[index], line)
+	}
+
 	// create correct monkey squad size
-	squad := make([]Monkey, count)
+	var squad []Monkey
+
+	for _, m := range monkeyInput {
+		monkey := Monkey{}
+		r, _ := regexp.Compile(`\d+`)
+		items := r.FindAllString(m[1], -1)
+		for _, item := range items {
+			val, _ := strconv.Atoi(item)
+			monkey.Items = append(monkey.Items, val)
+		}
+		squad = append(squad, monkey)
+	}
 
 	return squad
 }
