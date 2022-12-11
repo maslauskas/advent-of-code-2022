@@ -64,4 +64,27 @@ func TestMonkeyBusiness(t *testing.T) {
 			t.Errorf("expected item to be thrown to target, got %v", monkey1.Items)
 		}
 	})
+
+	t.Run("will process one item fully", func(t *testing.T) {
+		monkey1 := Monkey{}
+		monkey2 := Monkey{}
+
+		monkey0 := Monkey{
+			Operation: "* 19",
+			Test:      23,
+		}
+
+		monkey0.ProcessItem(79, &monkey1, &monkey2)
+
+		if len(monkey2.Items) == 0 {
+			t.Fatalf("expected monkey2 to have new item")
+		}
+
+		want := 500
+		got := monkey2.Items[0]
+
+		if got != want {
+			t.Errorf("expected item value to be %d, got %d", want, got)
+		}
+	})
 }

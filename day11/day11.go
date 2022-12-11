@@ -6,7 +6,9 @@ import (
 )
 
 type Monkey struct {
-	Items []int
+	Items     []int
+	Operation string
+	Test      int
 }
 
 func (m Monkey) Investigate(item int, operation string) int {
@@ -36,4 +38,11 @@ func (m Monkey) Throw(item int, target1 *Monkey, target2 *Monkey, test int) {
 	} else {
 		target2.Items = append(target2.Items, item)
 	}
+}
+
+func (m Monkey) ProcessItem(item int, t1 *Monkey, t2 *Monkey) {
+	item = m.Investigate(item, m.Operation)
+	item = m.GetBored(item)
+
+	m.Throw(item, t1, t2, m.Test)
 }
