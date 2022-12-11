@@ -1,29 +1,8 @@
 package day11
 
 import (
-	"strconv"
-	"strings"
 	"testing"
 )
-
-type Monkey struct {
-}
-
-func (m Monkey) Investigate(item int, operation string) int {
-	parts := strings.Split(operation, " ")
-	op := parts[0]
-	value, _ := strconv.Atoi(parts[1])
-
-	switch op {
-	case "+":
-		return item + value
-	case "*":
-		return item * value
-	default:
-		panic("unrecognised operation")
-	}
-
-}
 
 func TestMonkeyBusiness(t *testing.T) {
 	t.Run("will investigate item", func(t *testing.T) {
@@ -43,6 +22,28 @@ func TestMonkeyBusiness(t *testing.T) {
 				t.Errorf("expected item value to be %d, got %d", want, got)
 			}
 		}
+	})
 
+	t.Run("will get bored", func(t *testing.T) {
+		monkey := Monkey{}
+
+		dataset := [][2]int{
+			{1, 0},
+			{2, 0},
+			{3, 1},
+			{4, 1},
+			{5, 1},
+			{1862, 620},
+		}
+
+		for _, data := range dataset {
+			value := data[0]
+			want := data[1]
+			got := monkey.GetBored(value)
+
+			if want != got {
+				t.Errorf("expected item value to be %d, got %d", want, got)
+			}
+		}
 	})
 }
