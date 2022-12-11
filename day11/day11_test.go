@@ -126,7 +126,7 @@ func TestMonkeyBusiness(t *testing.T) {
 			t.Errorf("expected squad size of %d, got %d", wantCount, len(monkeys))
 		}
 
-		want := []Monkey{
+		want := []*Monkey{
 			{Items: []int{79, 98}, Operation: "* 19", Test: 23, Target1: 2, Target2: 3},
 			{Items: []int{54, 65, 75, 74}, Operation: "+ 6", Test: 19, Target1: 2, Target2: 0},
 			{Items: []int{79, 60, 97}, Operation: "* old", Test: 13, Target1: 1, Target2: 3},

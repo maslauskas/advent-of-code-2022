@@ -67,7 +67,7 @@ func (m *Monkey) ProcessAllItems(squad []*Monkey) {
 	}
 }
 
-func CreateMonkeySquad(input []string) []Monkey {
+func CreateMonkeySquad(input []string) []*Monkey {
 	count := 1
 
 	// count monkeys
@@ -89,7 +89,7 @@ func CreateMonkeySquad(input []string) []Monkey {
 	}
 
 	// create correct monkey squad size
-	var squad []Monkey
+	var squad []*Monkey
 
 	for _, m := range monkeyInput {
 		monkey := Monkey{}
@@ -123,7 +123,7 @@ func CreateMonkeySquad(input []string) []Monkey {
 		monkey.Target2 = target2index
 
 		// add monkey to squad
-		squad = append(squad, monkey)
+		squad = append(squad, &monkey)
 	}
 
 	return squad
