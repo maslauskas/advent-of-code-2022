@@ -30,14 +30,10 @@ func (m Monkey) GetBored(value int) int {
 	return result
 }
 
-func (m Monkey) Throw(item int, target *Monkey) {
-	target.Items = append(target.Items, item)
-}
-
-func (m Monkey) TestThrow(item int, target1 *Monkey, target2 *Monkey, test int) {
+func (m Monkey) Throw(item int, target1 *Monkey, target2 *Monkey, test int) {
 	if item%test == 0 {
-		m.Throw(item, target1)
+		target1.Items = append(target1.Items, item)
 	} else {
-		m.Throw(item, target2)
+		target2.Items = append(target2.Items, item)
 	}
 }
