@@ -129,8 +129,15 @@ func CreateMonkeySquad(input []string) []*Monkey {
 	return squad
 }
 
-func Round(squad []*Monkey) {
+func PlayRound(squad []*Monkey) {
 	for _, monkey := range squad {
 		monkey.ProcessAllItems(squad)
+	}
+}
+
+func PlayManyRounds(squad []*Monkey, rounds int) {
+	for rounds > 0 {
+		PlayRound(squad)
+		rounds--
 	}
 }
