@@ -187,6 +187,31 @@ func TestMonkeyBusiness(t *testing.T) {
 			t.Errorf("expected result to be %d, got %d", want, got)
 		}
 	})
+
+	t.Run("will increment inspection count after each inspected item when worry level is 1", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		squad := CreateMonkeySquad(input)
+		worryLevel = CalculateWorryLevel(squad)
+		fmt.Println(worryLevel)
+		PlayManyRounds(squad, 1000)
+
+		want := 5204
+		got := squad[0].InspectedCount
+
+		if want != got {
+			t.Errorf("expected inspected count to be %d, got %d", want, got)
+		}
+	})
+
+	t.Run("part 2 example case", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		got := Part2(input)
+		want := 2713310158
+
+		if want != got {
+			t.Errorf("expected result to be %d, got %d", want, got)
+		}
+	})
 }
 
 func AssertItems(t *testing.T, m *Monkey, items []int) {

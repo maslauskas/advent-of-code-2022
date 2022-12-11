@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+var worryLevel = 3
+
 type Monkey struct {
 	Items          []int
 	Operation      string
@@ -42,7 +44,12 @@ func (m *Monkey) Investigate(item int, operation string) int {
 }
 
 func (m *Monkey) GetBored(value int) int {
-	result := value / 3
+	var result int
+	if worryLevel == 3 {
+		result = value / 3
+	} else {
+		result = value % worryLevel
+	}
 	return result
 }
 
@@ -158,4 +165,29 @@ func Part1(input []string) int {
 	sort.Ints(counts)
 
 	return counts[length-2] * counts[length-1]
+}
+
+func Part2(input []string) int {
+	squad := CreateMonkeySquad(input)
+	worryLevel = CalculateWorryLevel(squad)
+	PlayManyRounds(squad, 10000)
+
+	length := len(squad)
+	counts := make([]int, len(squad))
+	for i, monkey := range squad {
+		counts[i] = monkey.InspectedCount
+	}
+
+	sort.Ints(counts)
+
+	return counts[length-2] * counts[length-1]
+}
+
+func CalculateWorryLevel(squad []*Monkey) int {
+	level := 1
+	for _, monkey := range squad {
+		level *= monkey.Test
+	}
+
+	return level
 }
