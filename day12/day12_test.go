@@ -80,4 +80,26 @@ func TestPathfinding(t *testing.T) {
 			t.Errorf("expected queue length of %d, got %d", want, got)
 		}
 	})
+
+	t.Run("will add visited coords", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		heightmap := CreateHeightMap(input)
+		heightmap.Step()
+
+		want := 2
+		got := len(heightmap.Visited)
+		if want != got {
+			t.Errorf("expected visited count of %d, got %d", want, got)
+		}
+	})
+
+	//t.Run("part 1 example case", func(t *testing.T) {
+	//	input := helpers.ReadInput("./example.txt")
+	//	got := Part1(input)
+	//
+	//	want := 31
+	//	if want != got {
+	//		t.Errorf("expected result of %d, got %d", want, got)
+	//	}
+	//})
 }

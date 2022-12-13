@@ -2,8 +2,13 @@ package day12
 
 import (
 	"container/heap"
+	"fmt"
 	"strings"
 )
+
+func Part1(input []string) int {
+	return -1
+}
 
 type PathHeap []Path
 
@@ -37,14 +42,20 @@ func (h *PathHeap) Pop() any {
 	return x
 }
 
-type HeightMap struct {
-	Rows  []string
-	Start [2]int
-	End   [2]int
-	Queue *PathHeap
+type Coord struct {
+	x int
+	y int
 }
 
-func (m HeightMap) Step() {
+type HeightMap struct {
+	Rows    []string
+	Start   [2]int
+	End     [2]int
+	Queue   *PathHeap
+	Visited map[string]Coord
+}
+
+func (m *HeightMap) Step() {
 	y := m.Start[0]
 	x := m.Start[1]
 	locVal := GetScore(string(m.Rows[y][x]))
@@ -70,10 +81,12 @@ func (m HeightMap) Step() {
 	}
 }
 
-func (m HeightMap) AddPath(y int, x int, locVal int) {
+func (m *HeightMap) AddPath(y int, x int, locVal int) {
 	top := GetScore(string(m.Rows[y][x]))
 	if top-1 <= locVal {
 		heap.Push(m.Queue, Path{Score: 0, Coords: []int{y, x}})
+		key := fmt.Sprintf("%d:%d", y, x)
+		m.Visited[key] = Coord{y, x}
 	}
 }
 
@@ -102,9 +115,10 @@ func CreateHeightMap(input []string) HeightMap {
 	heap.Init(&h)
 
 	return HeightMap{
-		Rows:  input,
-		Start: start,
-		End:   end,
-		Queue: &h,
+		Rows:    input,
+		Start:   start,
+		End:     end,
+		Queue:   &h,
+		Visited: map[string]Coord{},
 	}
 }
