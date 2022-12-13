@@ -51,34 +51,29 @@ func (m HeightMap) Step() {
 
 	// check and add top
 	if y-1 > 0 {
-		top := GetScore(string(m.Rows[y-1][x]))
-		if top-1 <= locVal {
-			heap.Push(m.Queue, Path{Score: 0, Coords: []int{y - 1, x}})
-		}
+		m.AddPath(y-1, x, locVal)
 	}
 
 	// check and add right
 	if x+1 <= len(m.Rows[0]) {
-		top := GetScore(string(m.Rows[y][x+1]))
-		if top-1 <= locVal {
-			heap.Push(m.Queue, Path{Score: 0, Coords: []int{y, x + 1}})
-		}
+		m.AddPath(y, x+1, locVal)
 	}
 
 	// check and add bottom
 	if y+1 <= len(m.Rows) {
-		top := GetScore(string(m.Rows[y+1][x]))
-		if top-1 <= locVal {
-			heap.Push(m.Queue, Path{Score: 0, Coords: []int{y + 1, x}})
-		}
+		m.AddPath(y+1, x, locVal)
 	}
 
 	// check and add left
 	if x-1 > 0 {
-		top := GetScore(string(m.Rows[y][x-1]))
-		if top-1 <= locVal {
-			heap.Push(m.Queue, Path{Score: 0, Coords: []int{y, x - 1}})
-		}
+		m.AddPath(y, x-1, locVal)
+	}
+}
+
+func (m HeightMap) AddPath(y int, x int, locVal int) {
+	top := GetScore(string(m.Rows[y][x]))
+	if top-1 <= locVal {
+		heap.Push(m.Queue, Path{Score: 0, Coords: []int{y, x}})
 	}
 }
 
