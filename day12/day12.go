@@ -2,14 +2,20 @@ package day12
 
 import (
 	"container/heap"
+	"errors"
 	"fmt"
 	"math"
+	"reflect"
 	"strings"
 )
 
-//func Part1(input []string) int {
-//	return -1
-//}
+func Part1(input []string) int {
+	heightmap := CreateHeightMap(input)
+	path := heightmap.FindPath()
+
+	fmt.Println(path)
+	return -1
+}
 
 type PathHeap []Path
 
@@ -56,12 +62,17 @@ type HeightMap struct {
 	Visited map[string]Coord
 }
 
-func (m *HeightMap) Step() {
+func (m *HeightMap) Step() (Path, error) {
 	path := heap.Pop(m.Queue).(Path)
+	fmt.Println(path)
 	coord := path.Coords[len(path.Coords)-1]
+	if reflect.DeepEqual(coord, m.End) {
+		return path, nil
+	}
 	y := coord.y
 	x := coord.x
 	locVal := GetScore(string(m.Rows[y][x]))
+	fmt.Print(string(m.Rows[y][x]))
 
 	// check and add top
 	if y-1 > 0 {
@@ -74,7 +85,7 @@ func (m *HeightMap) Step() {
 	}
 
 	// check and add bottom
-	if y+1 <= len(m.Rows) {
+	if y+1 < len(m.Rows) {
 		m.AddPath(y+1, x, locVal, path)
 	}
 
@@ -82,17 +93,37 @@ func (m *HeightMap) Step() {
 	if x-1 > 0 {
 		m.AddPath(y, x-1, locVal, path)
 	}
+
+	fmt.Println()
+	return Path{}, errors.New("Path not found")
 }
 
 func (m *HeightMap) AddPath(y int, x int, locVal int, path Path) {
+	key := fmt.Sprintf("%d:%d", y, x)
+	_, ok := m.Visited[key]
+	if ok {
+		// do not add visited routes
+		return
+	}
 	top := GetScore(string(m.Rows[y][x]))
+	fmt.Print(string(m.Rows[y][x]))
 	dist := math.Abs(float64(m.End[0]-y)) + math.Abs(float64(m.End[1]-x))
 	if top-1 <= locVal {
 		coords := append(path.Coords, Coord{y, x})
 		heap.Push(m.Queue, Path{Score: int(dist), Coords: coords})
-		key := fmt.Sprintf("%d:%d", y, x)
 		m.Visited[key] = Coord{y, x}
 	}
+}
+
+func (m *HeightMap) FindPath() Path {
+	for m.Queue.Len() > 0 {
+		found, err := m.Step()
+		if err == nil {
+			return found
+		}
+	}
+
+	panic("no path found")
 }
 
 func GetScore(char string) int {
@@ -122,10 +153,12 @@ func CreateHeightMap(input []string) HeightMap {
 	heap.Init(&h)
 
 	return HeightMap{
-		Rows:    input,
-		Start:   start,
-		End:     end,
-		Queue:   &h,
-		Visited: map[string]Coord{},
+		Rows:  input,
+		Start: start,
+		End:   end,
+		Queue: &h,
+		Visited: map[string]Coord{
+			"0:0": Coord{0, 0},
+		},
 	}
 }
