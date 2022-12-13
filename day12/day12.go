@@ -1,10 +1,15 @@
 package day12
 
+import (
+	"container/heap"
+	"strings"
+)
+
 type PathHeap []Path
 
 type Path struct {
 	Score  int
-	Coords []string
+	Coords []int
 }
 
 func (h PathHeap) Len() int {
@@ -36,6 +41,50 @@ type HeightMap struct {
 	Rows  []string
 	Start [2]int
 	End   [2]int
+	Queue *PathHeap
+}
+
+func (m HeightMap) Step() {
+	y := m.Start[0]
+	x := m.Start[1]
+	locVal := GetScore(string(m.Rows[y][x]))
+
+	// check and add top
+	if y-1 > 0 {
+		top := GetScore(string(m.Rows[y-1][x]))
+		if top-1 <= locVal {
+			heap.Push(m.Queue, Path{Score: 0, Coords: []int{y - 1, x}})
+		}
+	}
+
+	// check and add right
+	if x+1 <= len(m.Rows[0]) {
+		top := GetScore(string(m.Rows[y][x+1]))
+		if top-1 <= locVal {
+			heap.Push(m.Queue, Path{Score: 0, Coords: []int{y, x + 1}})
+		}
+	}
+
+	// check and add bottom
+	if y+1 <= len(m.Rows) {
+		top := GetScore(string(m.Rows[y+1][x]))
+		if top-1 <= locVal {
+			heap.Push(m.Queue, Path{Score: 0, Coords: []int{y + 1, x}})
+		}
+	}
+
+	// check and add left
+	if x-1 > 0 {
+		top := GetScore(string(m.Rows[y][x-1]))
+		if top-1 <= locVal {
+			heap.Push(m.Queue, Path{Score: 0, Coords: []int{y, x - 1}})
+		}
+	}
+}
+
+func GetScore(char string) int {
+	alpha := "Sabcdefghijklmnopqrstuvwxyz"
+	return strings.Index(alpha, char)
 }
 
 func CreateHeightMap(input []string) HeightMap {
@@ -54,9 +103,13 @@ func CreateHeightMap(input []string) HeightMap {
 		}
 	}
 
+	h := PathHeap{}
+	heap.Init(&h)
+
 	return HeightMap{
 		Rows:  input,
 		Start: start,
 		End:   end,
+		Queue: &h,
 	}
 }

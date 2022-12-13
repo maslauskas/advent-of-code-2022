@@ -12,9 +12,9 @@ func TestPathfinding(t *testing.T) {
 		h := PathHeap{}
 		heap.Init(&h)
 
-		heap.Push(&h, Path{Score: 1, Coords: []string{""}})
-		heap.Push(&h, Path{Score: 5, Coords: []string{""}})
-		heap.Push(&h, Path{Score: 2, Coords: []string{""}})
+		heap.Push(&h, Path{Score: 1, Coords: []int{0, 0}})
+		heap.Push(&h, Path{Score: 5, Coords: []int{0, 0}})
+		heap.Push(&h, Path{Score: 2, Coords: []int{0, 0}})
 
 		i1 := heap.Pop(&h).(Path)
 		if i1.Score != 1 {
@@ -65,6 +65,19 @@ func TestPathfinding(t *testing.T) {
 
 		if !reflect.DeepEqual(want, got) {
 			t.Errorf("expected end to be at %v, got %v", want, got)
+		}
+	})
+
+	t.Run("will add possible paths to heap", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		heightmap := CreateHeightMap(input)
+		heightmap.Step()
+
+		want := 2
+		got := heightmap.Queue.Len()
+
+		if want != got {
+			t.Errorf("expected queue length of %d, got %d", want, got)
 		}
 	})
 }
