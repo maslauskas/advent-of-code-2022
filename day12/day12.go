@@ -31,3 +31,25 @@ func (h *PathHeap) Pop() any {
 
 	return x
 }
+
+type HeightMap struct {
+	Rows  []string
+	Start [2]int
+}
+
+func CreateHeightMap(input []string) HeightMap {
+	// find start
+	var start [2]int
+	for y, row := range input {
+		for x, char := range row {
+			if string(char) == "S" {
+				start = [2]int{y, x}
+			}
+		}
+	}
+
+	return HeightMap{
+		Rows:  input,
+		Start: start,
+	}
+}
