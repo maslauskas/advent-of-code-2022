@@ -3,18 +3,19 @@ package day12
 import (
 	"container/heap"
 	"fmt"
+	"math"
 	"strings"
 )
 
-func Part1(input []string) int {
-	return -1
-}
+//func Part1(input []string) int {
+//	return -1
+//}
 
 type PathHeap []Path
 
 type Path struct {
 	Score  int
-	Coords []int
+	Coords []Coord
 }
 
 func (h PathHeap) Len() int {
@@ -43,8 +44,8 @@ func (h *PathHeap) Pop() any {
 }
 
 type Coord struct {
-	x int
 	y int
+	x int
 }
 
 type HeightMap struct {
@@ -56,35 +57,39 @@ type HeightMap struct {
 }
 
 func (m *HeightMap) Step() {
-	y := m.Start[0]
-	x := m.Start[1]
+	path := heap.Pop(m.Queue).(Path)
+	coord := path.Coords[len(path.Coords)-1]
+	y := coord.y
+	x := coord.x
 	locVal := GetScore(string(m.Rows[y][x]))
 
 	// check and add top
 	if y-1 > 0 {
-		m.AddPath(y-1, x, locVal)
+		m.AddPath(y-1, x, locVal, path)
 	}
 
 	// check and add right
 	if x+1 <= len(m.Rows[0]) {
-		m.AddPath(y, x+1, locVal)
+		m.AddPath(y, x+1, locVal, path)
 	}
 
 	// check and add bottom
 	if y+1 <= len(m.Rows) {
-		m.AddPath(y+1, x, locVal)
+		m.AddPath(y+1, x, locVal, path)
 	}
 
 	// check and add left
 	if x-1 > 0 {
-		m.AddPath(y, x-1, locVal)
+		m.AddPath(y, x-1, locVal, path)
 	}
 }
 
-func (m *HeightMap) AddPath(y int, x int, locVal int) {
+func (m *HeightMap) AddPath(y int, x int, locVal int, path Path) {
 	top := GetScore(string(m.Rows[y][x]))
+	dist := math.Abs(float64(m.End[0]-y)) + math.Abs(float64(m.End[1]-x))
 	if top-1 <= locVal {
-		heap.Push(m.Queue, Path{Score: 0, Coords: []int{y, x}})
+		coords := append(path.Coords, Coord{y, x})
+		heap.Push(m.Queue, Path{Score: int(dist), Coords: coords})
 		key := fmt.Sprintf("%d:%d", y, x)
 		m.Visited[key] = Coord{y, x}
 	}
@@ -111,7 +116,9 @@ func CreateHeightMap(input []string) HeightMap {
 		}
 	}
 
-	h := PathHeap{}
+	h := PathHeap{
+		{Score: 0, Coords: []Coord{{0, 0}}},
+	}
 	heap.Init(&h)
 
 	return HeightMap{

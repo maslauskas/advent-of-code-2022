@@ -12,9 +12,9 @@ func TestPathfinding(t *testing.T) {
 		h := PathHeap{}
 		heap.Init(&h)
 
-		heap.Push(&h, Path{Score: 1, Coords: []int{0, 0}})
-		heap.Push(&h, Path{Score: 5, Coords: []int{0, 0}})
-		heap.Push(&h, Path{Score: 2, Coords: []int{0, 0}})
+		heap.Push(&h, Path{Score: 1, Coords: []Coord{{0, 0}}})
+		heap.Push(&h, Path{Score: 5, Coords: []Coord{{0, 0}}})
+		heap.Push(&h, Path{Score: 2, Coords: []Coord{{0, 0}}})
 
 		i1 := heap.Pop(&h).(Path)
 		if i1.Score != 1 {
@@ -90,6 +90,39 @@ func TestPathfinding(t *testing.T) {
 		got := len(heightmap.Visited)
 		if want != got {
 			t.Errorf("expected visited count of %d, got %d", want, got)
+		}
+	})
+
+	t.Run("will remove first path from the queue", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		heightmap := CreateHeightMap(input)
+
+		// step twice
+		heightmap.Step()
+		heightmap.Step()
+
+		want := 3
+		got := heightmap.Queue.Len()
+
+		if want != got {
+			t.Errorf("expected queue length of %d, got %d", want, got)
+		}
+	})
+
+	t.Run("will pop path that is closest to end", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		heightmap := CreateHeightMap(input)
+
+		// step twice
+		heightmap.Step()
+		heightmap.Step()
+
+		// pop last element
+		path := heap.Pop(heightmap.Queue)
+		want := Path{Score: 5, Coords: []Coord{{0, 0}, {0, 1}, {0, 2}}}
+
+		if !reflect.DeepEqual(path, want) {
+			t.Errorf("expected next queue element to be%v, got %v", want, path)
 		}
 	})
 
