@@ -12,9 +12,9 @@ import (
 func Part1(input []string) int {
 	heightmap := CreateHeightMap(input)
 	path := heightmap.FindPath()
-
 	fmt.Println(path)
-	return -1
+
+	return len(path.Coords)
 }
 
 type PathHeap []Path
@@ -31,7 +31,11 @@ func (h PathHeap) Less(i, j int) bool {
 	return h[i].Score < h[j].Score
 }
 func (h PathHeap) Swap(i, j int) {
-	h[i], h[j] = h[j], h[i]
+	a := h[i]
+	b := h[j]
+
+	h[j] = a
+	h[i] = b
 }
 
 func (h *PathHeap) Push(x any) {
@@ -65,54 +69,16 @@ type HeightMap struct {
 func (m *HeightMap) Step() (Path, error) {
 	path := heap.Pop(m.Queue).(Path)
 	fmt.Println(path)
+	fmt.Println(m.Queue.Len())
 	coord := path.Coords[len(path.Coords)-1]
-	if reflect.DeepEqual(coord, m.End) {
+	if reflect.DeepEqual(coord, Coord{m.End[0], m.End[1]}) {
+
 		return path, nil
 	}
-	y := coord.y
-	x := coord.x
-	locVal := GetScore(string(m.Rows[y][x]))
-	fmt.Print(string(m.Rows[y][x]))
 
-	// check and add top
-	if y-1 > 0 {
-		m.AddPath(y-1, x, locVal, path)
-	}
+	m.AddNeighbors(coord, path.Coords)
 
-	// check and add right
-	if x+1 <= len(m.Rows[0]) {
-		m.AddPath(y, x+1, locVal, path)
-	}
-
-	// check and add bottom
-	if y+1 < len(m.Rows) {
-		m.AddPath(y+1, x, locVal, path)
-	}
-
-	// check and add left
-	if x-1 > 0 {
-		m.AddPath(y, x-1, locVal, path)
-	}
-
-	fmt.Println()
 	return Path{}, errors.New("Path not found")
-}
-
-func (m *HeightMap) AddPath(y int, x int, locVal int, path Path) {
-	key := fmt.Sprintf("%d:%d", y, x)
-	_, ok := m.Visited[key]
-	if ok {
-		// do not add visited routes
-		return
-	}
-	top := GetScore(string(m.Rows[y][x]))
-	fmt.Print(string(m.Rows[y][x]))
-	dist := math.Abs(float64(m.End[0]-y)) + math.Abs(float64(m.End[1]-x))
-	if top-1 <= locVal {
-		coords := append(path.Coords, Coord{y, x})
-		heap.Push(m.Queue, Path{Score: int(dist), Coords: coords})
-		m.Visited[key] = Coord{y, x}
-	}
 }
 
 func (m *HeightMap) FindPath() Path {
@@ -124,6 +90,58 @@ func (m *HeightMap) FindPath() Path {
 	}
 
 	panic("no path found")
+}
+
+func (m *HeightMap) AddNeighbors(coord Coord, path []Coord) {
+	m.AddNeighbor(coord, path, "TOP")
+	m.AddNeighbor(coord, path, "RIGHT")
+	m.AddNeighbor(coord, path, "BOTTOM")
+	m.AddNeighbor(coord, path, "LEFT")
+}
+
+func (m *HeightMap) AddNeighbor(coord Coord, path []Coord, dir string) {
+	y := coord.y
+	x := coord.x
+	locChar := string(m.Rows[y][x])
+	locVal := GetScore(locChar)
+
+	switch dir {
+	case "TOP":
+		y = y - 1
+	case "RIGHT":
+		x = x + 1
+	case "BOTTOM":
+		y = y + 1
+	case "LEFT":
+		x = x - 1
+	}
+
+	// check out of bounds
+	if y < 0 || x >= len(m.Rows[0]) || y >= len(m.Rows) || x < 0 {
+		return
+	}
+
+	// check if coord was visited in path
+	visited := false
+	for _, c := range path {
+		if reflect.DeepEqual(c, Coord{y, x}) {
+			visited = true
+		}
+	}
+	if visited {
+		return
+	}
+
+	top := GetScore(string(m.Rows[y][x]))
+	dist := math.Abs(float64(m.End[0]-y)) + math.Abs(float64(m.End[1]-x))
+	if top-1 <= locVal {
+		coords := append(path, Coord{y, x})
+		newPath := Path{Score: int(dist), Coords: coords}
+		heap.Push(m.Queue, newPath)
+		fmt.Println(locChar+"->"+string(m.Rows[y][x]), newPath)
+
+	}
+
 }
 
 func GetScore(char string) int {
