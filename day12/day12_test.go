@@ -55,4 +55,16 @@ func TestPathfinding(t *testing.T) {
 			t.Errorf("expected start to be at %v, got %v", want, got)
 		}
 	})
+
+	t.Run("will find end point", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		heightmap := CreateHeightMap(input)
+
+		want := [2]int{2, 5}
+		got := heightmap.End
+
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("expected end to be at %v, got %v", want, got)
+		}
+	})
 }

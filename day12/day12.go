@@ -35,15 +35,21 @@ func (h *PathHeap) Pop() any {
 type HeightMap struct {
 	Rows  []string
 	Start [2]int
+	End   [2]int
 }
 
 func CreateHeightMap(input []string) HeightMap {
 	// find start
 	var start [2]int
+	var end [2]int
 	for y, row := range input {
 		for x, char := range row {
 			if string(char) == "S" {
 				start = [2]int{y, x}
+			}
+
+			if string(char) == "E" {
+				end = [2]int{y, x}
 			}
 		}
 	}
@@ -51,5 +57,6 @@ func CreateHeightMap(input []string) HeightMap {
 	return HeightMap{
 		Rows:  input,
 		Start: start,
+		End:   end,
 	}
 }
