@@ -31,7 +31,9 @@ type HeightMap struct {
 }
 
 func (m *HeightMap) Step() (Path, error) {
-	path := m.Queue.Pop().Value.(Path)
+	elem := m.Queue.Pop()
+	fmt.Println(elem.Priority, elem.Value)
+	path := elem.Value.(Path)
 	coord := path[len(path)-1]
 	if reflect.DeepEqual(coord, Coord{m.End[0], m.End[1]}) {
 		return path, nil
@@ -98,8 +100,7 @@ func (m *HeightMap) AddNeighbor(coord Coord, path Path, dir string) {
 	if top-1 <= locVal {
 		coords := append(path, Coord{y, x})
 		m.Queue.Push(coords, int(dist))
-		//fmt.Println(locChar+"->"+string(m.Rows[y][x]), coords)
-
+		fmt.Println(locChar+"->"+string(m.Rows[y][x]), int(dist), coords)
 	}
 
 }
