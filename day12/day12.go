@@ -60,7 +60,7 @@ func (m *HeightMap) AddNeighbors(coord Coord, path []Coord) {
 	m.AddNeighbor(coord, path, "LEFT")
 }
 
-func (m *HeightMap) AddNeighbor(coord Coord, path []Coord, dir string) {
+func (m *HeightMap) AddNeighbor(coord Coord, path Path, dir string) {
 	y := coord.y
 	x := coord.x
 	locChar := string(m.Rows[y][x])

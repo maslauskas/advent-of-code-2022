@@ -56,46 +56,46 @@ func TestPathfinding(t *testing.T) {
 		}
 	})
 
-	//t.Run("will remove first path from the queue", func(t *testing.T) {
-	//	input := helpers.ReadInput("./example.txt")
-	//	heightmap := CreateHeightMap(input)
-	//
-	//	// step twice
-	//	heightmap.Step()
-	//	heightmap.Step()
-	//
-	//	want := 3
-	//	got := heightmap.Queue.Len()
-	//
-	//	if want != got {
-	//		t.Errorf("expected queue length of %d, got %d", want, got)
-	//	}
-	//})
-	//
-	//t.Run("will pop path that is closest to end", func(t *testing.T) {
-	//	input := helpers.ReadInput("./example.txt")
-	//	heightmap := CreateHeightMap(input)
-	//
-	//	// step twice
-	//	heightmap.Step()
-	//	heightmap.Step()
-	//
-	//	// pop last element
-	//	path := heap.Pop(heightmap.Queue)
-	//	want := Path{Score: 5, Coords: []Coord{{0, 0}, {0, 1}, {0, 2}}}
-	//
-	//	if !reflect.DeepEqual(path, want) {
-	//		t.Errorf("expected next queue element to be%v, got %v", want, path)
-	//	}
-	//})
-	//
-	//t.Run("part 1 example case", func(t *testing.T) {
-	//	input := helpers.ReadInput("./example.txt")
-	//	got := Part1(input)
-	//
-	//	want := 31
-	//	if want != got {
-	//		t.Errorf("expected result of %d, got %d", want, got)
-	//	}
-	//})
+	t.Run("will remove first path from the queue", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		heightmap := CreateHeightMap(input)
+
+		// step twice
+		heightmap.Step()
+		heightmap.Step()
+
+		want := 3
+		got := heightmap.Queue.Len()
+
+		if want != got {
+			t.Errorf("expected queue length of %d, got %d", want, got)
+		}
+	})
+
+	t.Run("will pop path that is closest to end", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		heightmap := CreateHeightMap(input)
+
+		// step twice
+		heightmap.Step()
+		heightmap.Step()
+
+		// pop last element
+		path := heightmap.Queue.Pop()
+		want := QueueElement{Path{{0, 0}, {0, 1}, {0, 2}}, 5}
+
+		if !reflect.DeepEqual(path, want) {
+			t.Errorf("expected next queue element to be%v, got %v", want, path)
+		}
+	})
+
+	t.Run("part 1 example case", func(t *testing.T) {
+		input := helpers.ReadInput("./example.txt")
+		got := Part1(input)
+
+		want := 31
+		if want != got {
+			t.Errorf("expected result of %d, got %d", want, got)
+		}
+	})
 }
