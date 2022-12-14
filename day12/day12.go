@@ -31,6 +31,9 @@ type HeightMap struct {
 }
 
 func (m *HeightMap) Step() (Path, error) {
+	fmt.Println("queue size before pop:", m.Queue.Len())
+	fmt.Println(m.Queue)
+	//fmt.Println(m.Queue.Elements[1])
 	elem := m.Queue.Pop()
 	fmt.Println(elem.Priority, elem.Value)
 	path := elem.Value.(Path)
@@ -63,44 +66,39 @@ func (m *HeightMap) AddNeighbors(coord Coord, path []Coord) {
 }
 
 func (m *HeightMap) AddNeighbor(coord Coord, path Path, dir string) {
-	y := coord.y
-	x := coord.x
-	locChar := string(m.Rows[y][x])
+	newCoord := Coord{coord.y, coord.x}
+	locChar := string(m.Rows[coord.y][coord.x])
 	locVal := GetScore(locChar)
 
 	switch dir {
 	case "TOP":
-		y = y - 1
+		newCoord.y--
 	case "RIGHT":
-		x = x + 1
+		newCoord.x++
 	case "BOTTOM":
-		y = y + 1
+		newCoord.y++
 	case "LEFT":
-		x = x - 1
+		newCoord.x--
 	}
 
 	// check out of bounds
-	if y < 0 || x >= len(m.Rows[0]) || y >= len(m.Rows) || x < 0 {
+	if newCoord.y < 0 || newCoord.x >= len(m.Rows[0]) || newCoord.y >= len(m.Rows) || newCoord.x < 0 {
 		return
 	}
 
 	// check if coord was visited in path
-	visited := false
 	for _, c := range path {
-		if reflect.DeepEqual(c, Coord{y, x}) {
-			visited = true
+		if reflect.DeepEqual(c, newCoord) {
+			return
 		}
 	}
-	if visited {
-		return
-	}
 
-	top := GetScore(string(m.Rows[y][x]))
-	dist := math.Abs(float64(m.End[0]-y)) + math.Abs(float64(m.End[1]-x))
+	top := GetScore(string(m.Rows[newCoord.y][newCoord.x]))
+	dist := math.Abs(float64(m.End[0]-newCoord.y)) + math.Abs(float64(m.End[1]-newCoord.x))
 	if top-1 <= locVal {
-		coords := append(path, Coord{y, x})
+		coords := append(path, newCoord)
 		m.Queue.Push(coords, int(dist))
-		fmt.Println(locChar+"->"+string(m.Rows[y][x]), int(dist), coords)
+		fmt.Println(locChar+"->"+string(m.Rows[newCoord.y][newCoord.x]), int(dist), coords)
 	}
 
 }
