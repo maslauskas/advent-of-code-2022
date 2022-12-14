@@ -10,7 +10,15 @@ import (
 
 func Part1(input []string) int {
 	heightmap := CreateHeightMap(input)
-	path := heightmap.FindPath()
+	var path Path
+	var err error
+	for heightmap.Queue.Len() > 0 {
+		path, err = heightmap.Step()
+		if err == nil {
+			break
+		}
+	}
+
 	fmt.Println(path)
 
 	return len(path)
@@ -33,7 +41,6 @@ type HeightMap struct {
 func (m *HeightMap) Step() (Path, error) {
 	fmt.Println("queue size before pop:", m.Queue.Len())
 	fmt.Println(m.Queue)
-	//fmt.Println(m.Queue.Elements[1])
 	elem := m.Queue.Pop()
 	fmt.Println(elem.Priority, elem.Value)
 	path := elem.Value.(Path)
@@ -45,17 +52,6 @@ func (m *HeightMap) Step() (Path, error) {
 	m.AddNeighbors(coord, path)
 
 	return Path{}, errors.New("Path not found")
-}
-
-func (m *HeightMap) FindPath() Path {
-	for m.Queue.Len() > 0 {
-		found, err := m.Step()
-		if err == nil {
-			return found
-		}
-	}
-
-	panic("no path found")
 }
 
 func (m *HeightMap) AddNeighbors(coord Coord, path []Coord) {
@@ -87,8 +83,8 @@ func (m *HeightMap) AddNeighbor(coord Coord, path Path, dir string) {
 	}
 
 	// check if coord was visited in path
-	for _, c := range path {
-		if reflect.DeepEqual(c, newCoord) {
+	for i := 0; i < len(path)-1; i++ {
+		if reflect.DeepEqual(path[i], newCoord) {
 			return
 		}
 	}

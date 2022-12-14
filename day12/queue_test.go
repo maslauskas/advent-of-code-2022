@@ -40,6 +40,27 @@ func TestPriorityQueue(t *testing.T) {
 		el1 := queue.Pop()
 		AssertQueueElement(t, el1, QueueElement{wantEl1, 1})
 	})
+
+	t.Run("will not override elements", func(t *testing.T) {
+		queue := Queue{}
+		queue.Push(Path{{0, 0}, {0, 1}, {0, 2}, {1, 2}, {2, 2}}, 3)
+		queue.Push(Path{{0, 0}, {0, 1}, {1, 1}}, 5)
+		queue.Push(Path{{0, 0}, {0, 1}, {0, 2}, {1, 2}, {1, 1}}, 5)
+		queue.Push(Path{{0, 0}, {1, 0}}, 6)
+
+		elem := queue.Pop()
+		AssertQueueElement(t, elem, QueueElement{Path{{0, 0}, {0, 1}, {0, 2}, {1, 2}, {2, 2}}, 3})
+
+		queue.Push(Path{{0, 0}, {0, 1}, {0, 2}, {1, 2}, {2, 2}, {3, 2}}, 4)
+		queue.Push(Path{{0, 0}, {0, 1}, {0, 2}, {1, 2}, {2, 2}, {2, 1}}, 4)
+
+		next := queue.Pop()
+		AssertQueueElement(t, next, QueueElement{Path{{0, 0}, {0, 1}, {0, 2}, {1, 2}, {2, 2}, {3, 2}}, 4})
+
+		next2 := queue.Pop()
+		AssertQueueElement(t, next2, QueueElement{Path{{0, 0}, {0, 1}, {0, 2}, {1, 2}, {2, 2}, {2, 1}}, 4})
+
+	})
 }
 
 func AssertQueueElement(t *testing.T, got QueueElement, want QueueElement) {
