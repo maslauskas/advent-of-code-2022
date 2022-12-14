@@ -1,7 +1,6 @@
 package day12
 
 import (
-	"container/heap"
 	"errors"
 	"fmt"
 	"math"
@@ -14,44 +13,10 @@ func Part1(input []string) int {
 	path := heightmap.FindPath()
 	fmt.Println(path)
 
-	return len(path.Coords)
+	return len(path)
 }
 
-type PathHeap []Path
-
-type Path struct {
-	Score  int
-	Coords []Coord
-}
-
-func (h PathHeap) Len() int {
-	return len(h)
-}
-func (h PathHeap) Less(i, j int) bool {
-	return h[i].Score < h[j].Score
-}
-func (h PathHeap) Swap(i, j int) {
-	a := h[i]
-	b := h[j]
-
-	h[j] = a
-	h[i] = b
-}
-
-func (h *PathHeap) Push(x any) {
-	// Push and Pop use pointer receivers because they modify the slice's length,
-	// not just its contents.
-	*h = append(*h, x.(Path))
-}
-
-func (h *PathHeap) Pop() any {
-	old := *h
-	n := len(old)
-	x := old[n-1]
-	*h = old[:n-1]
-
-	return x
-}
+type Path []Coord
 
 type Coord struct {
 	y int
@@ -62,20 +27,17 @@ type HeightMap struct {
 	Rows  []string
 	Start [2]int
 	End   [2]int
-	Queue *PathHeap
+	Queue Queue
 }
 
 func (m *HeightMap) Step() (Path, error) {
-	path := heap.Pop(m.Queue).(Path)
-	fmt.Println(path)
-	fmt.Println(m.Queue.Len())
-	coord := path.Coords[len(path.Coords)-1]
+	path := m.Queue.Pop().Value.(Path)
+	coord := path[len(path)-1]
 	if reflect.DeepEqual(coord, Coord{m.End[0], m.End[1]}) {
-
 		return path, nil
 	}
 
-	m.AddNeighbors(coord, path.Coords)
+	m.AddNeighbors(coord, path)
 
 	return Path{}, errors.New("Path not found")
 }
@@ -135,9 +97,8 @@ func (m *HeightMap) AddNeighbor(coord Coord, path []Coord, dir string) {
 	dist := math.Abs(float64(m.End[0]-y)) + math.Abs(float64(m.End[1]-x))
 	if top-1 <= locVal {
 		coords := append(path, Coord{y, x})
-		newPath := Path{Score: int(dist), Coords: coords}
-		heap.Push(m.Queue, newPath)
-		fmt.Println(locChar+"->"+string(m.Rows[y][x]), newPath)
+		m.Queue.Push(coords, int(dist))
+		//fmt.Println(locChar+"->"+string(m.Rows[y][x]), coords)
 
 	}
 
@@ -164,15 +125,14 @@ func CreateHeightMap(input []string) HeightMap {
 		}
 	}
 
-	h := PathHeap{
-		{Score: 0, Coords: []Coord{{0, 0}}},
+	queue := Queue{
+		[]QueueElement{{Path{{0, 0}}, 0}},
 	}
-	heap.Init(&h)
 
 	return HeightMap{
 		Rows:  input,
 		Start: start,
 		End:   end,
-		Queue: &h,
+		Queue: queue,
 	}
 }
