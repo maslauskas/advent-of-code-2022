@@ -1,7 +1,6 @@
 package day12
 
 import (
-	"errors"
 	"fmt"
 	"math"
 	"reflect"
@@ -10,18 +9,18 @@ import (
 
 func Part1(input []string) int {
 	heightmap := CreateHeightMap(input)
-	var path Path
-	var err error
 	for heightmap.Queue.Len() > 0 {
-		path, err = heightmap.Step()
-		if err == nil {
-			break
-		}
+		heightmap.Step()
 	}
 
-	fmt.Println(path)
-
-	return len(path)
+	min := 999999
+	fmt.Println(len(heightmap.SuccessfulPaths))
+	for i := 0; i < len(heightmap.SuccessfulPaths); i++ {
+		if len(heightmap.SuccessfulPaths[i]) < min {
+			min = len(heightmap.SuccessfulPaths[i])
+		}
+	}
+	return min
 }
 
 type Path []Coord
@@ -32,26 +31,23 @@ type Coord struct {
 }
 
 type HeightMap struct {
-	Rows  []string
-	Start [2]int
-	End   [2]int
-	Queue Queue
+	Rows            []string
+	Start           [2]int
+	End             [2]int
+	Queue           Queue
+	SuccessfulPaths []Path
 }
 
-func (m *HeightMap) Step() (Path, error) {
-	fmt.Println("queue size before pop:", m.Queue.Len())
-	fmt.Println(m.Queue)
+func (m *HeightMap) Step() {
 	elem := m.Queue.Pop()
-	fmt.Println(elem.Priority, elem.Value)
 	path := elem.Value.(Path)
 	coord := path[len(path)-1]
 	if reflect.DeepEqual(coord, Coord{m.End[0], m.End[1]}) {
-		return path, nil
+		m.SuccessfulPaths = append(m.SuccessfulPaths, path)
+		return
 	}
 
 	m.AddNeighbors(coord, path)
-
-	return Path{}, errors.New("Path not found")
 }
 
 func (m *HeightMap) AddNeighbors(coord Coord, path []Coord) {
@@ -94,7 +90,7 @@ func (m *HeightMap) AddNeighbor(coord Coord, path Path, dir string) {
 	if top-1 <= locVal {
 		coords := append(path, newCoord)
 		m.Queue.Push(coords, int(dist))
-		fmt.Println(locChar+"->"+string(m.Rows[newCoord.y][newCoord.x]), int(dist), coords)
+		//fmt.Println(locChar+"->"+string(m.Rows[newCoord.y][newCoord.x]), int(dist), coords)
 	}
 
 }
