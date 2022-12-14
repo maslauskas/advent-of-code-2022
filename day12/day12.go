@@ -59,11 +59,10 @@ type Coord struct {
 }
 
 type HeightMap struct {
-	Rows    []string
-	Start   [2]int
-	End     [2]int
-	Queue   *PathHeap
-	Visited map[string]Coord
+	Rows  []string
+	Start [2]int
+	End   [2]int
+	Queue *PathHeap
 }
 
 func (m *HeightMap) Step() (Path, error) {
@@ -175,8 +174,5 @@ func CreateHeightMap(input []string) HeightMap {
 		Start: start,
 		End:   end,
 		Queue: &h,
-		Visited: map[string]Coord{
-			"0:0": Coord{0, 0},
-		},
 	}
 }

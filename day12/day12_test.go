@@ -81,18 +81,6 @@ func TestPathfinding(t *testing.T) {
 		}
 	})
 
-	t.Run("will add visited coords", func(t *testing.T) {
-		input := helpers.ReadInput("./example.txt")
-		heightmap := CreateHeightMap(input)
-		heightmap.Step()
-
-		want := 2
-		got := len(heightmap.Visited)
-		if want != got {
-			t.Errorf("expected visited count of %d, got %d", want, got)
-		}
-	})
-
 	t.Run("will remove first path from the queue", func(t *testing.T) {
 		input := helpers.ReadInput("./example.txt")
 		heightmap := CreateHeightMap(input)
